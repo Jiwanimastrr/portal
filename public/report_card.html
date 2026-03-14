@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iOS 26.3 Evaluation Generator</title>
+    <style>
+        :root {
+            --ios-bg: #f2f2f7;
+            --ios-surface: rgba(255, 255, 255, 0.6);
+            --ios-blur: blur(40px);
+            --ios-blue: #007aff;
+            --ios-text: #000000;
+            --ios-text-secondary: rgba(60, 60, 67, 0.6);
+            --ios-border: rgba(0, 0, 0, 0.1);
+            --ios-star-active: #ffcc00;
+            --ios-star-inactive: rgba(0, 0, 0, 0.15);
+        }
+
+        @supports (font-variation-settings: normal) {
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--ios-bg);
+            color: var(--ios-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+
+            /* Futuristic Abstract Background Blobs - Light Mode */
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(0, 122, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(191, 90, 242, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1300px;
+            padding: 40px 20px;
+            display: flex;
+            gap: 30px;
+            flex-direction: row;
+        }
+
+        .history-panel {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: var(--ios-blur);
+            -webkit-backdrop-filter: var(--ios-blur);
+            border-radius: 20px;
+            border: 1px solid var(--ios-border);
+            padding: 24px;
+            max-height: calc(100vh - 80px);
+            min-width: 250px;
+            box-sizing: border-box;
+        }
+
+        .history-panel h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--ios-text);
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 8px;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .history-item .hist-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #34c759;
+            word-break: break-all;
+        }
+
+        .history-item .hist-time {
+            font-size: 12px;
+            color: var(--ios-text-secondary);
+        }
+
+        @media (max-width: 1024px) {
+            .main-wrapper {
+                flex-direction: column;
+            }
+
+            .history-panel {
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .main-wrapper {
+                flex-direction: column;
+                padding: 20px 16px;
+            }
+        }
+
+        .history-panel {
+            display: none !important;
+        }
+
+        .panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* iOS 26 Typography */
+        h1 {
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 8px 16px;
+        }
+
+        p.subtitle {
+            margin: 0 0 24px 16px;
+            color: var(--ios-text-secondary);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        h3.section-header {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--ios-text-secondary);
+            margin: 0 0 8px 16px;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* iOS List Group */
+        .ios-list {
+            background: var(--ios-surface);
+            backdrop-filter: var(--ios-blur);
+            -webkit-backdrop-filter: var(--ios-blur);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--ios-border);
+        }
+
+        .ios-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 0.5px solid var(--ios-border);
+            font-size: 17px;
+        }
+
+        .ios-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .ios-list-item.vertical {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        /* Inputs */
+        input[type="text"],
+        textarea {
+            background: transparent;
+            border: none;
+            color: var(--ios-text);
+            font-size: 17px;
+            text-align: right;
+            width: 60%;
+            font-family: inherit;
+        }
+
+        input[type="text"] {
+            text-transform: capitalize;
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: rgba(60, 60, 67, 0.3);
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+        }
+
+        textarea {
+            width: 100%;
+            text-align: left;
+            resize: vertical;
+            min-height: 80px;
+            line-height: 1.4;
+        }
+
+        /* Interactive Stars */
+        .stars-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        .star {
+            font-size: 24px;
+            color: var(--ios-star-inactive);
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s;
+        }
+
+        .star:active {
+            transform: scale(0.8);
+        }
+
+        .star.active {
+            color: var(--ios-star-active);
+            filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.4));
+        }
+
+        /* Gender Toggle */
+        .gender-toggle {
+            display: flex;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 2px;
+            cursor: pointer;
+        }
+
+        .gender-toggle span {
+            padding: 4px 6px;
+            border-radius: 10px;
+            font-size: 16px;
+            opacity: 0.4;
+            transition: all 0.2s;
+        }
+
+        .gender-toggle span.active {
+            opacity: 1;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dynamic Button */
+        button.action-btn {
+            background: var(--ios-blue);
+            color: #fff;
+            border: none;
+            padding: 18px;
+            border-radius: 20px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button.action-btn:active {
+            transform: scale(0.96);
+            opacity: 0.8;
+        }
+
+        button.action-btn.secondary {
+            background: var(--ios-surface);
+            color: var(--ios-blue);
+            backdrop-filter: var(--ios-blur);
+            -webkit-backdrop-filter: var(--ios-blur);
+            border: 1px solid var(--ios-border);
+        }
+
+        /* Print formatting (Result Panel) */
+        .result-panel {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .result-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .result-paper {
+            background-color: #fcfbf9;
+            background-image: radial-gradient(#d5d4d0 1px, transparent 1px);
+            background-size: 20px 20px;
+            /* Rough sketchbook */
+            border-radius: 20px;
+            border: 1px solid #e0dfdb;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            position: relative;
+            flex-grow: 1;
+            color: #2c2b29;
+        }
+
+        .result-paper-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-paper-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            color: #1a1a1a;
+        }
+
+        .result-paper-header p {
+            font-size: 15px;
+            color: #8e8e93;
+            margin: 0;
+        }
+
+        .paper-section {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px dashed #cccccc;
+        }
+
+        .paper-section h3 {
+            font-size: 17px;
+            margin: 0 0 16px 0;
+            color: #4a4a4a;
+            font-weight: 700;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 8px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 16px;
+            border-bottom: 1px dashed #eaeaea;
+            padding-bottom: 12px;
+            color: #2c2b29;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .result-stars {
+            color: #ff9f0a;
+            letter-spacing: 2px;
+            font-size: 16px;
+            text-shadow: none;
+        }
+
+        .comment-section {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            min-height: 120px;
+            border: 1px dashed #cccccc;
+            color: #2c2b29;
+            margin-bottom: 24px;
+        }
+
+        .student-badge {
+            display: inline-flex;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            justify-content: center;
+            gap: 12px;
+            background: #f2f2f7;
+            padding: 12px 20px;
+            border-radius: 100px;
+            /* pill shape */
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: auto;
+            border: 1px solid #cccccc;
+            color: #2c2b29;
+        }
+
+        .student-badge span span {
+            color: #000000;
+            font-weight: 700;
+            margin-left: 6px;
+            text-decoration: underline;
+            text-decoration-color: #d1d1d6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: auto;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            html,
+            body {
+                width: 210mm;
+                height: 297mm;
+                background: #f2f2f7 !important;
+                /* iOS light gray background */
+                color: #1c1c1e !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                align-items: flex-start;
+                margin: 0 !important;
+                padding: 0 !important;
+                display: block;
+                overflow: hidden;
+            }
+
+            .main-wrapper {
+                margin: 0;
+                padding: 0;
+                display: block;
+            }
+
+            .panel {
+                display: none !important;
+            }
+
+            .button-group {
+                display: none !important;
+            }
+
+            .result-panel {
+                opacity: 1 !important;
+                transform: none !important;
+                flex: none !important;
+                width: 100% !important;
+                height: 100% !important;
+                display: block !important;
+                pointer-events: auto !important;
+                padding: 12mm !important;
+                /* Perfectly symmetrical 12mm outer margin */
+                margin: 0 !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Authentic iOS Card Style in Print */
+            .result-paper {
+                box-sizing: border-box !important;
+                width: 100% !important;
+                height: 100% !important;
+                /* Fill the A4 page minus 12mm padding */
+                background-color: #fcfbf9 !important;
+                background-image: radial-gradient(#d5d4d0 1px, transparent 1px) !important;
+                background-size: 20px 20px !important;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
+                border: 1px solid #e0dfdb !important;
+                border-radius: 20px !important;
+                color: #2c2b29 !important;
+                margin: 0 !important;
+                padding: 16mm 18mm !important;
+                /* Exact balanced internal spacing */
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            .result-paper-header h2 {
+                color: #1a1a1a !important;
+                font-weight: 700 !important;
+            }
+
+            .result-paper-header p {
+                color: #8e8e93 !important;
+            }
+
+            .paper-section {
+                background: rgba(255, 255, 255, 0.7) !important;
+                /* Subtle inner card */
+                border: 1px dashed #cccccc !important;
+                border-radius: 12px !important;
+                padding: 24px !important;
+                color: #2c2b29 !important;
+                margin-bottom: 20px !important;
+            }
+
+            .paper-section h3 {
+                color: #4a4a4a !important;
+                font-size: 18px !important;
+                border-bottom: 2px solid #eaeaea !important;
+                padding-bottom: 12px !important;
+                margin-bottom: 16px !important;
+                font-weight: 700 !important;
+            }
+
+            .result-row {
+                border-bottom: 1px dashed #eaeaea !important;
+                color: #2c2b29 !important;
+                font-size: 17px !important;
+                margin-bottom: 12px !important;
+                padding-bottom: 12px !important;
+                font-weight: 500 !important;
+            }
+
+            .result-row:last-child {
+                border-bottom: none !important;
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            .comment-section {
+                background: rgba(255, 255, 255, 0.7) !important;
+                border: 1px dashed #cccccc !important;
+                border-radius: 12px !important;
+                padding: 24px !important;
+                color: #2c2b29 !important;
+                font-size: 17px !important;
+                flex-grow: 1 !important;
+                margin-bottom: 24px !important;
+                /* Ensure gap between comment and footer */
+            }
+
+            .student-badge {
+                background: #f2f2f7 !important;
+                border: 1px solid #cccccc !important;
+                border-radius: 100px !important;
+                padding: 12px 20px !important;
+                margin-top: auto !important;
+                color: #2c2b29 !important;
+                display: inline-flex !important;
+                flex-wrap: nowrap !important;
+                white-space: nowrap !important;
+                justify-content: center !important;
+                gap: 12px !important;
+                font-size: 14px !important;
+            }
+
+            .student-badge span span {
+                color: #000000 !important;
+                text-decoration: underline !important;
+                text-decoration-color: #d1d1d6 !important;
+            }
+
+            .result-stars {
+                color: #ff9f0a !important;
+                text-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <!-- History Panel -->
+        <div class="history-panel" id="historyPanel">
+            <h2>Records</h2>
+            <div id="historyList" class="history-list"></div>
+            <button class="action-btn secondary" onclick="clearHistory()"
+                style="margin-top: auto; padding: 12px; font-size: 14px; border-radius: 12px;">Clear History</button>
+        </div>
+
+        <!-- Input Panel -->
+        <div class="panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h1 style="margin: 0 0 0 16px;">Sheet Generator</h1>
+                <button class="action-btn secondary" id="resetBtn"
+                    style="width: auto; padding: 10px 20px; font-size: 14px; margin-right: 16px;">새 성적표 만들기</button>
+            </div>
+
+            <!-- Profile Group -->
+            <div>
+                <h3 class="section-header">Student Profile</h3>
+                <div class="ios-list">
+                    <div class="ios-list-item">
+                        <span>Name</span>
+                        <div
+                            style="display: flex; gap: 8px; align-items: center; width: 60%; justify-content: flex-end;">
+                            <input type="text" id="studentName" placeholder="Required"
+                                style="width: 100%; text-align: right;">
+                            <div class="gender-toggle" id="genderToggle">
+                                <span class="active" data-val="M">👦🏻</span>
+                                <span data-val="F">👧🏻</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ios-list-item">
+                        <span>Class</span>
+                        <input type="text" id="className" placeholder="Required">
+                    </div>
+                    <div class="ios-list-item">
+                        <span>Teacher</span>
+                        <input type="text" id="teacherName" placeholder="Required">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nonverbal Group -->
+            <div>
+                <h3 class="section-header">Nonverbal Skills</h3>
+                <div class="ios-list">
+                    <div class="ios-list-item">
+                        <span>Eye Contact</span>
+                        <div class="stars-container" data-field="eyeContact">
+                            <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span
+                                class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span
+                                class="star" data-val="5">★</span>
+                        </div>
+                    </div>
+                    <div class="ios-list-item">
+                        <span>Posture</span>
+                        <div class="stars-container" data-field="posture">
+                            <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span
+                                class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span
+                                class="star" data-val="5">★</span>
+                        </div>
+                    </div>
+                    <div class="ios-list-item">
+                        <span>Confidence</span>
+                        <div class="stars-container" data-field="confidence">
+                            <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span
+                                class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span
+                                class="star" data-val="5">★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verbal Group -->
+            <div>
+                <h3 class="section-header">Verbal Skills</h3>
+                <div class="ios-list">
+                    <div class="ios-list-item">
+                        <span>Proper Volume</span>
+                        <div class="stars-container" data-field="volume">
+                            <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span
+                                class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span
+                                class="star" data-val="5">★</span>
+                        </div>
+                    </div>
+                    <div class="ios-list-item">
+                        <span>Stress & Rhythm</span>
+                        <div class="stars-container" data-field="stress">
+                            <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span
+                                class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span
+                                class="star" data-val="5">★</span>
+                        </div>
+                    </div>
+                    <div class="ios-list-item">
+                        <span>Fluency</span>
+                        <div class="stars-container" data-field="fluency">
+                            <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span
+                                class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span
+                                class="star" data-val="5">★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comment Group -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h3 class="section-header" style="margin: 0 0 0 16px;">Teacher's Comments</h3>
+                    <button class="action-btn secondary" id="autoCommentBtn"
+                        style="width: auto; padding: 6px 14px; font-size: 13px; margin-right: 16px;">자동 작성 ✨</button>
+                </div>
+                <div class="ios-list">
+                    <div class="ios-list-item vertical">
+                        <textarea id="commentHint" placeholder="Tap to write a comment..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button class="action-btn" id="generateBtn">성적표 작성</button>
+        </div>
+
+        <!-- Result Panel -->
+        <div class="result-panel" id="resultPanel">
+            <!-- Simulated printable page -->
+            <div class="result-paper" id="resultArea">
+                <div class="result-paper-header">
+                    <h2>Presentation Evaluation</h2>
+                    <p id="sheetDate">Date: ...</p>
+                </div>
+
+                <div class="paper-section">
+                    <h3>Nonverbal Insights</h3>
+                    <div class="result-row">
+                        <span>Eye Contact</span>
+                        <span class="result-stars" id="sheet-eye">★★★☆☆</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Posture</span>
+                        <span class="result-stars" id="sheet-posture">★★★☆☆</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Confidence</span>
+                        <span class="result-stars" id="sheet-confidence">★★★☆☆</span>
+                    </div>
+                </div>
+
+                <div class="paper-section">
+                    <h3>Verbal Insights</h3>
+                    <div class="result-row">
+                        <span>Proper Volume</span>
+                        <span class="result-stars" id="sheet-volume">★★★☆☆</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Stress & Rhythm</span>
+                        <span class="result-stars" id="sheet-stress">★★★☆☆</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Fluency</span>
+                        <span class="result-stars" id="sheet-fluency">★★★☆☆</span>
+                    </div>
+                </div>
+
+                <div class="comment-section" id="sheet-comment">
+                    <!-- Comment appended here -->
+                </div>
+
+                <div style="text-align: center;">
+                    <div class="student-badge">
+                        <span>Student <span id="sheet-name">...</span></span>
+                        <span>Class <span id="sheet-class">...</span></span>
+                        <span>Teacher <span id="sheet-teacher">...</span></span>
+                    </div>
+                    <div
+                        style="margin-top: 16px; font-weight: 800; font-size: 16px; color: #8e8e93; letter-spacing: 1.5px; text-transform: uppercase;">
+                        Willgrow Language Institute
+                    </div>
+                    <div
+                        style="margin-top: 14px; font-style: italic; font-size: 14px; color: #5c5b59; line-height: 1.4;">
+                        “To learn, you have to listen. To improve, you have to try.”<br>
+                        <span style="font-size: 12px; margin-top: 6px; display: inline-block; color: #8e8e93;">—
+                            Thomas Jefferson</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="action-btn secondary" id="copyBtn">Copy Text</button>
+                <button class="action-btn" id="printBtn">Print to PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Haptic simulation (if supported)
+        function saveHistory(fileName, dateObj) {
+            const timeStr = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+            const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            let history = JSON.parse(localStorage.getItem('pdfHistory') || '[]');
+            history.unshift({ filename: fileName, time: `${dateStr} • ${timeStr}` });
+            if (history.length > 50) history.pop();
+            localStorage.setItem('pdfHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function clearHistory() {
+            if (confirm("Clear all generation history?")) {
+                localStorage.removeItem('pdfHistory');
+                renderHistory();
+            }
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            if (!list) return;
+            let history = JSON.parse(localStorage.getItem('pdfHistory') || '[]');
+            if (history.length === 0) {
+                list.innerHTML = `<div style="color:var(--ios-text-secondary); font-size:14px; text-align:center; padding-top: 20px;">No history records yet.</div>`;
+                return;
+            }
+            list.innerHTML = history.map(h => `
+                <div class="history-item">
+                    <div class="hist-name">${h.filename}</div>
+                    <div class="hist-time">${h.time}</div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize history on load
+        document.addEventListener('DOMContentLoaded', renderHistory);
+
+        function playHaptic() {
+            if (navigator.vibrate) navigator.vibrate(10);
+        }
+
+        const ratings = {
+            eyeContact: 5, posture: 5, confidence: 5,
+            volume: 5, stress: 5, fluency: 5
+        };
+
+        let currentGender = 'M';
+        document.querySelectorAll('#genderToggle span').forEach(el => {
+            el.addEventListener('click', (e) => {
+                playHaptic();
+                document.querySelectorAll('#genderToggle span').forEach(s => s.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                currentGender = e.currentTarget.dataset.val;
+            });
+        });
+
+        // Initialize stars
+        document.querySelectorAll('.stars-container').forEach(container => {
+            const stars = container.querySelectorAll('.star');
+            updateStars(stars, 5);
+
+            const field = container.dataset.field;
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    playHaptic();
+                    const val = parseInt(star.dataset.val);
+                    ratings[field] = val;
+                    updateStars(stars, val);
+                });
+            });
+        });
+
+        function updateStars(starsNodeList, value) {
+            starsNodeList.forEach(star => {
+                const sv = parseInt(star.dataset.val);
+                if (sv <= value) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function getStarString(value) {
+            let str = '';
+            for (let i = 0; i < 5; i++) {
+                str += (i < value) ? '★' : '☆';
+            }
+            return str;
+        }
+
+        function getRandomItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        document.getElementById('autoCommentBtn').addEventListener('click', () => {
+            playHaptic();
+
+            const heShe = currentGender === 'M' ? 'He' : 'She';
+            const hisHer = currentGender === 'M' ? 'his' : 'her';
+            const himHer = currentGender === 'M' ? 'him' : 'her';
+            const heSheLower = currentGender === 'M' ? 'he' : 'she';
+            const hisHerUpper = currentGender === 'M' ? 'His' : 'Her';
+
+            const nv = ratings;
+            const avgN = (nv.eyeContact + nv.posture + nv.confidence) / 3;
+            const avgV = (nv.volume + nv.stress + nv.fluency) / 3;
+
+            const intros = [
+                `${heShe} has shown a wonderful attitude in class. `,
+                `It is a pleasure to have ${himHer} in class. `,
+                `${heShe} has been a dedicated learner. `,
+                `I appreciate ${hisHer} positive energy in class. `
+            ];
+
+            const nvHigh = [
+                `During presentations, ${heSheLower} demonstrates a very impressive nonverbal presence, successfully utilizing strong posture, excellent eye contact, and great confidence. `,
+                `${heShe} displays phenomenal body language, maintaining natural eye contact and projecting a highly confident posture in front of others. `,
+                `${hisHerUpper} nonverbal communication is outstanding; ${heSheLower} stands tall with steady eye contact and an assured demeanor. `
+            ];
+            const nvMed = [
+                `${heShe} holds good presentation posture and is working nicely to build more confidence and steady eye contact. `,
+                `${heShe} makes a solid effort to establish eye contact and is gradually becoming more comfortable presenting to the class. `,
+                `${hisHerUpper} body language is generally good, and we are working together to consistently project greater confidence. `
+            ];
+            const nvLow = [
+                `We will continue to gently encourage ${himHer} to build more confidence, stand tall, and maintain steady eye contact while presenting in front of the class. `,
+                `${heShe} often feels shy during presentations, so we are focusing on improving ${hisHer} posture and establishing better eye contact. `,
+                `Building nonverbal confidence is an ongoing goal, and I am supporting ${himHer} in practicing comfortable posture and eye contact. `
+            ];
+
+            const vHigh = [
+                `Verbally, ${hisHer} performance is fantastic. The spoken English is delivered with clear volume, natural stress, and highly impressive fluency.`,
+                `${hisHerUpper} spoken English is crystal clear, exhibiting excellent volume, natural rhythm, and very smooth fluency.`,
+                `${heShe} articulates sentences beautifully, maintaining strong volume and an impressive sense of natural English flow.`
+            ];
+            const vMed = [
+                `Speaking skills are developing well. ${heShe} communicates with appropriate volume, and we will keep practicing stress and rhythm to achieve even better fluency.`,
+                `${heShe} speaks with clear intent, and further practice with phrasing and rhythm will help ${hisHer} fluency become even more natural.`,
+                `We are seeing steady progress in ${hisHer} verbal expression. Ongoing practice with intonation and pacing will boost ${hisHer} spoken fluency.`
+            ];
+            const vLow = [
+                `With consistent practice out loud, ${hisHer} speaking volume, rhythm, and fluency will naturally improve over time.`,
+                `We will spend more time focusing on speaking louder and pausing correctly to help ${himHer} read and speak much more fluently.`,
+                `${heShe} is working on projecting ${hisHer} voice and pausing appropriately to improve overall spoken rhythm and fluency.`
+            ];
+
+            const outros = [
+                `\n\nI look forward to seeing ${hisHer} continued growth!`,
+                `\n\n${heShe} is making great progress, and I am excited for what's next!`,
+                `\n\nI am very proud of ${hisHer} efforts this term!`,
+                `\n\nHaving ${himHer} in class is truly wonderful.`
+            ];
+
+            let text = getRandomItem(intros);
+
+            if (avgN >= 4.5) text += getRandomItem(nvHigh);
+            else if (avgN >= 3) text += getRandomItem(nvMed);
+            else text += getRandomItem(nvLow);
+
+            if (avgV >= 4.5) text += getRandomItem(vHigh);
+            else if (avgV >= 3) text += getRandomItem(vMed);
+            else text += getRandomItem(vLow);
+
+            text += getRandomItem(outros);
+
+            // Animate effect
+            const box = document.getElementById('commentHint');
+            box.style.transition = 'opacity 0.2s';
+            box.style.opacity = 0;
+            setTimeout(() => {
+                box.value = text;
+                box.style.opacity = 1;
+            }, 200);
+        });
+
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            playHaptic();
+
+            const capitalizeWords = (str) => str.replace(/\b\w/g, c => c.toUpperCase());
+            const name = capitalizeWords(document.getElementById('studentName').value) || 'Unknown Student';
+            const cls = capitalizeWords(document.getElementById('className').value) || 'Unknown Class';
+            const teacher = capitalizeWords(document.getElementById('teacherName').value) || 'Unknown Teacher';
+            const hint = document.getElementById('commentHint').value;
+
+            const today = new Date();
+            const dateStr = today.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('sheetDate').innerText = `Certified on ${dateStr}`;
+
+            document.getElementById('sheet-eye').innerText = getStarString(ratings.eyeContact);
+            document.getElementById('sheet-posture').innerText = getStarString(ratings.posture);
+            document.getElementById('sheet-confidence').innerText = getStarString(ratings.confidence);
+            document.getElementById('sheet-volume').innerText = getStarString(ratings.volume);
+            document.getElementById('sheet-stress').innerText = getStarString(ratings.stress);
+            document.getElementById('sheet-fluency').innerText = getStarString(ratings.fluency);
+
+            document.getElementById('sheet-name').innerText = name;
+            document.getElementById('sheet-class').innerText = cls;
+            document.getElementById('sheet-teacher').innerText = teacher;
+
+            const commentBox = document.getElementById('sheet-comment');
+            if (hint) {
+                commentBox.innerText = hint;
+                commentBox.style.color = "inherit";
+            } else {
+                commentBox.innerText = "(No additional remarks provided)";
+                commentBox.style.color = "rgba(0, 0, 0, 0.4)";
+            }
+
+            const panel = document.getElementById('resultPanel');
+            panel.classList.add('visible');
+
+            // Scroll to it on mobile
+            if (window.innerWidth <= 800) {
+                setTimeout(() => {
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            playHaptic();
+            const textToCopy = document.getElementById('resultArea').innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = 'Copied!';
+                setTimeout(() => { btn.innerText = 'Copy Text'; }, 2000);
+            });
+        });
+
+        document.getElementById('printBtn').addEventListener('click', () => {
+            playHaptic();
+
+            // Generate filename based on inputs like 260228.ClassA.John
+            const capitalizeWords = (str) => str.replace(/\b\w/g, c => c.toUpperCase());
+            const name = capitalizeWords(document.getElementById('studentName').value.trim()) || 'Undefined';
+            const cls = capitalizeWords(document.getElementById('className').value.trim()) || 'NoClass';
+            const today = new Date();
+            const yy = String(today.getFullYear()).slice(-2);
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const dateStr = `${yy}${mm}${dd}`;
+
+            const generatedFileName = `${dateStr}.${cls}.${name}`;
+            const originalTitle = document.title;
+
+            // Set dynamic title to control the default PDF filename
+            document.title = generatedFileName;
+
+            // Print
+            window.print();
+
+            // Restore original title
+            document.title = originalTitle;
+            saveHistory(generatedFileName, today);
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            playHaptic();
+            if (confirm('입력된 모든 내용을 지우고 새로 작성하시겠습니까?')) {
+                document.getElementById('studentName').value = '';
+                document.getElementById('className').value = '';
+                document.getElementById('teacherName').value = '';
+                document.getElementById('commentHint').value = '';
+
+                // Reset gender toggle
+                currentGender = 'M';
+                document.querySelectorAll('#genderToggle span').forEach(s => {
+                    if (s.dataset.val === 'M') s.classList.add('active');
+                    else s.classList.remove('active');
+                });
+
+                // Reset ratings back to 5
+                Object.keys(ratings).forEach(key => ratings[key] = 5);
+                document.querySelectorAll('.stars-container').forEach(container => {
+                    const stars = container.querySelectorAll('.star');
+                    updateStars(stars, 5);
+                });
+
+                // Hide output
+                document.getElementById('resultPanel').classList.remove('visible');
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+
+</html>
