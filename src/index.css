@@ -1,14 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #4F46E5;
-  --primary-glow: rgba(79, 70, 229, 0.4);
-  --bg-color: #0f172a;
-  --glass-bg: rgba(30, 41, 59, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --primary: #0A84FF; /* iOS Blue */
+  --bg-color: #F2F2F7; /* iOS Light Gray Background */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  --text-main: #1C1C1E; /* iOS Dark Primary Text */
+  --text-muted: #8E8E93; /* iOS Secondary Text */
 }
 
 * {
@@ -18,15 +17,16 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   background-color: var(--bg-color);
   color: var(--text-main);
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Base animated background */
+/* Subtle animated light background gradient */
 body::before {
   content: '';
   position: fixed;
@@ -34,17 +34,17 @@ body::before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.15), transparent 60%),
-              radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15), transparent 50%),
-              radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.15), transparent 50%);
+  background: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.08), transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(255, 45, 85, 0.06), transparent 40%),
+              radial-gradient(circle at 50% 50%, rgba(94, 92, 230, 0.05), transparent 50%);
   z-index: -1;
-  animation: bg-shift 20s ease-in-out infinite alternate;
+  animation: bg-shift-light 25s ease-in-out infinite alternate;
 }
 
-@keyframes bg-shift {
+@keyframes bg-shift-light {
   0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(2%, 2%) scale(1.05); }
-  100% { transform: translate(-2%, -2%) scale(1); }
+  50% { transform: translate(1%, 1%) scale(1.02); }
+  100% { transform: translate(-1%, -1%) scale(1); }
 }
 
 .portal-container {
@@ -59,24 +59,25 @@ body::before {
   animation: fade-in-down 0.8s ease-out forwards;
 }
 
-.portal-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 40px rgba(165, 180, 252, 0.3);
+
+.portal-logo {
+  height: 64px;
+  width: auto;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
 }
 
-.portal-subtitle {
-  font-size: 1.25rem;
-  color: var(--text-muted);
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
+.portal-title {
+  font-family: 'Outfit', -apple-system, sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+  background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .sites-grid {
@@ -85,17 +86,17 @@ body::before {
   gap: 2rem;
 }
 
-/* Site Card Styles */
+/* iOS 26 Style Site Card */
 .site-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.8); /* Replaced subtle blue tint border with clean white */
+  border-radius: 28px; /* Squircle appearance */
   overflow: hidden;
   text-decoration: none;
   color: var(--text-main);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-shadow: var(--glass-shadow);
   display: flex;
   flex-direction: column;
@@ -104,34 +105,31 @@ body::before {
 }
 
 .site-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-glow);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 1);
 }
 
 .site-card-image-wrap {
   width: 100%;
-  height: 180px;
+  height: 200px; /* Increased height array to show screenshot better */
   overflow: hidden;
   position: relative;
-  background-color: rgba(0,0,0,0.5);
+  background-color: #E5E5EA; /* iOS placeholder grey */
+  border-bottom: 1px solid rgba(0,0,0,0.03); /* softer separator */
 }
 
 .site-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  object-position: top; /* Show top part of screenshots */
+  transition: transform 0.5s ease;
 }
 
 .site-card:hover .site-card-image {
-  transform: scale(1.08);
-}
-
-.site-card-image-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.8) 100%);
+  transform: scale(1.03);
 }
 
 .site-card-content {
@@ -142,18 +140,20 @@ body::before {
 }
 
 .site-card-title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  color: #000;
 }
 
 .site-card-desc {
   font-size: 0.95rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.5;
   flex: 1;
   margin-bottom: 1.5rem;
+  font-weight: 500;
 }
 
 .site-card-footer {
@@ -161,17 +161,15 @@ body::before {
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .site-tag {
-  background: rgba(79, 70, 229, 0.2);
-  color: #a5b4fc;
-  padding: 0.25rem 0.75rem;
+  background: rgba(10, 132, 255, 0.1);
+  color: var(--primary);
+  padding: 0.35rem 0.85rem;
   border-radius: 999px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -179,30 +177,32 @@ body::before {
 .site-arrow {
   color: var(--text-muted);
   transition: transform 0.3s ease, color 0.3s ease;
+  font-weight: 600;
 }
 
 .site-card:hover .site-arrow {
   transform: translateX(4px);
-  color: #a5b4fc;
+  color: var(--primary);
 }
 
 /* Animations */
 @keyframes fade-in-down {
-  0% { opacity: 0; transform: translateY(-20px); }
+  0% { opacity: 0; transform: translateY(-15px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-in-up {
-  0% { opacity: 0; transform: translateY(30px); }
+  0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .portal-title {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
   }
   .portal-container {
     padding: 2rem 1rem;
   }
 }
+
