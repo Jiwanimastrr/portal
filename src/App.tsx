@@ -123,6 +123,8 @@ function App() {
           <div className="navbar-links">
             <a href="#hero">홈</a>
             <a href="#contact-locations">오시는 길</a>
+            <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer">블로그</a>
+            <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer">인스타그램</a>
             <a href="#programs" onClick={togglePrograms}>선생님용</a>
             <a href="https://willgrow-admission.pages.dev" className="nav-cta" target="_blank" rel="noopener noreferrer">입학 상담</a>
           </div>
@@ -208,8 +210,14 @@ function App() {
           <div className="footer-links">
             <h3>빠른 링크</h3>
             <a href="#hero">홈</a>
+            <a href="#contact-locations">오시는 길</a>
             <a href="#programs">선생님용</a>
             <a href="https://willgrow-admission.pages.dev" target="_blank" rel="noopener noreferrer">입학 안내</a>
+          </div>
+          <div className="footer-social">
+            <h3>소셜 미디어</h3>
+            <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer">네이버 블로그 ↗</a>
+            <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer">인스타그램 ↗</a>
           </div>
           <div className="footer-contact">
             <h3>오시는 길</h3>
