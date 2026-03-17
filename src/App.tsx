@@ -133,6 +133,15 @@ function App() {
 
       {/* Hero Section */}
       <section id="hero" className="hero-section">
+        <div className="hero-video-bg">
+          <iframe
+            src="https://www.youtube.com/embed/p1-U7eoCEic?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&loop=1&playlist=p1-U7eoCEic"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+          ></iframe>
+        </div>
+        <div className="hero-overlay"></div>
+
         <div className="hero-content">
           <div className="hero-badge">프리미엄 영어 교육</div>
           <h1 className="hero-title">우리 아이의 잠재력을<br/>윌그로우와 함께 깨우세요</h1>
@@ -145,12 +154,6 @@ function App() {
             </a>
             <a href="https://willgrow-admission.pages.dev" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">입학 상담 신청</a>
           </div>
-        </div>
-        <div className="hero-visual">
-          {/* Decorative glass elements */}
-          <div className="glass-shape shape-1"></div>
-          <div className="glass-shape shape-2"></div>
-          <div className="glass-shape shape-3"></div>
         </div>
       </section>
 
