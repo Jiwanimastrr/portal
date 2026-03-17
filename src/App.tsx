@@ -166,9 +166,6 @@ function App() {
             영어로 지식기부의 기회와 경험을 만들어주는 학원
           </p>
           <div className="hero-actions">
-            <a href="#programs" className="btn btn-primary" onClick={togglePrograms}>
-              {showPrograms ? '선생님용 닫기' : '선생님용 알아보기'}
-            </a>
             <a href="https://willgrow-admission.pages.dev" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">입학 상담 신청</a>
           </div>
         </div>
