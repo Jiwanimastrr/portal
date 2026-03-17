@@ -145,6 +145,8 @@ a {
   font-weight: 700;
   color: var(--color-primary);
   letter-spacing: -0.02em;
+  white-space: nowrap; /* Prevent wrapping */
+  flex-shrink: 0;
 }
 
 .navbar-divider {
@@ -158,6 +160,8 @@ a {
   align-items: center; /* Change to center horizontally */
   justify-content: center;
   gap: 8px; /* Add gap between title and sub elements */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .partner-title {
@@ -176,7 +180,7 @@ a {
 }
 
 .mcst-logo {
-  height: 32px; /* Increased size to make it more visible */
+  height: 48px; /* Significantly increased size to make it more visible */
   width: auto;
   object-fit: contain;
 }
@@ -190,7 +194,8 @@ a {
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+  flex-wrap: nowrap;
 }
 
 .navbar-links a:not(.nav-cta) {
@@ -198,6 +203,8 @@ a {
   color: var(--color-secondary);
   transition: color 0.2s ease;
   font-size: 0.95rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .navbar-links a:not(.nav-cta):hover {
@@ -212,6 +219,8 @@ a {
   font-weight: 700;
   font-size: 0.9rem;
   transition: all 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav-cta:hover {
