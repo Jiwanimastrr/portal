@@ -171,6 +171,8 @@ a {
   color: var(--color-primary);
   letter-spacing: -0.02em;
   white-space: nowrap; /* Prevent wrapping */
+  flex-shrink: 0;
+  margin-left: 2px; /* Fine-tune alignment with the logo graphic */
 }
 
 .partner-sub {
