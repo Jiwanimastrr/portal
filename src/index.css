@@ -678,8 +678,8 @@ a {
 
 .campus-links {
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0px;
 }
 
 .footer-phone {
