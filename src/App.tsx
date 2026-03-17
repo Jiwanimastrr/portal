@@ -237,10 +237,6 @@ function App() {
               <FiMapPin size={14} />
               오시는 길
             </a>
-            <a href="#programs" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-              <FiMonitor size={14} />
-              선생님용
-            </a>
             <a href="https://willgrow-admission.pages.dev" target="_blank" rel="noopener noreferrer">입학 안내</a>
           </div>
           <div className="footer-social">
