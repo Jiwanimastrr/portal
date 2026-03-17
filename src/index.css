@@ -120,6 +120,12 @@ a {
   align-items: center;
 }
 
+.navbar-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -138,6 +144,44 @@ a {
   font-weight: 700;
   color: var(--color-primary);
   letter-spacing: -0.02em;
+}
+
+.navbar-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.navbar-partner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.partner-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+.partner-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mcst-logo {
+  height: 12px;
+  width: auto;
+  object-fit: contain;
+}
+
+.partner-reg {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  font-weight: 500;
 }
 
 .navbar-links {
@@ -590,8 +634,18 @@ a {
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.footer-brand .navbar-logo .logo-text {
+.footer-brand .navbar-logo .logo-text,
+.footer-partner-title {
   color: white;
+}
+
+.footer-divider {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.footer-mcst-logo {
+  /* Provide a slight white drop-shadow so the dark logo is visible on black background, or adjust as necessary */
+  filter: drop-shadow(0px 0px 1px rgba(255, 255, 255, 0.8)) brightness(1.2);
 }
 
 .footer-desc {

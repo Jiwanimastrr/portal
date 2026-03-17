@@ -118,9 +118,25 @@ function App() {
       {/* Navigation Bar */}
       <nav className="navbar">
         <div className="navbar-container">
-          <div className="navbar-logo">
-            <img src="/logo.png" alt="Willgrow Logo" className="logo-img" />
-            <span className="logo-text">윌그로우어학원 태전캠퍼스</span>
+          <div className="navbar-brand-group">
+            <div className="navbar-logo">
+              <img src="/logo.png" alt="Willgrow Logo" className="logo-img" />
+              <span className="logo-text">윌그로우어학원 태전캠퍼스</span>
+            </div>
+            
+            <div className="navbar-divider"></div>
+            
+            <div className="navbar-partner">
+              <span className="partner-title">국제통번역자원봉사단</span>
+              <div className="partner-sub">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/4/41/Ministry_of_Culture%2C_Sports_and_Tourism_of_the_Republic_of_Korea_logo.svg" 
+                  alt="문체부 로고" 
+                  className="mcst-logo" 
+                />
+                <span className="partner-reg">등록(2005-20호)</span>
+              </div>
+            </div>
           </div>
           <div className="navbar-links">
             <a href="#hero" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -218,11 +234,25 @@ function App() {
       <footer id="contact" className="footer">
         <div className="footer-content">
           <div className="footer-brand">
-            <div className="navbar-logo">
-              <img src="/logo.png" alt="Willgrow Logo" className="logo-img" />
-              <span className="logo-text">윌그로우어학원 태전캠퍼스</span>
+            <div className="navbar-brand-group" style={{ marginBottom: '20px' }}>
+              <div className="navbar-logo">
+                <img src="/logo.png" alt="Willgrow Logo" className="logo-img" />
+                <span className="logo-text">윌그로우어학원 태전캠퍼스</span>
+              </div>
+              <div className="navbar-divider footer-divider"></div>
+              <div className="navbar-partner">
+                <span className="partner-title footer-partner-title">국제통번역자원봉사단</span>
+                <div className="partner-sub">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/4/41/Ministry_of_Culture%2C_Sports_and_Tourism_of_the_Republic_of_Korea_logo.svg" 
+                    alt="문체부 로고" 
+                    className="mcst-logo footer-mcst-logo" 
+                  />
+                  <span className="partner-reg">등록(2005-20호)</span>
+                </div>
+              </div>
             </div>
-            <p className="footer-desc">영어로 지식기부의 기회와 경험을 만들어주는 학원</p>
+            <p className="footer-desc" style={{ marginTop: '0' }}>영어로 지식기부의 기회와 경험을 만들어주는 학원</p>
           </div>
           <div className="footer-links">
             <h3>빠른 링크</h3>
