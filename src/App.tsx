@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SiteCard, type SiteInfo } from './components/SiteCard';
 import { SiNaver, SiInstagram } from 'react-icons/si';
+import { FiHome, FiMapPin, FiMonitor } from 'react-icons/fi';
 
 const PROGRAMS: SiteInfo[] = [
   {
@@ -122,8 +123,14 @@ function App() {
             <span className="logo-text">윌그로우어학원 태전캠퍼스</span>
           </div>
           <div className="navbar-links">
-            <a href="#hero">홈</a>
-            <a href="#contact-locations">오시는 길</a>
+            <a href="#hero" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <FiHome size={16} />
+              홈
+            </a>
+            <a href="#contact-locations" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <FiMapPin size={16} />
+              오시는 길
+            </a>
             <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <SiNaver size={14} color="#03C75A" />
               블로그
@@ -132,7 +139,10 @@ function App() {
               <SiInstagram size={16} color="#E4405F" />
               인스타그램
             </a>
-            <a href="#programs" onClick={togglePrograms}>선생님용</a>
+            <a href="#programs" onClick={togglePrograms} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <FiMonitor size={16} />
+              선생님용
+            </a>
             <a href="https://willgrow-admission.pages.dev" className="nav-cta" target="_blank" rel="noopener noreferrer">입학 상담</a>
           </div>
         </div>
@@ -219,9 +229,18 @@ function App() {
           </div>
           <div className="footer-links">
             <h3>빠른 링크</h3>
-            <a href="#hero">홈</a>
-            <a href="#contact-locations">오시는 길</a>
-            <a href="#programs">선생님용</a>
+            <a href="#hero" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <FiHome size={14} />
+              홈
+            </a>
+            <a href="#contact-locations" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <FiMapPin size={14} />
+              오시는 길
+            </a>
+            <a href="#programs" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <FiMonitor size={14} />
+              선생님용
+            </a>
             <a href="https://willgrow-admission.pages.dev" target="_blank" rel="noopener noreferrer">입학 안내</a>
           </div>
           <div className="footer-social">
