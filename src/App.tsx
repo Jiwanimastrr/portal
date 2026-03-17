@@ -194,7 +194,9 @@ function App() {
                 📍 <a href="https://map.naver.com/p/entry/place/1251843727?c=15.00,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603171635&locale=ko&svcName=map_pcv5" target="_blank" rel="noopener noreferrer" className="map-link">고산캠퍼스: 경기 광주시 오포안로 409 2층</a>
               </p>
             </div>
-            <p className="footer-phone">📞 0507-1356-0671</p>
+            <p className="footer-phone">
+              📞 <a href="tel:0507-1356-0671" className="phone-link">0507-1356-0671</a>
+            </p>
           </div>
         </div>
         <div className="footer-bottom">

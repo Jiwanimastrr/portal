@@ -499,6 +499,7 @@ a {
   margin-bottom: 12px;
   transition: color 0.2s;
   font-size: 0.95rem;
+  word-break: keep-all;
 }
 
 .footer-links a:hover {
@@ -515,6 +516,16 @@ a {
   color: #a1a1aa;
   font-size: 0.95rem;
   margin-top: 12px;
+}
+
+.phone-link {
+  color: inherit;
+  transition: color 0.2s;
+}
+
+.phone-link:hover {
+  text-decoration: underline;
+  color: var(--color-cta);
 }
 
 .footer-bottom {
