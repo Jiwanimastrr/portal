@@ -1,5 +1,3 @@
-
-
 export interface SiteInfo {
   id: string;
   title: string;
@@ -18,7 +16,6 @@ export const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
     <a href={site.url} className="site-card" target="_blank" rel="noopener noreferrer">
       <div className="site-card-image-wrap">
         <img src={site.imageUrl} alt={site.title} className="site-card-image" />
-        <div className="site-card-image-overlay"></div>
       </div>
       <div className="site-card-content">
         <h3 className="site-card-title">{site.title}</h3>

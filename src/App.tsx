@@ -56,21 +56,40 @@ const DUMMY_SITES: SiteInfo[] = [
     url: 'https://willgrow-admission.pages.dev',
     imageUrl: '/willgrow_admission_thumb.png',
     tag: 'Admission'
+  },
+  {
+    id: '8',
+    title: '학교별 하교 시간 안내',
+    description: '초등학교 및 중학교의 학교별, 학년별, 요일별 하교 시간과 교시를 한 눈에 확인할 수 있습니다.',
+    url: '/학교스케줄.html',
+    imageUrl: '/school_schedule_thumb.png',
+    tag: 'Schedule'
   }
 ];
 
 function App() {
   return (
-    <div className="portal-container">
-      <header className="portal-header">
-        <img src="/logo.png" alt="Willgrow Logo" className="portal-logo" />
-        <h1 className="portal-title">EDU PORTAL</h1>
-      </header>
+    <div className="dashboard-container">
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <img src="/logo.png" alt="Willgrow Logo" className="portal-logo" />
+          <h1 className="portal-title">Willgrow Language Institute Portal</h1>
+        </div>
+        <nav className="sidebar-nav">
+          {/* Navigation links could go here if there were multiple pages */}
+        </nav>
+      </aside>
       
-      <main className="sites-grid">
-        {DUMMY_SITES.map((site) => (
-          <SiteCard key={site.id} site={site} />
-        ))}
+      <main className="main-content">
+        <header className="page-header">
+          <h2 className="page-title">Educational Resources</h2>
+        </header>
+
+        <div className="sites-grid">
+          {DUMMY_SITES.map((site) => (
+            <SiteCard key={site.id} site={site} />
+          ))}
+        </div>
       </main>
     </div>
   );
