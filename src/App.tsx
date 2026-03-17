@@ -122,8 +122,9 @@ function App() {
           </div>
           <div className="navbar-links">
             <a href="#hero">홈</a>
+            <a href="#hero">홈</a>
+            <a href="#contact-locations">오시는 길</a>
             <a href="#programs" onClick={togglePrograms}>선생님용</a>
-            <a href="#contact">오시는 길</a>
             <a href="https://willgrow-admission.pages.dev" className="nav-cta" target="_blank" rel="noopener noreferrer">입학 상담</a>
           </div>
         </div>
@@ -149,6 +150,33 @@ function App() {
           <div className="glass-shape shape-1"></div>
           <div className="glass-shape shape-2"></div>
           <div className="glass-shape shape-3"></div>
+        </div>
+      </section>
+
+      {/* Contact / Location Section */}
+      <section id="contact-locations" className="contact-locations-section">
+        <div className="section-header">
+          <h2 className="section-title">오시는 길</h2>
+          <p className="section-desc">가까운 윌그로우어학원 캠퍼스를 찾아보세요.</p>
+        </div>
+        <div className="campus-cards-grid">
+          {/* Taegun Campus Card */}
+          <a href="https://map.naver.com/p/entry/place/1694768560?c=15.00,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603171634&locale=ko&svcName=map_pcv5" target="_blank" rel="noopener noreferrer" className="campus-card">
+            <div className="campus-card-content">
+              <h3>📍 태전캠퍼스</h3>
+              <p>경기도 광주시 태성로 130-1</p>
+              <span className="campus-arrow">길찾기 ➔</span>
+            </div>
+          </a>
+
+          {/* Gosan Campus Card */}
+          <a href="https://map.naver.com/p/entry/place/1251843727?c=15.00,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603171635&locale=ko&svcName=map_pcv5" target="_blank" rel="noopener noreferrer" className="campus-card">
+            <div className="campus-card-content">
+              <h3>📍 고산캠퍼스</h3>
+              <p>경기 광주시 오포안로 409 2층</p>
+              <span className="campus-arrow">길찾기 ➔</span>
+            </div>
+          </a>
         </div>
       </section>
 
