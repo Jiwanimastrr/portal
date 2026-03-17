@@ -164,12 +164,14 @@ a {
   font-weight: 700;
   color: var(--color-primary);
   letter-spacing: -0.02em;
+  white-space: nowrap; /* Prevent wrapping */
 }
 
 .partner-sub {
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap; /* Prevent wrapping */
 }
 
 .mcst-logo {
@@ -634,6 +636,21 @@ a {
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
+.footer-brand .navbar-brand-group {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.footer-brand .navbar-partner {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.footer-brand .navbar-divider {
+  display: none; /* Hide vertical divider in footer layout */
+}
+
 .footer-brand .navbar-logo .logo-text,
 .footer-partner-title {
   color: white;
@@ -747,7 +764,11 @@ a {
     margin: 20px auto 0;
   }
   
-  .footer-brand .navbar-logo {
+  .footer-brand .navbar-brand-group {
+    align-items: center;
+  }
+  
+  .footer-brand .navbar-partner {
     justify-content: center;
   }
   
