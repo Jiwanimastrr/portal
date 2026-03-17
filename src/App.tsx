@@ -47,7 +47,7 @@ function App() {
             <div className="navbar-partner">
               <span className="partner-title">국제통번역자원봉사단</span>
               <div className="partner-sub">
-                <span className="partner-reg">등록(2005-20호)</span>
+                <span className="partner-reg">문화체육관광부 등록(2005-20호)</span>
               </div>
             </div>
           </div>
@@ -142,7 +142,7 @@ function App() {
               <div className="navbar-partner">
                 <span className="partner-title footer-partner-title">국제통번역자원봉사단</span>
                 <div className="partner-sub">
-                  <span className="partner-reg">등록(2005-20호)</span>
+                  <span className="partner-reg">문화체육관광부 등록(2005-20호)</span>
                 </div>
               </div>
             </div>
