@@ -72,31 +72,21 @@ function App() {
   const [showPrograms, setShowPrograms] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [loginForm, setLoginForm] = useState({ name: '', password: '' });
+  const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === 'name') {
-      // Allow only English and auto-capitalize first letter
-      let formatted = value.replace(/[^a-zA-Z]/g, '');
-      if (formatted.length > 0) {
-        formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1).toLowerCase();
-      }
-      setLoginForm(prev => ({ ...prev, name: formatted }));
-    } else {
-      setLoginForm(prev => ({ ...prev, [name]: value }));
-    }
+    setLoginPassword(e.target.value);
     setLoginError('');
   };
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (loginForm.password === 'jctj8877') {
+    if (loginPassword === 'jctj8877') {
       setIsAuthenticated(true);
       setShowLoginModal(false);
       setShowPrograms(true);
-      setLoginForm({ name: '', password: '' });
+      setLoginPassword('');
       setTimeout(() => {
         document.getElementById('programs')?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
@@ -222,23 +212,11 @@ function App() {
             </div>
             <form onSubmit={handleLoginSubmit} className="login-form">
               <div className="form-group">
-                <label>English Name</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  value={loginForm.name} 
-                  onChange={handleLoginChange} 
-                  placeholder="예: John (영어 이름만 입력)" 
-                  autoComplete="off"
-                  required 
-                />
-              </div>
-              <div className="form-group">
                 <label>Password</label>
                 <input 
                   type="password" 
                   name="password" 
-                  value={loginForm.password} 
+                  value={loginPassword} 
                   onChange={handleLoginChange} 
                   placeholder="비밀번호 입력"
                   required 
