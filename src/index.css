@@ -175,7 +175,7 @@ a {
 }
 
 .mcst-logo {
-  height: 20px; /* Make it slightly bigger and visible */
+  height: 32px; /* Increased size to make it more visible */
   width: auto;
   object-fit: contain;
 }
