@@ -130,7 +130,7 @@ function App() {
               <span className="partner-title">국제통번역자원봉사단</span>
               <div className="partner-sub">
                 <img 
-                  src="/mcst.png" 
+                  src="/mcst1.png" 
                   alt="문체부 로고" 
                   className="mcst-logo" 
                 />
@@ -244,7 +244,7 @@ function App() {
                 <span className="partner-title footer-partner-title">국제통번역자원봉사단</span>
                 <div className="partner-sub">
                   <img 
-                    src="/mcst.png" 
+                    src="/mcst1.png" 
                     alt="문체부 로고" 
                     className="mcst-logo footer-mcst-logo" 
                   />
