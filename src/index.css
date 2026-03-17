@@ -662,7 +662,9 @@ a {
 }
 
 .footer-links a, .footer-social a, .campus-links p {
-  display: block;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
   color: #a1a1aa;
   margin-bottom: 12px;
   transition: color 0.2s;
