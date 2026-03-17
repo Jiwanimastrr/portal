@@ -157,9 +157,10 @@ a {
 
 .navbar-partner {
   display: flex;
-  align-items: center; /* Change to center horizontally */
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
-  gap: 8px; /* Add gap between title and sub elements */
+  gap: 4px; /* Space between title and logo */
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -654,8 +655,9 @@ a {
 }
 
 .footer-brand .navbar-partner {
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 
 .footer-brand .navbar-divider {
