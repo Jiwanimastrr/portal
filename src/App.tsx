@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SiteCard, type SiteInfo } from './components/SiteCard';
+import { SiNaver, SiInstagram } from 'react-icons/si';
 
 const PROGRAMS: SiteInfo[] = [
   {
@@ -123,8 +124,14 @@ function App() {
           <div className="navbar-links">
             <a href="#hero">홈</a>
             <a href="#contact-locations">오시는 길</a>
-            <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer">블로그</a>
-            <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer">인스타그램</a>
+            <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <SiNaver size={14} color="#03C75A" />
+              블로그
+            </a>
+            <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <SiInstagram size={16} color="#E4405F" />
+              인스타그램
+            </a>
             <a href="#programs" onClick={togglePrograms}>선생님용</a>
             <a href="https://willgrow-admission.pages.dev" className="nav-cta" target="_blank" rel="noopener noreferrer">입학 상담</a>
           </div>
@@ -219,8 +226,14 @@ function App() {
           </div>
           <div className="footer-social">
             <h3>소셜 미디어</h3>
-            <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer">네이버 블로그 ↗</a>
-            <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer">인스타그램 ↗</a>
+            <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <SiNaver size={14} color="#03C75A" />
+              네이버 블로그 ↗
+            </a>
+            <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <SiInstagram size={16} color="#E4405F" />
+              인스타그램 ↗
+            </a>
           </div>
           <div className="footer-contact">
             <h3>오시는 길</h3>
