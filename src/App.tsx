@@ -130,7 +130,7 @@ function App() {
               <span className="partner-title">국제통번역자원봉사단</span>
               <div className="partner-sub">
                 <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/4/41/Ministry_of_Culture%2C_Sports_and_Tourism_of_the_Republic_of_Korea_logo.svg" 
+                  src="https://www.krds.go.kr/resources/img/theme/logo/logo_01_mcst.svg" 
                   alt="문체부 로고" 
                   className="mcst-logo" 
                 />
@@ -244,7 +244,7 @@ function App() {
                 <span className="partner-title footer-partner-title">국제통번역자원봉사단</span>
                 <div className="partner-sub">
                   <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/4/41/Ministry_of_Culture%2C_Sports_and_Tourism_of_the_Republic_of_Korea_logo.svg" 
+                    src="https://www.krds.go.kr/resources/img/theme/logo/logo_01_mcst.svg" 
                     alt="문체부 로고" 
                     className="mcst-logo footer-mcst-logo" 
                   />
