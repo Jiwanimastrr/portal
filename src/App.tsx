@@ -122,7 +122,6 @@ function App() {
           </div>
           <div className="navbar-links">
             <a href="#hero">홈</a>
-            <a href="#hero">홈</a>
             <a href="#contact-locations">오시는 길</a>
             <a href="#programs" onClick={togglePrograms}>선생님용</a>
             <a href="https://willgrow-admission.pages.dev" className="nav-cta" target="_blank" rel="noopener noreferrer">입학 상담</a>
