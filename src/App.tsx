@@ -47,11 +47,6 @@ function App() {
             <div className="navbar-partner">
               <span className="partner-title">국제통번역자원봉사단</span>
               <div className="partner-sub">
-                <img 
-                  src="/ministry.png" 
-                  alt="문체부 로고" 
-                  className="mcst-logo" 
-                />
                 <span className="partner-reg">등록(2005-20호)</span>
               </div>
             </div>
@@ -147,11 +142,6 @@ function App() {
               <div className="navbar-partner">
                 <span className="partner-title footer-partner-title">국제통번역자원봉사단</span>
                 <div className="partner-sub">
-                  <img 
-                    src="/ministry.png" 
-                    alt="문체부 로고" 
-                    className="mcst-logo footer-mcst-logo" 
-                  />
                   <span className="partner-reg">등록(2005-20호)</span>
                 </div>
               </div>
