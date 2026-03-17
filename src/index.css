@@ -602,8 +602,9 @@ a {
   }
   
   .hero-section {
-    padding-top: 120px;
-    padding-bottom: 60px;
+    padding-top: 100px;
+    padding-bottom: 40px;
+    min-height: auto;
   }
 
   .hero-title {
@@ -626,6 +627,11 @@ a {
   .hero-actions .btn {
     width: 100%;
   }
+
+  /* Hide huge decorative shapes on mobile that block touches */
+  .glass-shape {
+    display: none;
+  }
   
   .programs-section {
     padding: var(--space-xl) 1rem;
@@ -642,6 +648,10 @@ a {
 
   .site-card-title {
     font-size: 1.2rem;
+  }
+  
+  .footer {
+    padding-top: 40px;
   }
 }
 

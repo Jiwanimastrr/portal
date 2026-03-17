@@ -122,7 +122,7 @@ function App() {
           </div>
           <div className="navbar-links">
             <a href="#hero">홈</a>
-            <a href="#programs" onClick={togglePrograms}>Teachers' programs</a>
+            <a href="#programs" onClick={togglePrograms}>선생님용</a>
             <a href="#contact">오시는 길</a>
             <a href="https://willgrow-admission.pages.dev" className="nav-cta" target="_blank" rel="noopener noreferrer">입학 상담</a>
           </div>
@@ -133,13 +133,13 @@ function App() {
       <section id="hero" className="hero-section">
         <div className="hero-content">
           <div className="hero-badge">프리미엄 영어 교육</div>
-          <h1 className="hero-title">당신의 잠재력을<br/>윌그로우와 함께 깨우세요</h1>
+          <h1 className="hero-title">우리 아이의 잠재력을<br/>윌그로우와 함께 깨우세요</h1>
           <p className="hero-subtitle">
             영어로 지식기부의 기회와 경험을 만들어주는 학원
           </p>
           <div className="hero-actions">
             <a href="#programs" className="btn btn-primary" onClick={togglePrograms}>
-              {showPrograms ? 'Teachers\' programs 닫기' : 'Teachers\' programs 알아보기'}
+              {showPrograms ? '선생님용 닫기' : '선생님용 알아보기'}
             </a>
             <a href="https://willgrow-admission.pages.dev" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">입학 상담 신청</a>
           </div>
@@ -155,7 +155,7 @@ function App() {
       {/* Programs Section */}
       <section id="programs" className="programs-section">
         <div className="section-header">
-          <h2 className="section-title">Teachers' programs</h2>
+          <h2 className="section-title">선생님용</h2>
           <p className="section-desc">영어 실력을 확실하게 키워줄 다양한 교육 도구와 리소스를 만나보세요.</p>
         </div>
         
@@ -181,7 +181,7 @@ function App() {
           <div className="footer-links">
             <h3>빠른 링크</h3>
             <a href="#hero">홈</a>
-            <a href="#programs">Teachers' programs</a>
+            <a href="#programs">선생님용</a>
             <a href="https://willgrow-admission.pages.dev" target="_blank" rel="noopener noreferrer">입학 안내</a>
           </div>
           <div className="footer-contact">
