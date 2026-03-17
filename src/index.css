@@ -181,7 +181,7 @@ a {
 }
 
 .mcst-logo {
-  height: 48px; /* Significantly increased size to make it more visible */
+  height: 64px; /* Large size to make ministry logo easily visible */
   width: auto;
   object-fit: contain;
 }
