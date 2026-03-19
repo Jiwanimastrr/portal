@@ -8,7 +8,7 @@ const PROGRAMS: SiteInfo[] = [
     id: '1',
     title: '성적표 만들기',
     description: '학생들의 성적과 평가를 간편하게 작성하고 관리할 수 있는 성적표 생성 도구입니다.',
-    url: '/report_card.html',
+    url: 'https://evaluationsheet.pages.dev/',
     imageUrl: '/report_card_thumb.png',
     tag: 'Management'
   },
