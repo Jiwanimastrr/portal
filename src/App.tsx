@@ -67,6 +67,14 @@ const PROGRAMS: SiteInfo[] = [
     url: '/학교스케줄.html',
     imageUrl: '/school_schedule_thumb.png',
     tag: 'Schedule'
+  },
+  {
+    id: '9',
+    title: 'PDF 스마트 유틸리티',
+    description: '여러 개의 PDF를 빠르고 안전하게 병합하고, 분할, 회전, 파일 변환 및 OCR 텍스트 추출 기능을 제공합니다.',
+    url: 'http://localhost:8000',
+    imageUrl: '/pdf_utility_thumb.png',
+    tag: 'Utility'
   }
 ];
 
