@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { SiNaver, SiInstagram } from 'react-icons/si';
 import { FiHome, FiMapPin, FiMonitor } from 'react-icons/fi';
 import { SiteCard, type SiteInfo } from './components/SiteCard';
@@ -75,6 +75,14 @@ const PROGRAMS: SiteInfo[] = [
     url: 'http://localhost:8000',
     imageUrl: '/pdf_utility_thumb.png',
     tag: 'Utility'
+  },
+  {
+    id: '10',
+    title: '교재 간편 주문',
+    description: '수업에 필요한 교재를 빠르게 검색하고 장바구니에 담아 실시간으로 주문할 수 있는 시스템입니다.',
+    url: 'https://textbook-order.pages.dev/teacher/order',
+    imageUrl: '/placeholder_thumb.png',
+    tag: 'Management'
   }
 ];
 
@@ -84,6 +92,18 @@ function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  const cursorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+        if (cursorRef.current) {
+            cursorRef.current.style.transform = `translate3d(${e.clientX + 18}px, ${e.clientY + 18}px, 0)`;
+        }
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginPassword(e.target.value);
@@ -123,6 +143,25 @@ function App() {
 
   return (
     <div className="landing-container">
+      {/* Custom Cursor Text */}
+      <div 
+        ref={cursorRef}
+        style={{
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          pointerEvents: 'none',
+          zIndex: 9999,
+          fontSize: '13px',
+          fontWeight: 800,
+          color: '#0066FF',
+          letterSpacing: '1.5px',
+          textShadow: '0 0 10px rgba(255,255,255,1), 0 0 20px rgba(0,102,255,0.3)',
+          transition: 'transform 0.12s cubic-bezier(0.1, 0.5, 0.1, 1)'
+        }}
+      >
+        WILLGROW
+      </div>
       {/* Navigation Bar */}
       <nav className="navbar">
         <div className="navbar-container">
