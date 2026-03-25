@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Willgrow Tier - Overwatch Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ow-bg: #1e2025;
+    --ow-dark: #2b2e35;
+    --ow-mid: #414853;
+    --ow-light: #f0edee;
+    --ow-orange: #f99e1a;
+    --ow-blue: #00c3ff;
+    --ow-font: 'Teko', 'Noto Sans KR', sans-serif;
+  }
+
+  body.challenger-aurora {
+    background: linear-gradient(135deg, #1e2025, #2b1f0c, #1a2a3a, #1e2025);
+    background-size: 300% 300%;
+    animation: aurora 10s ease infinite;
+  }
+
+  @keyframes aurora {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--ow-font);
+    background-color: var(--ow-bg);
+    color: var(--ow-light);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    text-transform: uppercase;
+    transition: background 0.5s ease;
+  }
+
+  header {
+    text-align: center;
+    padding: 15px 20px;
+    background: var(--ow-dark);
+    border-bottom: 4px solid var(--ow-orange);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 10;
+  }
+
+  .willgrow-logo {
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: -5px;
+    transform: skewX(-10deg);
+  }
+  .willgrow-w {
+    color: var(--ow-light);
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1;
+    font-family: var(--ow-font);
+    text-shadow: 
+      0 1px 0 #cc7a00, 
+      0 2px 0 #b36b00, 
+      0 3px 0 #995c00, 
+      0 4px 0 #804d00, 
+      0 5px 0 #663d00,
+      0 6px 1px rgba(0,0,0,0.5),
+      0 0 5px rgba(0,0,0,0.3),
+      0 3px 5px rgba(0,0,0,0.4),
+      0 5px 10px rgba(0,0,0,0.5);
+    color: var(--ow-orange);
+  }
+  .willgrow-dot {
+    width: 14px;
+    height: 14px;
+    background-color: var(--ow-orange);
+    margin-left: 4px;
+    margin-top: 5px;
+    box-shadow: 0 4px 0 #b36b00;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 46px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #ffffff;
+    font-style: italic;
+    line-height: 1;
+    text-transform: uppercase;
+    text-shadow: 
+      0 1px 0 #d9d9d9,
+      0 2px 0 #cccccc,
+      0 3px 0 #bfbfbf,
+      0 4px 0 #b3b3b3,
+      0 5px 0 #a6a6a6,
+      0 6px 1px rgba(0,0,0,0.6),
+      0 0 5px rgba(0,0,0,0.4),
+      0 1px 3px rgba(0,0,0,0.5),
+      0 3px 5px rgba(0,0,0,0.4),
+      0 5px 10px rgba(0,0,0,0.5),
+      0 10px 10px rgba(0,0,0,0.4),
+      0 20px 20px rgba(0,0,0,0.3);
+  }
+
+  p.subtitle {
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-size: 20px;
+    color: var(--ow-blue);
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    z-index: 5;
+  }
+
+  .ow-btn {
+    background: var(--ow-mid);
+    color: var(--ow-light);
+    border: none;
+    font-family: var(--ow-font);
+    font-size: 24px;
+    font-weight: 600;
+    padding: 10px 40px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transform: skewX(-15deg);
+    transition: all 0.15s ease;
+    box-shadow: 
+      4px 4px 10px rgba(0,0,0,0.6), 
+      -2px -2px 6px rgba(255,255,255,0.05);
+  }
+  .ow-btn span { display: block; transform: skewX(15deg); }
+  .ow-btn:hover { 
+    background: var(--ow-light); 
+    color: var(--ow-dark); 
+    box-shadow: 
+      6px 6px 12px rgba(0,0,0,0.7), 
+      -2px -2px 8px rgba(255,255,255,0.1);
+  }
+  .ow-btn:active {
+    transform: skewX(-15deg) translateY(3px);
+    box-shadow: 
+      inset 4px 4px 8px rgba(0,0,0,0.6), 
+      inset -2px -2px 5px rgba(255,255,255,0.02);
+  }
+  .nav-tabs .ow-btn.active { 
+    background: var(--ow-orange); 
+    color: var(--ow-dark); 
+    box-shadow: 
+      inset 4px 4px 10px rgba(0,0,0,0.5), 
+      inset -2px -2px 5px rgba(255,255,255,0.2);
+    transform: skewX(-15deg) translateY(2px);
+  }
+
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .panel { width: 100%; max-width: 900px; display: none; }
+  .panel.active { display: block; animation: slideUp 0.3s ease-out forwards; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .forms-container > div {
+    display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+
+  .filter-container { text-align: right; margin-bottom: 15px; }
+
+  .ow-input {
+    padding: 10px 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    border: 2px solid var(--ow-mid);
+    background: rgba(0,0,0,0.4);
+    color: var(--ow-light);
+    transform: skewX(-10deg);
+    transition: border-color 0.2s;
+    outline: none;
+    flex: 1;
+    min-width: 150px;
+  }
+  .ow-input:focus { border-color: var(--ow-orange); }
+
+  .ow-select {
+    padding: 10px 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    border: 2px solid var(--ow-mid);
+    background: rgba(0,0,0,0.8);
+    color: var(--ow-light);
+    transform: skewX(-10deg);
+    outline: none;
+    min-width: 150px;
+  }
+  .ow-select:focus { border-color: var(--ow-blue); }
+
+  .student-list { display: flex; flex-direction: column; gap: 15px; }
+
+  .student-item {
+    display: flex;
+    align-items: stretch;
+    background: rgba(43, 46, 53, 0.85);
+    border-left: 6px solid var(--ow-mid);
+    position: relative;
+    overflow: hidden;
+    transform: skewX(-5deg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .student-item:hover { transform: skewX(-5deg) translateX(5px); background: rgba(65, 72, 83, 0.95); }
+
+  .student-item.animating {
+    animation: flashUpdateOW 0.5s;
+    border-left-color: var(--ow-orange);
+  }
+  @keyframes flashUpdateOW {
+    0% { background: rgba(249, 158, 26, 0.4); }
+    100% { background: rgba(43, 46, 53, 0.85); }
+  }
+  
+  /* 공통 휘장 연결(오라) 웨이브 애니메이션 프롬프트 적용 */
+  .student-item::after, .lb-item::after { content: ''; position: absolute; top: -100%; left: 0; width: 6px; height: 100%; background: linear-gradient(to bottom, transparent, rgba(0, 195, 255, 0.5), transparent); animation: flowWave 3s infinite linear; pointer-events: none; }
+  @keyframes flowWave { 100% { top: 200%; } }
+  .student-item:hover::after, .lb-item:hover::after { background: linear-gradient(to bottom, transparent, #fff, #00c3ff, transparent); width: 8px; animation: flowWave 1s infinite linear; box-shadow: 0 0 15px #00c3ff; }
+
+  .student-item > .main-info {
+    flex: 1;
+    transform: skewX(5deg);
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .student-item > .controls {
+    display: flex;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+    padding: 0 20px;
+    gap: 15px;
+    transform: skewX(5deg);
+  }
+
+  .stats-info {
+    font-family: var(--ow-font);
+    font-size: 18px;
+    color: #aaa;
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  .stats-info span.dollar {
+    color: var(--ow-orange);
+    font-weight: 700;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+  }
+
+  /* Custom Select Menu Options */
+  .custom-select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .custom-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 10px;
+    background: rgba(25, 28, 33, 0.95);
+    border: 2px solid var(--ow-mid);
+    border-top: 4px solid var(--ow-orange);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    padding: 15px;
+    min-width: 300px;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .custom-options.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .custom-opt-btn {
+    position: relative;
+    background: rgba(43, 46, 53, 0.8);
+    border: none;
+    border-left: 4px solid var(--ow-mid);
+    color: var(--ow-light);
+    padding: 12px 15px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    transform: skewX(-5deg) translateX(-15px);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .custom-opt-btn > span {
+    transform: skewX(5deg);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    pointer-events: none;
+  }
+  .custom-options.show .custom-opt-btn {
+    animation: slideFadeIn 0.3s forwards;
+  }
+  /* Adding staggered animation delays based on nth-child */
+  .custom-options.show .custom-opt-btn:nth-child(1) { animation-delay: 0.05s; }
+  .custom-options.show .custom-opt-btn:nth-child(2) { animation-delay: 0.1s; }
+  .custom-options.show .custom-opt-btn:nth-child(3) { animation-delay: 0.15s; }
+  .custom-options.show .custom-opt-btn:nth-child(4) { animation-delay: 0.2s; }
+  .custom-options.show .custom-opt-btn:nth-child(5) { animation-delay: 0.25s; }
+  .custom-options.show .custom-opt-btn:nth-child(6) { animation-delay: 0.3s; }
+  .custom-options.show .custom-opt-btn:nth-child(7) { animation-delay: 0.35s; }
+  .custom-options.show .custom-opt-btn:nth-child(8) { animation-delay: 0.4s; }
+  .custom-options.show .custom-opt-btn:nth-child(9) { animation-delay: 0.45s; }
+  .custom-options.show .custom-opt-btn:nth-child(10) { animation-delay: 0.5s; }
+  
+  .custom-opt-btn:hover {
+    background: var(--ow-light);
+    color: var(--ow-dark);
+    border-left: 4px solid var(--ow-orange);
+    transform: skewX(-5deg) translateX(5px);
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+  }
+  .custom-opt-btn:hover .dir-text {
+    color: rgba(0,0,0,0.6) !important;
+  }
+  @keyframes slideFadeIn {
+    to { opacity: 1; transform: skewX(-5deg) translateX(0); }
+  }
+
+  .name-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .class-tag {
+    background: var(--ow-blue);
+    color: #000;
+    padding: 2px 10px;
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    transform: skewX(-10deg);
+  }
+  .class-tag span { transform: skewX(10deg); }
+
+  .tier-wrapper {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    font-family: var(--ow-font);
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0,0,0,0.5);
+    transform: skewX(-10deg);
+    text-shadow: 
+      1px 1px 0 #555, 
+      2px 2px 0 #333, 
+      3px 3px 0 #111,
+      4px 4px 5px rgba(0,0,0,0.8);
+  }
+  .tier-wrapper > div {
+    transform: skewX(10deg);
+    display: flex;
+    align-items: center;
+  }
+  .tier-badge { 
+    display: inline-block;
+    width: 65px;
+    height: 65px;
+    margin-right: -15px;
+    margin-left: 0;
+    margin-top: -10px;
+    margin-bottom: -10px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+    z-index: 2;
+    position: relative;
+  }
+  
+  /* 개별 티어 이미지 파일 매핑 */
+  .iron-img { background-image: url('iron.png'); }
+  .bronze-img { background-image: url('bronze.png'); }
+  .silver-img { background-image: url('silver.png'); }
+  .gold-img { background-image: url('gold.png'); }
+  .platinum-img { background-image: url('platinum.png'); }
+  .emerald-img { background-image: url('emerald.png'); }
+  .diamond-img { background-image: url('diamond.png'); }
+  .master-img { background-image: url('master.png'); }
+  .grandmaster-img { background-image: url('grandmaster.png'); }
+  .challenger-img { background-image: url('challenger.png'); }
+
+  /* 롤 티어 이미지 참고 컬러셋 및 상세 이펙트 매칭 */
+  /* 1. 아이언 (Iron) */
+  .iron { border-bottom: 4px solid #434447; color: #8e8f93; position: relative; overflow: hidden; background: linear-gradient(rgba(45,45,45,0.9), rgba(30,30,30,0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23n)" opacity="0.3"/></svg>'); animation: ironVibrate 4s infinite linear, ironAura 3s infinite alternate; }
+  @keyframes ironAura { to { box-shadow: 0 0 15px rgba(30,30,30,0.8); } }
+  @keyframes ironVibrate { 0%, 100% { transform: translate(0,0); } 10%, 30%, 50%, 70%, 90% { transform: translate(0.5px, 0.5px); } }
+  .iron::before { content: ''; position: absolute; inset:0; background-image: radial-gradient(circle, rgba(100,100,100,0.8) 1px, transparent 1px); background-size: 10px 15px; animation: ironDust 3s linear infinite; pointer-events: none; opacity: 0.5; mix-blend-mode: overlay; }
+  @keyframes ironDust { from { background-position: 0 -20px; } to { background-position: 5px 100px; } }
+  .iron:hover { animation: ironVibrate 0.1s infinite linear, ironAura 1s infinite alternate; }
+  .iron:hover::before { animation: ironDust 0.5s linear infinite; opacity: 1; }
+
+  /* 2. 브론즈 (Bronze) */
+  .bronze { border-bottom: 4px solid #8d5c3f; color: #cd8a61; background: linear-gradient(135deg, #4a2e1b, #8d5c3f, #4a2e1b); box-shadow: 0 0 15px rgba(160, 100, 50, 0.4); animation: bronzeAura 3s infinite alternate; position: relative; overflow: hidden; }
+  @keyframes bronzeAura { to { box-shadow: 0 0 25px rgba(180, 120, 60, 0.7); } }
+  .bronze::before { content: ''; position: absolute; bottom: -100%; left: 0; width: 100%; height: 50%; background: linear-gradient(to top, transparent, rgba(255,180,100,0.5), transparent); animation: bronzeFlow 4s linear infinite; pointer-events: none; }
+  @keyframes bronzeFlow { to { bottom: 200%; } }
+  .bronze::after { content: '✧'; position: absolute; color: #ffc880; font-size: 12px; animation: bronzeSparkle 2s infinite linear; top: 10%; right: 10%; opacity: 0; pointer-events: none; }
+  @keyframes bronzeSparkle { 50% { opacity: 1; transform: scale(1.5); } 100% { opacity: 0; } }
+  .bronze:hover { animation: bronzeAura 1s infinite alternate; }
+  .bronze:hover::before { animation: bronzeFlow 1.5s linear infinite; }
+
+  /* 3. 실버 (Silver) */
+  .silver { border-bottom: 4px solid #7c8c93; color: #fff; background: linear-gradient(135deg, #8ba3b0, #d1e2eb, #8ba3b0); box-shadow: 0 0 8px rgba(0, 255, 255, 0.3); position: relative; overflow: hidden; }
+  .silver::before { content: ''; position: absolute; top:0; left:-100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent); animation: silverSweep 4s ease-out infinite; pointer-events: none; transform: skewX(-20deg); }
+  @keyframes silverSweep { 50%, 100% { left: 200%; } }
+  .silver::after { content: ''; position: absolute; inset:0; box-shadow: inset 0 0 10px rgba(0,250,255,0.4); animation: silverStatic 3s steps(5) infinite; pointer-events: none; mix-blend-mode: color-dodge; }
+  @keyframes silverStatic { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.8; background: radial-gradient(circle at 10% 20%, #fff 1px, transparent 2px), radial-gradient(circle at 80% 80%, #fff 1px, transparent 2px); } }
+  .silver:hover::before { animation: silverSweep 1s ease-out infinite; }
+  .silver:hover::after { animation: silverStatic 0.1s steps(2) infinite; box-shadow: inset 0 0 20px rgba(0,250,255,0.9); }
+
+  /* 4. 골드 (Gold) */
+  .gold { border-bottom: 4px solid #d4af37; color: #fff; background: linear-gradient(135deg, #b8860b, #ffd700, #b8860b); box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); position: relative; overflow: hidden; animation: goldAura 3s infinite alternate; }
+  @keyframes goldAura { to { box-shadow: 0 0 35px rgba(255, 215, 0, 0.8); } }
+  .gold::before { content: ''; position: absolute; inset:0; background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 10px 10px; animation: goldDust 3s linear infinite; pointer-events: none; opacity: 0.6; mix-blend-mode: overlay; }
+  @keyframes goldDust { from { background-position: 0 100px; } to { background-position: 0 -20px; } }
+  .gold:hover { animation: goldAura 1s infinite alternate; }
+  .gold:hover::before { animation: goldDust 1s linear infinite; opacity: 1; }
+  .gold:hover::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8), transparent); animation: goldShine 1s ease-out infinite; mix-blend-mode: overlay; pointer-events: none; }
+  @keyframes goldShine { from { transform: translateY(-100%); } to { transform: translateY(100%); } }
+
+  /* 5. 플래티넘 (Platinum) */
+  .platinum { border-bottom: 4px solid #149c8c; color: #fff; background: linear-gradient(135deg, #104a43, #5be6d6, #104a43); box-shadow: 0 0 15px rgba(59, 209, 193, 0.5); position: relative; overflow: hidden; animation: platAura 4s infinite alternate; }
+  @keyframes platAura { to { box-shadow: 0 0 25px rgba(60, 250, 200, 0.8); } }
+  .platinum::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,0,0,0.2), rgba(0,255,0,0.2), rgba(0,0,255,0.2), transparent); background-size: 200% 100%; animation: platStream 3s linear infinite; pointer-events: none; mix-blend-mode: color-dodge; }
+  @keyframes platStream { to { background-position: 200% 0; } }
+  .platinum::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(100,255,200,0.2) 2px, rgba(100,255,200,0.2) 4px); animation: platGrid 5s linear infinite; pointer-events: none; }
+  @keyframes platGrid { to { background-position: 0 100px; } }
+  .platinum:hover::before { animation: platStream 0.8s linear infinite; opacity: 1; }
+  .platinum:hover::after { animation: platGrid 1s linear infinite; }
+
+  /* 6. 에메랄드 (Emerald) */
+  .emerald { border-bottom: 4px solid #10a852; color: #fff; background: linear-gradient(135deg, #0a4022, #24b861, #0a4022); box-shadow: 0 0 20px rgba(10, 200, 80, 0.5); position: relative; overflow: hidden; animation: emWave 3s infinite ease-out; }
+  @keyframes emWave { 50% { box-shadow: 0 0 40px rgba(43, 247, 132, 0.7); } }
+  .emerald::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, rgba(43,247,132,0.6), transparent 70%); animation: emLiquid 4s infinite alternate ease-in-out; pointer-events: none; }
+  @keyframes emLiquid { to { transform: scale(1.2) translateY(-20px); } }
+  .emerald::after { content: '✨'; position: absolute; color: #2bf784; font-size: 14px; bottom: 0; left: 50%; opacity: 0; animation: emParticles 3s infinite ease-out; pointer-events: none; }
+  @keyframes emParticles { 50% { opacity: 1; transform: translate(-20px, -30px); } 100% { opacity: 0; transform: translate(20px, -60px); } }
+  .emerald:hover { animation: emWave 1s infinite ease-out; }
+  .emerald:hover::before { animation: emLiquid 0.5s infinite alternate ease-in-out; }
+  .emerald:hover::after { animation: emParticles 0.8s infinite ease-out; }
+
+  /* 7. 다이아몬드 (Diamond) */
+  .diamond { border-bottom: 4px solid #3d58d6; color: #fff; background: linear-gradient(135deg, rgba(61,88,214,0.7), rgba(180,220,255,0.9), rgba(61,88,214,0.7)); box-shadow: 0 0 25px rgba(127,153,255,0.7); position: relative; overflow: hidden; animation: diaAura 2s infinite alternate; }
+  @keyframes diaAura { to { box-shadow: 0 0 40px rgba(180, 220, 255, 1); } }
+  .diamond::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 12px); animation: diaFissure 4s infinite alternate; opacity: 0.5; mix-blend-mode: overlay; pointer-events: none; }
+  @keyframes diaFissure { to { opacity: 1; transform: scale(1.1); } }
+  .diamond::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 15px #00d6f2; animation: diaArc 2s infinite steps(3); pointer-events: none; }
+  @keyframes diaArc { 50% { box-shadow: inset 0 0 25px #00d6f2, 0 0 10px #fff; } }
+  .diamond:hover { animation: diaAura 0.5s infinite alternate; }
+  .diamond:hover::before { animation: diaFissure 1s infinite alternate; }
+  .diamond:hover::after { animation: diaRadiantBurst 0.8s infinite ease-out; }
+  @keyframes diaRadiantBurst { 0% { background: radial-gradient(circle, #fff, transparent); opacity: 1; transform: scale(0.5); } 100% { opacity: 0; transform: scale(2); } }
+
+  /* 8. 마스터 (Master) */
+  .master { border-bottom: 4px solid #a132c1; color: #fff; background: linear-gradient(135deg, #2b0836, #7a1f6a, #2b0836); position: relative; overflow: hidden; animation: masterAura 6s linear infinite; }
+  @keyframes masterAura { 0% { box-shadow: 0 0 20px rgba(161, 50, 193, 0.5); } 50% { box-shadow: 0 0 35px rgba(228, 117, 255, 0.8); } 100% { box-shadow: 0 0 20px rgba(161, 50, 193, 0.5); } }
+  .master::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 0deg, rgba(161, 50, 193, 0.3), rgba(60, 20, 200, 0.3), rgba(228, 117, 255, 0.3), rgba(161, 50, 193, 0.3)); animation: masterSwirl 8s linear infinite; pointer-events: none; mix-blend-mode: screen; }
+  @keyframes masterSwirl { 100% { transform: rotate(360deg); } }
+  .master::after { content: '✧'; position: absolute; color: #e475ff; font-size: 10px; animation: masterDust 4s infinite linear; opacity: 0; pointer-events: none; }
+  @keyframes masterDust { 50% { opacity: 1; transform: translate(30px, 30px) rotate(180deg) scale(1.5); } 100% { opacity: 0; transform: translate(60px, 60px) rotate(360deg) scale(0.5); } }
+  .master:hover { animation: masterAura 2s linear infinite; }
+  .master:hover::before { animation: masterSwirl 2s linear infinite; }
+  .master:hover::after { animation: masterVortex 1s infinite linear; }
+  @keyframes masterVortex { 0% { transform: scale(1) rotate(0deg); opacity: 1; } 100% { transform: scale(0) rotate(-360deg); opacity: 0; left: 50%; top: 50%; } }
+
+  /* 9. 그랜드마스터 (Grandmaster) */
+  .grandmaster { border-bottom: 4px solid #d72828; color: #fff; background: linear-gradient(0deg, #5e0b0b, #e62e2e, #ffd700); box-shadow: 0 10px 30px rgba(215, 40, 40, 0.7); position: relative; overflow: hidden; animation: gmHeatShimmer 2s infinite alternate; }
+  @keyframes gmHeatShimmer { to { filter: hue-rotate(10deg); box-shadow: 0 15px 40px rgba(255, 100, 0, 0.9); } }
+  .grandmaster::before { content: ''; position: absolute; bottom: -20px; left: 0; width: 100%; height: 150%; background: radial-gradient(ellipse at bottom, rgba(255, 200, 50, 0.8), transparent 60%); animation: gmFlames 0.8s infinite alternate ease-in-out; mix-blend-mode: color-dodge; pointer-events: none; }
+  @keyframes gmFlames { from { transform: scaleY(1); opacity: 0.7; } to { transform: scaleY(1.4); opacity: 1; } }
+  .grandmaster::after { content: ''; position: absolute; inset:0; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23n)" opacity="0.3"/></svg>'); animation: gmHaze 3s linear infinite; mix-blend-mode: overlay; pointer-events: none; }
+  @keyframes gmHaze { to { background-position: 0 -100px; } }
+  .grandmaster:hover { animation: gmHeatShimmer 0.5s infinite alternate, gmScreenVibrate 0.1s infinite; }
+  @keyframes gmScreenVibrate { 0%, 100% { transform: translate(0, 0) skewX(-5deg); } 50% { transform: translate(-2px, 2px) skewX(-5deg); } }
+  .grandmaster:hover::before { animation: gmFlames 0.3s infinite alternate ease-in-out; }
+
+  /* 10. 챌린저 (Challenger) */
+  .challenger { border-bottom: 4px solid #d4af37; color: #fff; background: linear-gradient(135deg, #111, #444, #111); box-shadow: 0 0 35px #00d6f2, inset 0 0 20px #d4af37; position: relative; overflow: hidden; animation: chHaloRainbow 5s linear infinite; }
+  @keyframes chHaloRainbow { 0% { box-shadow: 0 0 30px #f00; } 20% { box-shadow: 0 0 30px #ff0; } 40% { box-shadow: 0 0 30px #0f0; } 60% { box-shadow: 0 0 30px #0ff; } 80% { box-shadow: 0 0 30px #f0f; } 100% { box-shadow: 0 0 30px #f00; } }
+  .challenger::before { content: ''; position: absolute; inset: 0; background: linear-gradient(45deg, rgba(255,0,0,0.5), rgba(0,255,0,0.5), rgba(0,0,255,0.5), rgba(255,0,0,0.5)); background-size: 300% 300%; animation: chIridescent 6s linear infinite; mix-blend-mode: color-dodge; pointer-events: none; }
+  @keyframes chIridescent { 100% { background-position: 100% 100%; } }
+  .challenger::after { content: ''; position: absolute; inset:0; border: 2px solid #00d6f2; clip-path: polygon(10% 0, 30% 20%, 50% 0, 70% 20%, 90% 0, 100% 50%, 90% 100%, 50% 80%, 10% 100%, 0 50%); animation: chLightningArcs 0.3s infinite alternate; pointer-events: none; }
+  @keyframes chLightningArcs { 0% { filter: drop-shadow(0 0 2px #fff); opacity: 0.5; transform: scale(0.98); } 100% { filter: drop-shadow(0 0 15px #00d6f2); opacity: 1; transform: scale(1.02); } }
+  .challenger:hover { animation: chHaloRainbow 0.8s linear infinite; }
+  .challenger:hover::before { animation: chIridescent 1s linear infinite; }
+  .challenger:hover::after { animation: chMassiveBurst 0.6s infinite ease-out; border: 4px solid #fff; }
+  @keyframes chMassiveBurst { 0% { transform: scale(0.5); opacity: 1; box-shadow: 0 0 50px #fff; background: radial-gradient(circle, #fff, transparent); } 100% { transform: scale(3); opacity: 0; box-shadow: 0 0 0 #fff; background: transparent; } }
+
+  .stamp-progress-wrapper {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .stamp-progress-text {
+    font-family: var(--ow-font);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ow-light);
+    transform: skewX(-10deg);
+    min-width: 60px;
+    text-align: right;
+  }
+  .stamp-progress-container {
+    background: rgba(0,0,0,0.5);
+    padding: 3px;
+    flex: 1;
+    max-width: 300px;
+    transform: skewX(-15deg);
+    border: 2px solid var(--ow-mid);
+  }
+  .stamp-progress-bar-bg {
+    width: 100%;
+    height: 15px;
+    background: rgba(0,0,0,0.8);
+  }
+  .stamp-progress-bar-fill {
+    height: 100%;
+    background: var(--ow-orange);
+    box-shadow: 0 0 10px var(--ow-orange);
+    transition: width 0.3s ease;
+  }
+
+  .sm-btn {
+    background: var(--ow-mid);
+    color: var(--ow-light);
+    border: none;
+    padding: 8px 20px;
+    font-family: var(--ow-font);
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transform: skewX(-10deg);
+    transition: all 0.15s ease;
+    box-shadow: 
+      3px 3px 8px rgba(0,0,0,0.5), 
+      -2px -2px 5px rgba(255,255,255,0.05);
+  }
+  .sm-btn span { display: block; transform: skewX(10deg); }
+  .sm-btn:hover { 
+    background: var(--ow-light); 
+    color: var(--ow-dark); 
+    box-shadow: 
+      4px 4px 10px rgba(0,0,0,0.6), 
+      -2px -2px 6px rgba(255,255,255,0.08);
+  }
+  .sm-btn:active {
+    transform: skewX(-10deg) translateY(2px);
+    box-shadow: 
+      inset 3px 3px 6px rgba(0,0,0,0.5), 
+      inset -2px -2px 4px rgba(255,255,255,0.02);
+  }
+  .sm-btn.danger { background: #d32f2f; }
+  .sm-btn.danger:hover { background: #f44336; }
+  .sm-btn.accent { background: var(--ow-orange); color: var(--ow-dark); }
+  .sm-btn.accent:hover { background: #ffb03b; }
+
+  /* 리더보드 특화 스타일 */
+  .lb-list { display: flex; flex-direction: column; gap: 15px; }
+  .lb-item {
+    display: flex;
+    align-items: stretch;
+    background: rgba(43, 46, 53, 0.85);
+    border-left: 8px solid var(--ow-mid);
+    position: relative;
+    overflow: hidden;
+    transform: skewX(-5deg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .lb-item:hover { transform: skewX(-5deg) translateX(5px); background: rgba(65, 72, 83, 0.95); }
+  
+  .lb-item:nth-child(1) { border-left-color: #ffd700; transform: skewX(-5deg) scale(1.02); background: rgba(51, 58, 69, 0.95); margin-bottom: 10px; }
+  .lb-item:nth-child(2) { border-left-color: #c0c0c0; margin-bottom: 5px; }
+  .lb-item:nth-child(3) { border-left-color: #cd7f32; }
+
+  .lb-rank {
+    font-size: 65px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.15);
+    font-style: italic;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: skewX(5deg);
+    border-right: 2px solid rgba(255,255,255,0.05);
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.1), -1px -1px 0 rgba(0,0,0,0.8);
+  }
+  .lb-item:nth-child(1) .lb-rank { 
+    color: #ffd700; 
+    font-size: 80px; 
+    width: 115px;
+    font-weight: 900; 
+    text-shadow: 0 1px 0 #ccaa00, 0 2px 0 #b39500, 0 3px 0 #998000, 0 4px 0 #806a00, 0 5px 0 #665500, 0 6px 5px rgba(0,0,0,0.6); 
+  }
+  .lb-item:nth-child(2) .lb-rank { 
+    color: #e6e6e6; 
+    font-size: 75px; 
+    width: 110px;
+    font-weight: 900; 
+    text-shadow: 0 1px 0 #b3b3b3, 0 2px 0 #999999, 0 3px 0 #808080, 0 4px 0 #666666, 0 5px 0 #4d4d4d, 0 6px 5px rgba(0,0,0,0.6); 
+  }
+  .lb-item:nth-child(3) .lb-rank { 
+    color: #e68a39; 
+    font-size: 75px; 
+    width: 110px;
+    font-weight: 900; 
+    text-shadow: 0 1px 0 #b3631f, 0 2px 0 #995217, 0 3px 0 #804210, 0 4px 0 #663309, 0 5px 0 #4d2303, 0 6px 5px rgba(0,0,0,0.6); 
+  }
+
+  .lb-details {
+    flex: 1;
+    transform: skewX(5deg);
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .lb-director {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* 모달 스타일 */
+  .ow-modal-backdrop {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+  .ow-modal-backdrop.active { display: flex; animation: fadeIn 0.15s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .ow-modal {
+    background: var(--ow-dark);
+    border: 4px solid var(--ow-orange);
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    transform: skewX(-5deg);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+    position: relative;
+  }
+  .ow-modal > div { transform: skewX(5deg); display: flex; flex-direction: column; gap: 15px; }
+  .ow-modal h2 { margin: 0 0 10px 0; color: var(--ow-light); font-style: italic; border-bottom: 2px solid var(--ow-mid); padding-bottom: 10px; }
+  .ow-modal label { font-size: 18px; color: var(--ow-blue); font-weight: 600; font-family: 'Noto Sans KR', sans-serif;}
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+  .heartbeat-text {
+    animation: heartbeat 1.5s infinite ease-in-out;
+    display: inline-block;
+  }
+  @keyframes heartbeat {
+    0% { transform: scale(1) skewX(-10deg); }
+    15% { transform: scale(1.08) skewX(-10deg); color: var(--ow-orange); }
+    30% { transform: scale(1) skewX(-10deg); color: var(--ow-blue); }
+    45% { transform: scale(1.08) skewX(-10deg); color: var(--ow-orange); }
+    100% { transform: scale(1) skewX(-10deg); color: var(--ow-blue); }
+  }
+  .promotion-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .promotion-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .promotion-content {
+    text-align: center;
+    transform: scale(0.5);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .promotion-overlay.active .promotion-content {
+    transform: scale(1);
+  }
+  .promo-title {
+    font-size: 70px;
+    font-weight: 900;
+    color: var(--ow-orange);
+    text-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
+    margin: 0 0 10px;
+    font-style: italic;
+    transform: skewX(-10deg);
+  }
+  .promo-name {
+    font-size: 35px;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    transform: skewX(-10deg);
+  }
+  #promoBadge {
+    width: 280px;
+    height: 280px;
+    margin: 30px auto;
+    filter: drop-shadow(0 0 30px rgba(255,255,255,0.3));
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .promo-tier-name {
+    font-size: 60px;
+    font-weight: 900;
+    margin-top: 10px;
+    font-style: italic;
+    color: var(--ow-light);
+    transform: skewX(-10deg);
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="willgrow-logo">
+    <div class="willgrow-w">W</div>
+    <div class="willgrow-dot"></div>
+  </div>
+  <h1>WILLGROW TIER</h1>
+  <p class="subtitle">WATCHPOINT : ACADEMY</p>
+</header>
+
+<div class="nav-tabs">
+  <button class="ow-btn active" id="btn-admin" onclick="switchTab('admin')"><span>ROSTER (ADMIN)</span></button>
+  <button class="ow-btn" id="btn-leaderboard" onclick="switchTab('leaderboard')"><span>TOP 30 (LEADERBOARD)</span></button>
+</div>
+
+<div class="content">
+  <!-- 관리자 대시보드 -->
+  <div id="admin" class="panel active">
+    <div class="forms-container">
+      <div>
+        <input type="text" id="newClassName" class="ow-input" placeholder="신규 소속팀 입력..." onkeypress="handleClassKeyPress(event)" style="flex: 1.5;">
+        <input type="text" id="newClassDirector" class="ow-input" placeholder="담당 감독명..." onkeypress="handleClassKeyPress(event)">
+        <button class="ow-btn sm-btn accent" onclick="addClass()"><span>팀 창설</span></button>
+        <button class="ow-btn sm-btn" onclick="openClassModal()"><span>팀 관리</span></button>
+      </div>
+      <div>
+        <select id="classSelect" class="ow-select"></select>
+        <input type="text" id="studentName" class="ow-input" placeholder="요원 이름 (학생명)..." onkeypress="handleKeyPress(event)">
+        <button class="ow-btn sm-btn accent" onclick="addStudent()"><span>요원 추가</span></button>
+      </div>
+    </div>
+    <div class="filter-container" style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
+      <div class="custom-select-wrapper" id="adminSelectWrapper">
+        <button class="ow-btn" id="adminSelectBtn" onclick="toggleCustomMenu('admin')"><span>▼ 소속팀 선택</span></button>
+        <div id="adminCustomOptions" class="custom-options"></div>
+      </div>
+      <select id="adminFilter" class="ow-select" style="display:none;" onchange="render()"><option value="ALL">전체 소속팀 보기</option></select>
+      <div id="bulkPointContainer" style="display: none; gap: 5px; align-items: center;">
+        <input type="number" id="bulkPointValue" class="ow-input" placeholder="갯수" style="width: 80px;">
+        <button class="ow-btn sm-btn accent" onclick="giveBulkStamps()"><span>전체 포인트 배정</span></button>
+      </div>
+    </div>
+    <div class="student-list" id="adminStudentList"></div>
+  </div>
+
+  <!-- 명예의 전당 -->
+  <div id="leaderboard" class="panel">
+    <div class="filter-container">
+      <div class="custom-select-wrapper" id="lbSelectWrapper">
+        <button class="ow-btn" id="lbSelectBtn" onclick="toggleCustomMenu('lb')"><span>▼ 전체 소속팀 보기</span></button>
+        <div id="lbCustomOptions" class="custom-options"></div>
+      </div>
+      <select id="lbFilter" class="ow-select" style="display:none;" onchange="render()"><option value="ALL">전체 소속팀 보기</option></select>
+    </div>
+    <div class="lb-list" id="lbStudentList"></div>
+  </div>
+</div>
+
+<div class="ow-modal-backdrop" id="editModal" style="z-index: 1010;">
+  <div class="ow-modal">
+    <div>
+      <h2 id="modalStudentName">요원 관리</h2>
+      <input type="hidden" id="modalStudentId">
+      
+      <label>소속팀 변경</label>
+      <select id="modalClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);"></select>
+      <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyStudentEdit()"><span>팀 변경 적용</span></button>
+      
+      <div style="margin-top: 15px; border-top: 2px dashed var(--ow-mid); padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+        <label style="color: #ff4444;">위험 구역</label>
+        <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg);" onclick="deleteStudentFromModal()"><span>요원 로스터 제외</span></button>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="ow-btn sm-btn" onclick="closeEditModal()"><span>닫기</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ow-modal-backdrop" id="classModal">
+  <div class="ow-modal">
+    <div>
+      <h2>팀 관리</h2>
+      <label>관리할 팀 선택</label>
+      <select id="manageClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);" onchange="onManageClassChange()"></select>
+      
+      <label style="margin-top:10px;">팀 이름 수정</label>
+      <input type="text" id="manageClassNameInput" class="ow-input" style="transform: none;">
+      
+      <label style="margin-top:10px;">감독 이름 수정</label>
+      <input type="text" id="manageClassDirectorInput" class="ow-input" style="transform: none;">
+
+      <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyClassEdit()"><span>수정 적용</span></button>
+      
+      <div style="margin-top: 15px; border-top: 2px solid var(--ow-mid); padding-top: 15px;">
+        <label>소속 요원 개별 관리</label>
+        <div style="display:flex; gap:10px; margin-top: 5px;">
+          <select id="manageStudentSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5); flex:1;"></select>
+          <button class="ow-btn sm-btn" style="transform: skewX(-10deg);" onclick="openEditSelectedStudent()"><span>⚙️ 관리</span></button>
+        </div>
+      </div>
+
+      <div style="margin-top: 15px; border-top: 2px dashed var(--ow-mid); padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+        <label style="color: #ff4444;">위험 구역</label>
+        
+        <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg); background: #b36b00;" onclick="resetClassPoints()"><span>팀 전체 포인트 초기화</span></button>
+        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; margin-bottom: 10px;">* 해당 팀 소속 요원들의 스탬프와 레벨이 0으로 리셋됩니다.</p>
+
+        <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg);" onclick="deleteClass()"><span>팀 해체 (삭제)</span></button>
+        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none;">* 소속된 요원이 있는 팀은 삭제할 수 없습니다. 먼저 요원의 소속을 변경하거나 제외해주세요.</p>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="ow-btn sm-btn" onclick="closeClassModal()"><span>닫기</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let students = JSON.parse(localStorage.getItem('nanoBananaStudents')) || [];
+  let classes = JSON.parse(localStorage.getItem('willgrowClasses')) || [];
+  if (students.length > 0 && classes.length === 0) {
+    classes.push({ id: 'class-0', name: '기본반', director: '공석' });
+    students.forEach(s => { if(!s.classId) s.classId = 'class-0'; });
+  } else if (classes.length === 0) {
+    classes.push({ id: 'class-0', name: '기본반', director: '공석' });
+  }
+  
+  // Migrate existing classes
+  classes.forEach(c => {
+    if (!c.director) c.director = '공석';
+  });
+  
+  const TIERS = [
+    { name: 'challenger', label: 'CHALLENGER', threshold: 0.0004 },
+    { name: 'grandmaster', label: 'GRANDMASTER', threshold: 0.001 },
+    { name: 'master', label: 'MASTER', threshold: 0.01 },
+    { name: 'diamond', label: 'DIAMOND', threshold: 0.04 },
+    { name: 'emerald', label: 'EMERALD', threshold: 0.10 },
+    { name: 'platinum', label: 'PLATINUM', threshold: 0.27 },
+    { name: 'gold', label: 'GOLD', threshold: 0.52 },
+    { name: 'silver', label: 'SILVER', threshold: 0.78 },
+    { name: 'bronze', label: 'BRONZE', threshold: 0.97 },
+    { name: 'iron', label: 'IRON', threshold: 1.00 }
+  ];
+
+  function saveData() {
+    localStorage.setItem('nanoBananaStudents', JSON.stringify(students));
+    localStorage.setItem('willgrowClasses', JSON.stringify(classes));
+    render();
+  }
+
+  function handleKeyPress(e) { if (e.key === 'Enter') addStudent(); }
+  function handleClassKeyPress(e) { if (e.key === 'Enter') addClass(); }
+
+  function getClassName(classId, hideDirector = false) {
+    const c = classes.find(c => c.id === classId);
+    if (!c) return 'Unknown';
+    if (!hideDirector && c.director && c.director !== '공석') {
+      return `${c.name} (${c.director} 감독)`;
+    }
+    return c.name;
+  }
+
+  function addClass() {
+    const input = document.getElementById('newClassName');
+    const dirInput = document.getElementById('newClassDirector');
+    const name = input.value.trim();
+    const dir = dirInput ? dirInput.value.trim() : '';
+    if (name) {
+      if(classes.some(c => c.name === name)) { alert('이미 존재하는 팀 이름입니다.'); return; }
+      classes.push({ id: 'class-' + Date.now(), name: name, director: dir || '공석' });
+      input.value = '';
+      if(dirInput) dirInput.value = '';
+      saveData();
+    }
+  }
+
+  function addStudent() {
+    const input = document.getElementById('studentName');
+    const classId = document.getElementById('classSelect').value;
+    const name = input.value.trim();
+    if (name && classId) {
+      students.push({
+        id: Date.now().toString(),
+        name: name,
+        classId: classId,
+        stamps: 0,
+        totalStamps: 0,
+        dollars: 0
+      });
+      input.value = '';
+      saveData();
+    }
+  }
+
+  function openEditModal(studentId) {
+    const student = students.find(s => s.id === studentId);
+    if (!student) return;
+    
+    document.getElementById('modalStudentId').value = student.id;
+    document.getElementById('modalStudentName').textContent = `요원 관리: ${student.name}`;
+    
+    const select = document.getElementById('modalClassSelect');
+    let optionsHtml = '';
+    const sortedClasses = [...classes].sort((a, b) => a.name.localeCompare(b.name));
+    sortedClasses.forEach(c => { optionsHtml += `<option value="${c.id}">${c.name}</option>`; });
+    select.innerHTML = optionsHtml;
+    select.value = student.classId;
+    
+    document.getElementById('editModal').classList.add('active');
+  }
+
+  function closeEditModal() {
+    document.getElementById('editModal').classList.remove('active');
+  }
+
+  function applyStudentEdit() {
+    const studentId = document.getElementById('modalStudentId').value;
+    const newClassId = document.getElementById('modalClassSelect').value;
+    const student = students.find(s => s.id === studentId);
+    
+    if (student && newClassId) {
+      student.classId = newClassId;
+      saveData();
+      closeEditModal();
+      if(document.getElementById('classModal').classList.contains('active')) {
+        updateManageClassSelect();
+      }
+    }
+  }
+
+  function deleteStudentFromModal() {
+    const studentId = document.getElementById('modalStudentId').value;
+    if(confirm('정말 이 요원을 로스터에서 영구 제외하시겠습니까? (복구 불가)')) {
+      students = students.filter(s => s.id !== studentId);
+      saveData();
+      closeEditModal();
+      if(document.getElementById('classModal').classList.contains('active')) {
+        updateManageClassSelect();
+      }
+    }
+  }
+
+  function openClassModal() {
+    updateManageClassSelect();
+    document.getElementById('classModal').classList.add('active');
+  }
+
+  function closeClassModal() {
+    document.getElementById('classModal').classList.remove('active');
+  }
+
+  function updateManageClassSelect() {
+    const select = document.getElementById('manageClassSelect');
+    let optionsHtml = '';
+    const sortedClasses = [...classes].sort((a, b) => a.name.localeCompare(b.name));
+    sortedClasses.forEach(c => { optionsHtml += `<option value="${c.id}">${c.name}</option>`; });
+    select.innerHTML = optionsHtml;
+    onManageClassChange();
+  }
+
+  function onManageClassChange() {
+    const classId = document.getElementById('manageClassSelect').value;
+    const c = classes.find(c => c.id === classId);
+    if(c) {
+      document.getElementById('manageClassNameInput').value = c.name;
+      const dirInput = document.getElementById('manageClassDirectorInput');
+      if(dirInput) dirInput.value = (c.director && c.director !== '공석') ? c.director : '';
+      
+      const studentSelect = document.getElementById('manageStudentSelect');
+      if(studentSelect) {
+        const classStudents = students.filter(s => s.classId === classId).sort((a,b) => a.name.localeCompare(b.name));
+        if (classStudents.length > 0) {
+          studentSelect.innerHTML = classStudents.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        } else {
+          studentSelect.innerHTML = '<option value="">(해당 팀에 요원 없음)</option>';
+        }
+      }
+    }
+  }
+
+  function openEditSelectedStudent() {
+    const studentId = document.getElementById('manageStudentSelect')?.value;
+    if (studentId) {
+      openEditModal(studentId);
+    } else {
+      alert("관리할 요원이 없습니다.");
+    }
+  }
+
+  function applyClassEdit() {
+    const classId = document.getElementById('manageClassSelect').value;
+    const newName = document.getElementById('manageClassNameInput').value.trim();
+    const dirInput = document.getElementById('manageClassDirectorInput');
+    const newDir = dirInput ? dirInput.value.trim() : '';
+    
+    if(classId && newName) {
+      if(classes.some(c => c.id !== classId && c.name === newName)) {
+        alert('이미 존재하는 팀 이름입니다.');
+        return;
+      }
+      const c = classes.find(c => c.id === classId);
+      if(c) {
+        c.name = newName;
+        c.director = newDir || '공석';
+        saveData();
+        closeClassModal();
+      }
+    }
+  }
+
+  function deleteClass() {
+    const classId = document.getElementById('manageClassSelect').value;
+    if(!classId) return;
+    
+    if(students.some(s => s.classId === classId)) {
+      alert('이 팀에 소속된 요원이 있습니다. 요원들을 먼저 다른 팀으로 이동시키거나 제외한 후 해체해주세요.');
+      return;
+    }
+    
+    if(confirm('정말 이 팀을 해체(삭제)하시겠습니까?')) {
+      classes = classes.filter(c => c.id !== classId);
+      saveData();
+      closeClassModal();
+      
+      const adminFilter = document.getElementById('adminFilter');
+      if(adminFilter && adminFilter.value === classId) {
+        adminFilter.value = '';
+        render();
+      }
+    }
+  }
+
+  function resetClassPoints() {
+    const classId = document.getElementById('manageClassSelect').value;
+    if(!classId) return;
+    
+    const c = classes.find(c => c.id === classId);
+    if (!c) return;
+    
+    const classStudents = students.filter(s => s.classId === classId);
+    if (classStudents.length === 0) {
+      alert("이 팀에 소속된 요원이 없어 초기화할 포인트가 없습니다.");
+      return;
+    }
+
+    if(confirm(`정말 [${c.name}] 팀 소속 모든 요원(${classStudents.length}명)의 포인트를 0으로 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) {
+      classStudents.forEach(s => {
+        s.stamps = 0;
+        s.totalStamps = 0;
+        s.dollars = 0;
+      });
+      saveData();
+      closeClassModal();
+      alert(`${c.name} 팀의 포인트가 성공적으로 0으로 초기화되었습니다.`);
+    }
+  }
+
+  let globalAudioCtx = null;
+  function initAudioContext() {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!globalAudioCtx && AudioContext) {
+      globalAudioCtx = new AudioContext();
+    }
+    if (globalAudioCtx && globalAudioCtx.state === 'suspended') {
+      globalAudioCtx.resume();
+    }
+  }
+
+  function playCoinSound() {
+    initAudioContext();
+    if(!globalAudioCtx) return;
+    
+    // 마리오 코인 스타일 8비트 사운드 (B5 -> E6)
+    const osc = globalAudioCtx.createOscillator();
+    const gainNode = globalAudioCtx.createGain();
+    
+    osc.type = 'square'; // 8비트 레트로 느낌의 구형파
+    osc.connect(gainNode);
+    gainNode.connect(globalAudioCtx.destination);
+    
+    const now = globalAudioCtx.currentTime;
+    
+    // 1. 주파수(음정) 변화: B5(987.77Hz)에서 E6(1318.51Hz)로 이동
+    osc.frequency.setValueAtTime(988, now); 
+    osc.frequency.setValueAtTime(1319, now + 0.08); 
+    
+    // 2. 볼륨(Envelope) 곡선
+    gainNode.gain.setValueAtTime(0, now);
+    // 첫 번째 음(B5) 어택
+    gainNode.gain.linearRampToValueAtTime(0.3, now + 0.02); 
+    gainNode.gain.setValueAtTime(0.3, now + 0.08); 
+    // 두 번째 음(E6) 시작 시 살짝 강조
+    gainNode.gain.linearRampToValueAtTime(0.4, now + 0.09); 
+    // 여운을 남기며 페이드 아웃
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+    
+    osc.start(now);
+    // 메모리 누수 방지를 위해 재생 완료 후 노드 연결 해제
+    osc.onended = () => {
+      osc.disconnect();
+      gainNode.disconnect();
+    };
+    osc.stop(now + 0.5);
+  }
+
+  let promoTimeout = null;
+  let currentPromoAudio = null;
+  function showPromotionEffect(studentName, newTier) {
+    const overlay = document.getElementById('promotionOverlay');
+    if (!overlay) return;
+    document.getElementById('promoName').textContent = studentName;
+    document.getElementById('promoBadge').className = newTier.name + '-img';
+    document.getElementById('promoTierName').textContent = newTier.label;
+
+    overlay.classList.add('active');
+    
+    // 이전 오디오가 재생 중이라면 중지
+    if (currentPromoAudio) {
+      currentPromoAudio.pause();
+      currentPromoAudio.currentTime = 0;
+    }
+    
+    // mp4 파일에서 오디오만 추출하여 오디오 객체로 바로 재생
+    currentPromoAudio = new Audio('promotion.mp4');
+    currentPromoAudio.play().catch(e => console.log('에러: 프로모션 오디오 재생 실패', e));
+    
+    if (promoTimeout) clearTimeout(promoTimeout);
+    
+    // 3초 후 자동 닫기
+    promoTimeout = setTimeout(() => {
+      overlay.classList.remove('active');
+    }, 3000);
+    
+    // 마우스 누르면 바로 생략(닫기) 및 소리 끄기
+    overlay.onclick = () => {
+      overlay.classList.remove('active');
+      if (currentPromoAudio) {
+        currentPromoAudio.pause();
+      }
+      if (promoTimeout) clearTimeout(promoTimeout);
+    };
+  }
+
+  function giveStamp(id) {
+    const beforeTiers = calculateTiers();
+    const prevTier = beforeTiers.find(s => s.id === id)?.tier;
+
+    const student = students.find(s => s.id === id);
+    if (student) {
+      student.stamps += 1;
+      student.totalStamps += 1;
+      if (student.stamps >= 20) {
+        student.stamps -= 20;
+        student.dollars += 1;
+      }
+      saveData();
+      playCoinSound();
+
+      const afterTiers = calculateTiers();
+      const currTier = afterTiers.find(s => s.id === id)?.tier;
+
+      if (prevTier && currTier && prevTier.name !== currTier.name) {
+        showPromotionEffect(student.name, currTier);
+      }
+
+      render();
+
+      const itemNode = document.getElementById(`student-${id}`);
+      if(itemNode) {
+        itemNode.classList.remove('animating');
+        void itemNode.offsetWidth;
+        itemNode.classList.add('animating');
+      }
+    }
+  }
+
+  function giveBulkStamps() {
+    const bulkInput = document.getElementById('bulkPointValue');
+    const val = parseInt(bulkInput.value, 10);
+    if (isNaN(val) || val <= 0) {
+      alert("배정할 포인트 갯수를 정확히 입력해주세요. (예: 1, 5, 10)");
+      return;
+    }
+    
+    const filterClass = document.getElementById('adminFilter').value;
+    let targetStudents = students;
+    if (filterClass !== 'ALL') {
+      targetStudents = students.filter(s => s.classId === filterClass);
+    }
+    
+    if (targetStudents.length === 0) {
+      alert("현재 화면에 배정할 요원이 없습니다.");
+      return;
+    }
+
+    if (!confirm(`현재 목록에 있는 ${targetStudents.length}명의 요원에게 각각 ${val} 스탬프를 일괄 지급하시겠습니까?`)) {
+      return;
+    }
+    
+    targetStudents.forEach(student => {
+      student.stamps += val;
+      student.totalStamps += val;
+      while (student.stamps >= 20) {
+        student.stamps -= 20;
+        student.dollars += 1;
+      }
+    });
+
+    saveData();
+    playCoinSound(); // 마리오 코인 사운드 재생
+    render();
+    
+    bulkInput.value = '';
+  }
+
+  function removeStamp(id) {
+    const student = students.find(s => s.id === id);
+    if (student && student.totalStamps > 0) {
+      if (student.stamps === 0 && student.dollars > 0) {
+        student.dollars -= 1;
+        student.stamps = 19;
+        student.totalStamps -= 1;
+      } else if (student.stamps > 0) {
+        student.stamps -= 1;
+        student.totalStamps -= 1;
+      }
+      saveData();
+
+      const itemNode = document.getElementById(`student-${id}`);
+      if(itemNode) {
+        itemNode.classList.remove('animating');
+        void itemNode.offsetWidth;
+        itemNode.classList.add('animating');
+      }
+    }
+  }
+
+  function calculateTiers() {
+    const sorted = [...students].sort((a, b) => b.totalStamps - a.totalStamps);
+    const N = sorted.length;
+    
+    let currentRank = 1;
+    sorted.forEach((student, index) => {
+      if (index > 0 && sorted[index - 1].totalStamps !== student.totalStamps) {
+        currentRank = index + 1;
+      }
+      const rank = currentRank; 
+      const percent = rank / N; 
+      let assignedTier = TIERS[TIERS.length - 1]; 
+      
+      if (student.totalStamps === 0) {
+        assignedTier = TIERS[TIERS.length - 1];
+      } else if (rank === 1) {
+        assignedTier = TIERS[0]; // 챌린저
+      } else if (rank === 2) {
+        assignedTier = TIERS[1]; // 그랜드마스터
+      } else if (rank === 3) {
+        assignedTier = TIERS[2]; // 마스터
+      } else if (rank === 4) {
+        assignedTier = TIERS[3]; // 다이아몬드
+      } else {
+        for (let i = 0; i < TIERS.length; i++) {
+          if (percent <= TIERS[i].threshold) {
+             assignedTier = TIERS[i];
+             break;
+          }
+        }
+      }
+      student.rank = rank;
+      student.tier = assignedTier;
+    });
+    return sorted;
+  }
+
+  function switchTab(tabId) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tabs .ow-btn').forEach(btn => btn.classList.remove('active'));
+    
+    document.getElementById(tabId).classList.add('active');
+    document.getElementById('btn-' + tabId).classList.add('active');
+    render();
+  }
+
+  function checkChallengerAurora() {
+    const sorted = calculateTiers();
+    const hasChallenger = sorted.length > 0 && sorted[0].tier.name === 'challenger' && sorted[0].totalStamps > 0;
+    const isLeaderboardActive = document.getElementById('leaderboard').classList.contains('active');
+    if (isLeaderboardActive && hasChallenger) {
+      document.body.classList.add('challenger-aurora');
+    } else {
+      document.body.classList.remove('challenger-aurora');
+    }
+  }
+
+  function generateNameHtml(student, isLeaderboard = false) {
+    const c = classes.find(cls => cls.id === student.classId);
+    const className = c ? c.name : 'Unknown';
+    const hasDirector = c && c.director && c.director !== '공석';
+    
+    let tags = '';
+    if (isLeaderboard) {
+      tags += `<div class="class-tag" style="min-width: 130px;"><span>${className}</span></div>`;
+    } else {
+      let displayName = hasDirector ? `${className} (${c.director} 감독)` : className;
+      tags = `<div class="class-tag"><span>${displayName}</span></div>`;
+    }
+    
+    let tierHtml = '';
+    if (student.tier && student.totalStamps > 0) {
+       const tierClass = student.tier.name;
+       tierHtml = `
+       <div style="display: flex; align-items: center;">
+         <div class="tier-badge ${tierClass}-img"></div>
+         <div class="tier-wrapper ${tierClass}" style="padding-left: 20px;">
+           <div>
+             <span class="name">${student.name}</span>
+           </div>
+         </div>
+       </div>`;
+    } else {
+       tierHtml = `
+       <div style="display: flex; align-items: center;">
+         <div class="tier-badge iron-img"></div>
+         <div class="tier-wrapper iron" style="padding-left: 20px;">
+           <div>
+             <span class="name">${student.name}</span>
+           </div>
+         </div>
+       </div>`;
+    }
+    
+    return `<div class="name-row">${tags}${tierHtml}</div>`;
+  }
+  
+  function generateProgressHtml(stamps) {
+    const maxStamps = 20;
+    const percent = Math.min((stamps / maxStamps) * 100, 100);
+    return `
+      <div class="stamp-progress-wrapper">
+        <div class="stamp-progress-text">${stamps} / ${maxStamps}</div>
+        <div class="stamp-progress-container">
+          <div class="stamp-progress-bar-bg">
+            <div class="stamp-progress-bar-fill" style="width: ${percent}%;"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function updateSelects() {
+    const adminFilterVal = document.getElementById('adminFilter')?.value;
+    const lbFilterVal = document.getElementById('lbFilter')?.value;
+    const classSelectVal = document.getElementById('classSelect')?.value;
+
+    let optionsHtml = '';
+    const sortedClasses = [...classes].sort((a, b) => a.name.localeCompare(b.name));
+    
+    let customAdminHtml = `<div class="custom-opt-btn" onclick="selectCustomOption('admin', 'ALL', '전체 소속팀 보기')"><span>전체 소속팀 보기</span></div>`;
+    let customLbHtml = `<div class="custom-opt-btn" onclick="selectCustomOption('lb', 'ALL', '전체 소속팀 보기')"><span>전체 소속팀 보기</span></div>`;
+
+    sortedClasses.forEach(c => { 
+      optionsHtml += `<option value="${c.id}">${c.name}</option>`; 
+      const escapedName = c.name.replace(/'/g, "\\'");
+      const directorText = (c.director && c.director !== '공석') ? `<span class="dir-text" style="color:#8a909b; font-size:13px; margin-left: 10px; font-weight:500; text-transform:none;">${c.director} 감독</span>` : '';
+      const displayHtml = `<span><span>${c.name}</span>${directorText}</span>`;
+      
+      customAdminHtml += `<div class="custom-opt-btn" onclick="selectCustomOption('admin', '${c.id}', '${escapedName}')">${displayHtml}</div>`;
+      customLbHtml += `<div class="custom-opt-btn" onclick="selectCustomOption('lb', '${c.id}', '${escapedName}')">${displayHtml}</div>`;
+    });
+
+    document.getElementById('classSelect').innerHTML = optionsHtml;
+    if (classSelectVal) document.getElementById('classSelect').value = classSelectVal;
+
+    let adminFilterOptionsHtml = '<option value="ALL">전체 소속팀 보기</option>' + optionsHtml;
+    document.getElementById('adminFilter').innerHTML = adminFilterOptionsHtml;
+    if (adminFilterVal) document.getElementById('adminFilter').value = adminFilterVal;
+
+    let lbFilterOptionsHtml = '<option value="ALL">전체 랭킹 보기</option>' + optionsHtml;
+    document.getElementById('lbFilter').innerHTML = lbFilterOptionsHtml;
+    if (lbFilterVal) document.getElementById('lbFilter').value = lbFilterVal;
+
+    const adminOptMap = document.getElementById('adminCustomOptions');
+    if (adminOptMap) adminOptMap.innerHTML = customAdminHtml;
+    
+    const lbOptMap = document.getElementById('lbCustomOptions');
+    if (lbOptMap) lbOptMap.innerHTML = customLbHtml;
+    
+    const adminSel = document.getElementById('adminFilter');
+    if (adminSel && adminSel.options.length > 0) {
+      const idx = adminSel.selectedIndex >= 0 ? adminSel.selectedIndex : 0;
+      const activeText = adminSel.options[idx].text;
+      const btn = document.getElementById('adminSelectBtn');
+      if (btn) btn.innerHTML = `<span>▼ ${activeText}</span>`;
+    }
+    
+    const lbSel = document.getElementById('lbFilter');
+    if (lbSel && lbSel.options.length > 0) {
+      const idx = lbSel.selectedIndex >= 0 ? lbSel.selectedIndex : 0;
+      const lbActiveText = lbSel.options[idx].text;
+      const lbBtn = document.getElementById('lbSelectBtn');
+      if (lbBtn) lbBtn.innerHTML = `<span>▼ ${lbActiveText}</span>`;
+    }
+  }
+
+  function toggleCustomMenu(type) {
+    const menu = document.getElementById(type + 'CustomOptions');
+    if (!menu) return;
+    if (menu.classList.contains('show')) {
+      menu.classList.remove('show');
+    } else {
+      document.querySelectorAll('.custom-options').forEach(el => el.classList.remove('show'));
+      menu.classList.add('show');
+    }
+  }
+
+  function selectCustomOption(type, value, label) {
+    document.getElementById(type + 'Filter').value = value;
+    document.getElementById(type + 'SelectBtn').innerHTML = `<span>▼ ${label}</span>`;
+    document.getElementById(type + 'CustomOptions').classList.remove('show');
+    render();
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.custom-select-wrapper')) {
+      document.querySelectorAll('.custom-options').forEach(el => el.classList.remove('show'));
+    }
+  });
+
+  function render() {
+    updateSelects();
+    const sorted = calculateTiers();
+    const adminList = document.getElementById('adminStudentList');
+    const lbList = document.getElementById('lbStudentList');
+    
+    adminList.innerHTML = '';
+    lbList.innerHTML = '';
+    
+    const adminFilter = document.getElementById('adminFilter').value;
+    const lbFilter = document.getElementById('lbFilter').value;
+
+    const bulkContainer = document.getElementById('bulkPointContainer');
+    if (bulkContainer) {
+      bulkContainer.style.display = (!adminFilter || adminFilter === '' || adminFilter === 'ALL') ? 'none' : 'flex';
+    }
+
+    if (!adminFilter || adminFilter === '') {
+      adminList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700;"><span class="heartbeat-text">소속팀을 선택해 주세요</span></div>';
+    }
+
+    const sortedByName = [...students].sort((a, b) => a.name.localeCompare(b.name));
+
+    sortedByName.forEach(student => {
+      // 관리자 화면
+      if (adminFilter && adminFilter !== '' && adminFilter === student.classId) {
+        const adminItem = document.createElement('div');
+        adminItem.className = 'student-item';
+        adminItem.id = `student-${student.id}`;
+        adminItem.innerHTML = `
+          <div class="main-info">
+            ${generateNameHtml(student)}
+            ${generateProgressHtml(student.stamps)}
+            <div class="stats-info">
+              <span>🏆 RANK: ${student.rank}</span>
+              <span>총 스탬프: ${student.totalStamps}</span>
+              <span class="dollar">⭐ LEVEL ${student.dollars}</span>
+            </div>
+          </div>
+          <div class="controls">
+            <button class="sm-btn accent" onclick="giveStamp('${student.id}')"><span>+1 포인트</span></button>
+            <button class="sm-btn danger" style="background:#8b1c1c" onclick="removeStamp('${student.id}')"><span>-1 포인트</span></button>
+          </div>
+        `;
+        adminList.appendChild(adminItem);
+      }
+    });
+
+    let lbCount = 0;
+    sorted.forEach(student => {
+      // 명예의 전당
+      if (lbFilter === 'ALL' || lbFilter === student.classId) {
+        if (lbCount >= 30) return;
+        lbCount++;
+        const lbItem = document.createElement('div');
+        lbItem.className = 'lb-item';
+        const classData = classes.find(c => c.id === student.classId);
+        const directorName = classData ? classData.director : '';
+        const directorHtml = (directorName && directorName !== '공석') 
+          ? `<div class="lb-director">${directorName} 감독</div>` 
+          : '';
+
+        lbItem.innerHTML = `
+          <div class="lb-rank">${student.rank}</div>
+          <div class="lb-details">
+            ${generateNameHtml(student, true)}
+            <div class="stats-info" style="font-size: 16px; margin-top: 10px;">
+              <span style="color:var(--ow-light)">[${student.tier.label}]</span>
+              <span>총 승점: ${student.totalStamps}</span>
+              <span class="dollar">LEVEL ${student.dollars}</span>
+            </div>
+          </div>
+          ${directorHtml}
+        `;
+        lbList.appendChild(lbItem);
+      }
+    });
+
+    checkChallengerAurora();
+  }
+
+  window.onload = () => {
+    switchTab('admin');
+  };
+</script>
+  <div id="promotionOverlay" class="promotion-overlay">
+    <div class="promotion-content">
+      <h2 class="promo-title">TIER PROMOTED!</h2>
+      <div class="promo-name" id="promoName">요원 이름</div>
+      <div id="promoBadge"></div>
+      <div class="promo-tier-name" id="promoTierName">DIAMOND</div>
+    </div>
+  </div>
+</body>
+</html>

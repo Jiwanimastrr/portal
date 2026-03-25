@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#cc97ff",
+              "on-tertiary": "#00692c",
+              "outline-variant": "#40485d",
+              "on-surface": "#dee5ff",
+              "on-primary": "#47007c",
+              "surface-tint": "#cc97ff",
+              "surface-container-high": "#141f38",
+              "on-primary-container": "#360061",
+              "error-container": "#a70138",
+              "on-tertiary-fixed-variant": "#006a2d",
+              "surface-container": "#0f1930",
+              "on-secondary-fixed-variant": "#00567c",
+              "inverse-on-surface": "#4d556b",
+              "tertiary-dim": "#5bf083",
+              "surface-container-low": "#091328",
+              "primary-container": "#c284ff",
+              "surface-bright": "#1f2b49",
+              "error-dim": "#d73357",
+              "error": "#ff6e84",
+              "tertiary-fixed-dim": "#5bf083",
+              "primary-fixed-dim": "#b971ff",
+              "on-error-container": "#ffb2b9",
+              "secondary-container": "#006591",
+              "on-background": "#dee5ff",
+              "outline": "#6d758c",
+              "on-error": "#490013",
+              "on-secondary-fixed": "#003853",
+              "secondary-fixed-dim": "#81ccff",
+              "inverse-surface": "#faf8ff",
+              "on-primary-fixed-variant": "#430076",
+              "surface-container-lowest": "#000000",
+              "secondary": "#34b5fa",
+              "on-surface-variant": "#a3aac4",
+              "primary-dim": "#9c48ea",
+              "on-secondary": "#003047",
+              "tertiary": "#c5ffc9",
+              "surface": "#060e20",
+              "surface-dim": "#060e20",
+              "primary-fixed": "#c284ff",
+              "on-primary-fixed": "#000000",
+              "inverse-primary": "#842cd3",
+              "on-tertiary-container": "#005f28",
+              "tertiary-fixed": "#6bff8f",
+              "secondary-dim": "#17a8ec",
+              "on-tertiary-fixed": "#004a1d",
+              "background": "#060e20",
+              "tertiary-container": "#6bff8f",
+              "surface-variant": "#192540",
+              "secondary-fixed": "#a4d8ff",
+              "on-secondary-container": "#f3f8ff",
+              "surface-container-highest": "#192540"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(25, 37, 64, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .neon-cyan-glow {
+            box-shadow: 0 0 15px rgba(52, 181, 250, 0.3);
+        }
+        .neon-violet-glow {
+            box-shadow: 0 0 20px rgba(204, 151, 255, 0.25);
+        }
+        body {
+            background-color: #060e20;
+            color: #dee5ff;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary/30 min-h-screen">
+<!-- TopAppBar Component -->
+<header class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-[#060e20]/80 backdrop-blur-xl z-50 bg-gradient-to-b from-[#192540]/20 to-transparent shadow-[0_8px_32px_rgba(204,151,255,0.08)]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-primary/20">
+<img alt="Nano Banana Academy Logo" class="w-full h-full object-cover" data-alt="Minimalist geometric logo for Nano Banana Academy, sleek neon lines on dark background, futuristic digital branding" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcEuQBLe7E5i4m2BdSzHiSKMKDvbOamDAKIevPJfW5DGTCN6nXzughZ9fii08hMhgB97MnbVx_34rc_27tN0Ge_6-H-fEH8BSAaO51-KqzYJmpMMTj67ZzrmwS_p7toEtVbRmJ1yOU2UInNhQyPMb2jKPRtONv5j88FD6KKUxhC9Y8ECUN1lQ3y_E3oEI3Xv5y_keNZFRrmsuGEM016CKrkeTWIrg6-cQLnc4psd6UPI42zwjmJaZYKvgH2K4QZ_rJnePINmuXp8k"/>
+</div>
+<h1 class="font-headline font-black tracking-tighter text-[#dee5ff] uppercase text-2xl">Nano Banana</h1>
+</div>
+<div class="hidden md:flex items-center gap-8 font-headline font-bold tracking-tight">
+<a class="text-[#a3aac4] hover:text-[#dee5ff] transition-colors" href="#">Leaderboard</a>
+<a class="text-[#cc97ff] border-b-2 border-[#cc97ff] pb-1" href="#">Admin Dashboard</a>
+</div>
+<button class="px-6 py-2.5 rounded-xl bg-surface-bright text-violet-400 font-headline font-bold tracking-tight hover:bg-[#1f2b49] transition-all duration-300 active:scale-95 opacity-80">
+            Admin Dashboard
+        </button>
+</header>
+<main class="pt-32 pb-32 px-6 max-w-7xl mx-auto space-y-12">
+<!-- Page Title Section -->
+<section class="flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="space-y-2">
+<p class="text-primary font-headline font-bold tracking-[0.2em] text-sm uppercase">Control Center</p>
+<h2 class="text-5xl font-headline font-extrabold tracking-tighter text-on-surface">Academy Admin</h2>
+</div>
+<div class="glass-panel px-6 py-4 rounded-2xl border border-outline-variant/15 flex items-center gap-6">
+<div class="text-right">
+<p class="text-on-surface-variant text-xs font-bold uppercase tracking-widest">Total Students</p>
+<p class="text-3xl font-headline font-bold text-secondary">124</p>
+</div>
+<div class="w-px h-10 bg-outline-variant/20"></div>
+<div class="text-right">
+<p class="text-on-surface-variant text-xs font-bold uppercase tracking-widest">Active Today</p>
+<p class="text-3xl font-headline font-bold text-tertiary">42</p>
+</div>
+</div>
+</section>
+<!-- Two Column Layout: Add Student & Management -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Add Student Section (Left Column) -->
+<aside class="lg:col-span-4 space-y-6">
+<div class="glass-panel p-8 rounded-[2rem] border border-outline-variant/15 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 blur-[60px] rounded-full -mr-16 -mt-16"></div>
+<h3 class="text-xl font-headline font-bold mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">person_add</span>
+                        Enroll New Student
+                    </h3>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="block text-[11px] font-bold uppercase tracking-[0.15em] text-on-surface-variant ml-1">Student Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-5 py-4 focus:ring-2 focus:ring-secondary/50 focus:border-secondary outline-none transition-all placeholder:text-outline/50 text-on-surface font-medium" placeholder="Enter full name" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-[11px] font-bold uppercase tracking-[0.15em] text-on-surface-variant ml-1">Academy Email</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-5 py-4 focus:ring-2 focus:ring-secondary/50 focus:border-secondary outline-none transition-all placeholder:text-outline/50 text-on-surface font-medium" placeholder="student@nanobanana.edu" type="email"/>
+</div>
+<button class="w-full py-4 rounded-xl bg-gradient-to-br from-secondary to-secondary-dim text-on-secondary font-headline font-extrabold uppercase tracking-widest neon-cyan-glow hover:scale-[1.02] active:scale-95 transition-all duration-300 mt-4" type="submit">
+                            Add Student
+                        </button>
+</form>
+</div>
+<!-- Decorative Card -->
+<div class="glass-panel p-6 rounded-[2rem] border border-outline-variant/15 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">System Status</p>
+<p class="font-headline font-bold text-tertiary">Network Optimal</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Student Management List (Right Column) -->
+<section class="lg:col-span-8 space-y-6">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-xl font-headline font-bold flex items-center gap-3 px-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">group</span>
+                        Active Roster
+                    </h3>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-surface-variant/40 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-variant/40 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">filter_list</span>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Student Card 1 -->
+<div class="group relative bg-surface-container/50 hover:bg-surface-bright rounded-[1.5rem] p-5 flex items-center justify-between border-l-4 border-primary transition-all duration-300">
+<div class="flex items-center gap-5">
+<div class="relative">
+<img alt="Avatar" class="w-14 h-14 rounded-2xl object-cover ring-2 ring-primary/10" data-alt="High-fidelity 3D avatar of a young tech-savvy student with neon highlights and futuristic glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE0aq_1HGJ9KSKtP5bEH3JhKRQ_Bf-mD8boVLypTJRhiMGxxB-MPU3xtvIcV7EbKa57qFmaOMekvWEX-7lErVcOjSVIQlMgEola_w_7oqQ1vMWEAd2dwQ2iGE6Sf6VQgz1AF2CgJvsb3yCk-b6E0kJ_8Xp1JLsA_1zg_pbPrOVaXWKQhTW9cBCAlrSPkGTJCYOv8bVgRDwehpC6Z1KAk1KCGNaSJmCdeywY1nxOYLD_oRxd388wDx84zc44pdFbtTbBEvY-Z-3Fgc"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-tertiary border-4 border-surface-container-high rounded-full"></div>
+</div>
+<div>
+<h4 class="text-lg font-headline font-bold text-on-surface">Alex Kova</h4>
+<p class="text-sm font-medium text-on-surface-variant">Master Tier • Year 2</p>
+</div>
+</div>
+<div class="flex items-center gap-12">
+<div class="text-center">
+<p class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-1">Stamps</p>
+<p class="text-2xl font-headline font-black text-primary">28</p>
+</div>
+<button class="px-6 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20 font-headline font-extrabold uppercase tracking-widest neon-violet-glow hover:bg-primary hover:text-on-primary transition-all duration-300 active:scale-90">
+                                +1 Stamp
+                            </button>
+</div>
+</div>
+<!-- Student Card 2 -->
+<div class="group relative bg-surface-container/50 hover:bg-surface-bright rounded-[1.5rem] p-5 flex items-center justify-between border-l-4 border-secondary transition-all duration-300">
+<div class="flex items-center gap-5">
+<div class="relative">
+<img alt="Avatar" class="w-14 h-14 rounded-2xl object-cover ring-2 ring-secondary/10" data-alt="High-fidelity 3D avatar of a female student with sleek techwear and glowing cybernetic earpiece" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYvVobWsWlMbzRCQGz9KgELuYcOdvdMJCjeLjslnsYlS5rbYEJFn2NFft0SmgiPspD38k3VisSI18YFsZBIQ9mbbJbCQPToRmWpnJccS--X1SDJhnizxYizseBJTlzPcbcupmVm-cusoEHEJjM7_co8nfgEr7eaB-JjexxNaGKbzSFv1pzk4Ff3nofJMhohHQhXQjDmm0-dpi3cWerMo9P8uPHt43WtdBv8XqgqC2qjNsMMLZl0w54eAv58dm5SMVE4YKktAAhjI8"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-tertiary border-4 border-surface-container-high rounded-full"></div>
+</div>
+<div>
+<h4 class="text-lg font-headline font-bold text-on-surface">Mina Chen</h4>
+<p class="text-sm font-medium text-on-surface-variant">Grandmaster Tier • Year 1</p>
+</div>
+</div>
+<div class="flex items-center gap-12">
+<div class="text-center">
+<p class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-1">Stamps</p>
+<p class="text-2xl font-headline font-black text-primary">14</p>
+</div>
+<button class="px-6 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20 font-headline font-extrabold uppercase tracking-widest neon-violet-glow hover:bg-primary hover:text-on-primary transition-all duration-300 active:scale-90">
+                                +1 Stamp
+                            </button>
+</div>
+</div>
+<!-- Student Card 3 -->
+<div class="group relative bg-surface-container/50 hover:bg-surface-bright rounded-[1.5rem] p-5 flex items-center justify-between border-l-4 border-tertiary transition-all duration-300">
+<div class="flex items-center gap-5">
+<div class="relative">
+<img alt="Avatar" class="w-14 h-14 rounded-2xl object-cover ring-2 ring-tertiary/10" data-alt="Portrait of a young male digital artist with vibrant neon-colored hair and creative futuristic fashion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdmPM5Jelv_yOH1kngRO0SXNOZJBQR08XVcIb6_oe3f_DnwhtEeAYmwZcuvIbvJprA03xAMhr1ZUZs5Twe0rZVZ0MXj9LHJi3JhuKR0BDFHkIk_kPwnfpkzbi0ED3eIuQSCqyx7g7AtYzomSZqz9xv_NAIpx8GgARQvWPdX6Y0AmO-Cj0AbFYkUiKiI5AfMjue1xtoQzrgeW1k6rlU3zVSGxtwXTxp82lBii_yVoobZyOAdvPlam93D6TLJfu2q6tj8HOsdF4q_jQ"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-outline-variant/50 border-4 border-surface-container-high rounded-full"></div>
+</div>
+<div>
+<h4 class="text-lg font-headline font-bold text-on-surface">Jordan Pierce</h4>
+<p class="text-sm font-medium text-on-surface-variant">Challenger Tier • Year 3</p>
+</div>
+</div>
+<div class="flex items-center gap-12">
+<div class="text-center">
+<p class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-1">Stamps</p>
+<p class="text-2xl font-headline font-black text-primary">42</p>
+</div>
+<button class="px-6 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20 font-headline font-extrabold uppercase tracking-widest neon-violet-glow hover:bg-primary hover:text-on-primary transition-all duration-300 active:scale-90">
+                                +1 Stamp
+                            </button>
+</div>
+</div>
+<!-- Student Card 4 -->
+<div class="group relative bg-surface-container/50 hover:bg-surface-bright rounded-[1.5rem] p-5 flex items-center justify-between border-l-4 border-on-surface-variant transition-all duration-300">
+<div class="flex items-center gap-5">
+<div class="relative">
+<img alt="Avatar" class="w-14 h-14 rounded-2xl object-cover ring-2 ring-outline-variant/20" data-alt="Sleek digital illustration of a student with a glowing holographic interface floating in front of them" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNYr5lo3SNNUQqeMBRWAXLHgDYZHSrhC0DI6JB-j2VMb-C8ONnXvda3od5-KvpqqvV3absdiprkAUbq6sXqmiGTV8eV7LISRtmNg-QehdT3SmlSH4sBAAEjCRdozFY6bWMIVIVffuyHzY-JNgNCUlY747Tvp7uapsWbzrHE-mxszR8hunjPesYZ29AO_cuO32McKnPwK4dkpxkyT0UpL5vuLvbR7Xbtua2UV2F1jyDsGRtjl1YOoP881gMSOA3VMqUg2REuXVh9_c"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-tertiary border-4 border-surface-container-high rounded-full"></div>
+</div>
+<div>
+<h4 class="text-lg font-headline font-bold text-on-surface">Sarah Lopez</h4>
+<p class="text-sm font-medium text-on-surface-variant">Novice Tier • Year 1</p>
+</div>
+</div>
+<div class="flex items-center gap-12">
+<div class="text-center">
+<p class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-1">Stamps</p>
+<p class="text-2xl font-headline font-black text-primary">05</p>
+</div>
+<button class="px-6 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20 font-headline font-extrabold uppercase tracking-widest neon-violet-glow hover:bg-primary hover:text-on-primary transition-all duration-300 active:scale-90">
+                                +1 Stamp
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar Component -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-3 bg-[#0f1930]/90 backdrop-blur-2xl rounded-t-[2rem] border-t border-[#40485d]/15 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-[#a3aac4] opacity-60 hover:opacity-100 hover:text-[#34b5fa] transition-all" href="#">
+<span class="material-symbols-outlined mb-1">leaderboard</span>
+<span class="font-['Manrope'] text-[11px] font-semibold uppercase tracking-widest">Leaderboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#cc97ff] bg-[#cc97ff]/10 rounded-2xl px-6 py-2 shadow-[0_0_15px_rgba(204,151,255,0.3)] Active: scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+<span class="font-['Manrope'] text-[11px] font-semibold uppercase tracking-widest">Admin</span>
+</a>
+</nav>
+</body></html>

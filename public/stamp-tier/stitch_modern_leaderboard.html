@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed": "#000000",
+              "surface-container-low": "#091328",
+              "on-secondary-fixed": "#003853",
+              "surface-tint": "#cc97ff",
+              "primary-fixed": "#c284ff",
+              "secondary-container": "#006591",
+              "primary-container": "#c284ff",
+              "secondary": "#34b5fa",
+              "tertiary": "#c5ffc9",
+              "on-secondary-container": "#f3f8ff",
+              "tertiary-fixed": "#6bff8f",
+              "inverse-surface": "#faf8ff",
+              "on-error": "#490013",
+              "background": "#060e20",
+              "on-secondary": "#003047",
+              "tertiary-dim": "#5bf083",
+              "surface-container-lowest": "#000000",
+              "error": "#ff6e84",
+              "outline": "#6d758c",
+              "inverse-primary": "#842cd3",
+              "surface": "#060e20",
+              "tertiary-container": "#6bff8f",
+              "on-tertiary-fixed": "#004a1d",
+              "error-dim": "#d73357",
+              "on-primary": "#47007c",
+              "surface-container-highest": "#192540",
+              "secondary-fixed-dim": "#81ccff",
+              "on-tertiary-fixed-variant": "#006a2d",
+              "primary-dim": "#9c48ea",
+              "on-primary-container": "#360061",
+              "surface-container-high": "#141f38",
+              "secondary-fixed": "#a4d8ff",
+              "on-secondary-fixed-variant": "#00567c",
+              "surface-container": "#0f1930",
+              "inverse-on-surface": "#4d556b",
+              "on-primary-fixed-variant": "#430076",
+              "on-error-container": "#ffb2b9",
+              "secondary-dim": "#17a8ec",
+              "on-tertiary-container": "#005f28",
+              "on-surface-variant": "#a3aac4",
+              "on-surface": "#dee5ff",
+              "on-tertiary": "#00692c",
+              "surface-dim": "#060e20",
+              "on-background": "#dee5ff",
+              "tertiary-fixed-dim": "#5bf083",
+              "primary-fixed-dim": "#b971ff",
+              "surface-bright": "#1f2b49",
+              "surface-variant": "#192540",
+              "outline-variant": "#40485d",
+              "error-container": "#a70138",
+              "primary": "#cc97ff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(25, 37, 64, 0.4);
+        backdrop-filter: blur(16px);
+      }
+      .neon-glow-primary {
+        box-shadow: 0 0 20px rgba(204, 151, 255, 0.2);
+      }
+      .neon-glow-secondary {
+        box-shadow: 0 0 20px rgba(52, 181, 250, 0.2);
+      }
+      .neon-glow-tertiary {
+        box-shadow: 0 0 20px rgba(197, 255, 201, 0.2);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-[#060e20]/80 backdrop-blur-xl z-50 bg-gradient-to-b from-[#192540]/20 to-transparent shadow-[0_8px_32px_rgba(204,151,255,0.08)]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Nano Banana Academy Logo" class="w-8 h-8 object-contain" data-alt="Abstract geometric banana logo in violet and neon yellow on a dark circular background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANYLv_T_RnGzad59XyY0iWCRIjkcepYgATvD1WEekkfJBE5gSBiaLgkNdGKlPJ3h0avjC-QfZHhPTS1bLU6Dtcs0Qul1FSfANiZ_B255FmHCx1sV9e_h9fRcjxjEPRE4JXBmYcATlzO6dEc8pZqIkB2gUKAM4VyVog9nRU4M5OozTrONCx9k67YpblGGU60t2p6NGWDVqX5iOi_Bg8_wWWP0Sa9KV6JLSbrDDNHV5ZZvFDKdxev2W-tibvb77AFRHPK_z0mfBGjKw"/>
+</div>
+<h1 class="text-2xl font-black tracking-tighter text-[#dee5ff] uppercase font-headline">Nano Banana</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-headline font-bold tracking-tight text-[#cc97ff] border-b-2 border-[#cc97ff] pb-1" href="#">Leaderboard</a>
+<a class="font-headline font-bold tracking-tight text-[#a3aac4] hover:text-[#dee5ff] transition-colors" href="#">Admin</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="px-6 py-2 rounded-xl bg-surface-bright text-violet-400 font-headline font-bold tracking-tight hover:bg-[#1f2b49] transition-all duration-300 active:scale-95">
+                Admin Dashboard
+            </button>
+</div>
+</header>
+<main class="pt-28 pb-32 px-4 md:px-8 max-w-7xl mx-auto">
+<!-- Hero Section: Top Rankers Podium -->
+<section class="mb-16">
+<div class="text-center mb-12">
+<h2 class="text-display-lg font-headline font-bold text-5xl md:text-6xl tracking-tighter bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Academy Titans</h2>
+<p class="text-on-surface-variant mt-2 font-medium tracking-wide uppercase text-sm">Season 04 • Top Contributors</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 items-end gap-6 md:gap-0 max-w-5xl mx-auto">
+<!-- Rank 2: Left -->
+<div class="order-2 md:order-1 flex flex-col items-center">
+<div class="glass-panel w-full p-8 rounded-t-3xl border-t border-x border-outline-variant/20 flex flex-col items-center gap-4 neon-glow-secondary relative h-64 md:h-72">
+<div class="absolute -top-8 w-16 h-16 rounded-full border-4 border-secondary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a young man with a focused expression, neon blue lighting highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTg1nHf8PIjS48q0NDfQCvyoLyXmelkuh8f98qMIHUoGce1qD51iHno_RIv4fDQDnaBG39xkaCelUr0OwlnQ0iw-STlw9XNyhlLiekp42AOPxpZpF-Py0fulqFLnhFteMJC4hFt8ei4MG86dsyjpbldDIeXyY_RnPeDWE9w80e6EYhqF1vLHo6RQOIHmiEAyKTOaF9SSsctzRbdly_fh8PcuB2giRzpTh4mtu8GhJ_O9holawupFrr9zEiqBuHnrYOOqzjtQkNpDg"/>
+</div>
+<div class="mt-8 text-center">
+<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">swords</span>
+<h3 class="font-headline font-bold text-xl mt-2">Alex Rivera</h3>
+<div class="flex items-center justify-center gap-2 mt-1">
+<span class="text-secondary font-bold text-sm tracking-widest uppercase">Grandmaster</span>
+</div>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-4 w-full border-t border-outline-variant/10 pt-4">
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Stamps</p>
+<p class="text-lg font-headline font-bold text-on-surface">20</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Earnings</p>
+<p class="text-lg font-headline font-bold text-secondary">$400</p>
+</div>
+</div>
+<div class="absolute -bottom-4 bg-secondary text-on-secondary-fixed font-black px-4 py-1 rounded-full text-sm">#2</div>
+</div>
+</div>
+<!-- Rank 1: Center (Largest) -->
+<div class="order-1 md:order-2 flex flex-col items-center z-10 -translate-y-4 md:-translate-y-8">
+<div class="glass-panel w-full p-10 rounded-t-[3rem] border-t border-x border-primary/30 flex flex-col items-center gap-6 neon-glow-primary relative h-80 md:h-96 scale-105 md:scale-110">
+<div class="absolute -top-12 w-24 h-24 rounded-full border-4 border-primary p-1 bg-background overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="Professional young woman with confident smile, soft lavender atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnAfcc21Lgbf7ydJ4odQocs_FoY6JIE8CXQjWf2YVwLKzmGGIPsMIzRIFL8W-xFsnltrJTEDqtCtXQZmvAaaVpCFlOf2ruHFUoSP-07tFSaJOX846aZ1YQ7peP4E-t-5oYtIqn-4vDFtjFWvYwxBfA_2oVzX21Bht3lY2Gz7jOEKoSHqKKjmVwqNLmoHdq3WMA0oNBGoLH-Xly8I50FMIYO2vTpzHaVV7E46IAc_MfqYkczsqGCN4zijv1cGYUo_pgqUpZLTSsbLs"/>
+</div>
+<div class="mt-10 text-center">
+<span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<h3 class="font-headline font-extrabold text-3xl mt-2 tracking-tight">Elena Vance</h3>
+<div class="flex items-center justify-center gap-2 mt-1">
+<span class="text-primary font-black text-sm tracking-[0.2em] uppercase">Challenger Crown</span>
+</div>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-8 w-full border-t border-outline-variant/20 pt-6">
+<div class="text-center">
+<p class="text-[11px] text-on-surface-variant uppercase font-extrabold tracking-widest">Stamps</p>
+<p class="text-2xl font-headline font-black text-on-surface">25</p>
+</div>
+<div class="text-center">
+<p class="text-[11px] text-on-surface-variant uppercase font-extrabold tracking-widest">Earnings</p>
+<p class="text-2xl font-headline font-black text-primary">$500</p>
+</div>
+</div>
+<div class="absolute -bottom-6 bg-primary text-on-primary-fixed font-black px-8 py-2 rounded-full text-lg shadow-[0_0_20px_rgba(204,151,255,0.5)]">#1</div>
+</div>
+</div>
+<!-- Rank 3: Right -->
+<div class="order-3 md:order-3 flex flex-col items-center">
+<div class="glass-panel w-full p-8 rounded-t-3xl border-t border-x border-outline-variant/20 flex flex-col items-center gap-4 neon-glow-tertiary relative h-64 md:h-72">
+<div class="absolute -top-8 w-16 h-16 rounded-full border-4 border-tertiary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young male student, neon green background accents, high tech aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBX9613dMEicZJqbE-ZLl65ZQqG6c6Zt0JDgMi08SMIvHKrKNAgJ-gWFO-tV9K-X-2bX5T4N9Q1zCYT_drGiCrMe0LHi-HXHnv9g8aeMqNc4iAF2RkoaoJih-bIyI3K4f_qVtFYiswWWHvFN88veNAf0j0cVVnfrbVAhr8sAY1zeDKvKp96nLOTXbnw87LO34Wq6a7ULkpg8mcSSLpVFOwcdoa6unbQaSNhOwCguSl-mLYdy1VzJ6DnC_0ShyWhT4YAhhkMRj_qAk"/>
+</div>
+<div class="mt-8 text-center">
+<span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">shield</span>
+<h3 class="font-headline font-bold text-xl mt-2">Marcus Chen</h3>
+<div class="flex items-center justify-center gap-2 mt-1">
+<span class="text-tertiary font-bold text-sm tracking-widest uppercase">Master Icon</span>
+</div>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-4 w-full border-t border-outline-variant/10 pt-4">
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Stamps</p>
+<p class="text-lg font-headline font-bold text-on-surface">18</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Earnings</p>
+<p class="text-lg font-headline font-bold text-tertiary">$350</p>
+</div>
+</div>
+<div class="absolute -bottom-4 bg-tertiary text-on-tertiary-fixed font-black px-4 py-1 rounded-full text-sm">#3</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Section: All Rankings -->
+<section class="mt-20">
+<div class="flex justify-between items-end mb-8 px-4">
+<div>
+<h2 class="text-headline-lg font-headline font-bold text-3xl">All Rankings</h2>
+<p class="text-on-surface-variant text-sm mt-1">Showing 4-100 of top students</p>
+</div>
+<div class="flex gap-2">
+<div class="bg-surface-container-high px-4 py-2 rounded-xl flex items-center gap-2 border border-outline-variant/20">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-32 placeholder:text-on-surface-variant" placeholder="Find student..." type="text"/>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Rank Row 4 -->
+<div class="glass-panel p-5 rounded-2xl flex items-center gap-6 transition-all hover:bg-surface-bright/40 group relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-on-surface-variant opacity-30 group-hover:bg-primary transition-colors"></div>
+<span class="font-headline font-black text-2xl text-on-surface-variant w-8">04</span>
+<div class="w-12 h-12 rounded-xl overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young woman with warm skin tones and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwN0PPEQsTIvK_qpX4r7bynppQLyVXWN_f9tLLLFsU0S-Z9vhOp0dolBD3RxnivTEgRIKTn6DFGOgo_Lt3zzY1licCFo_jpXTom5HD-ZoLMBJXKsGTdVzxGeLW6wuuIE7Z9QOqU7JAL-UWGAPjN4sUq_8M-6NwXXeivc4rrGjMHXQvwzZggpVZgUgRfnIitlIY2zaod9gumI5mWmw4mEN8pno1zbpPI47rTeCCXNWvxVBMu_sU1aab9YMxX3_zR4wEhK_e49lDCzw"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3">
+<h4 class="font-bold text-lg">Sarah Jenkins</h4>
+<span class="material-symbols-outlined text-yellow-500 text-lg" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full max-w-[200px] overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary to-tertiary w-[70%] relative">
+<div class="absolute right-0 top-0 h-full w-2 bg-white/40 blur-[2px]"></div>
+</div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant">7/10 TO NEXT $</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Wallet</p>
+<p class="text-xl font-headline font-black text-on-surface">$280</p>
+</div>
+</div>
+<!-- Rank Row 5 -->
+<div class="glass-panel p-5 rounded-2xl flex items-center gap-6 transition-all hover:bg-surface-bright/40 group relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-on-surface-variant opacity-30 group-hover:bg-primary transition-colors"></div>
+<span class="font-headline font-black text-2xl text-on-surface-variant w-8">05</span>
+<div class="w-12 h-12 rounded-xl overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Portrait of a man with casual style, cinematic shadow lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQOfkzgMJpx1-kngm3QngtKDVXN8bm1QIGUEEJG2LkskqauKJf1xFwMd_7UmEVgv6EW7fLaVFNFHYU9q0broBu0PwZS_-FPLF3icW4vNIq2vYDdbYCoQ0YeodzTO1OuW6o9MH9TpoKM1FTzow7a0T88olSmDLKrdP499U8gXKYrEPH_5DiZHSLQExm5DYWcgWDVeIpXpC8xml425usa_vPHGrzqe5FeFWJamwN5arIWhhrpkM04m7qFC1b7GQ0KjgLTp9WXug1R9k"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3">
+<h4 class="font-bold text-lg">David Miller</h4>
+<span class="material-symbols-outlined text-slate-300 text-lg" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full max-w-[200px] overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary to-tertiary w-[90%] relative">
+<div class="absolute right-0 top-0 h-full w-2 bg-white/40 blur-[2px]"></div>
+</div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant">9/10 TO NEXT $</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Wallet</p>
+<p class="text-xl font-headline font-black text-on-surface">$245</p>
+</div>
+</div>
+<!-- Rank Row 6 -->
+<div class="glass-panel p-5 rounded-2xl flex items-center gap-6 transition-all hover:bg-surface-bright/40 group relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-on-surface-variant opacity-30 group-hover:bg-primary transition-colors"></div>
+<span class="font-headline font-black text-2xl text-on-surface-variant w-8">06</span>
+<div class="w-12 h-12 rounded-xl overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Portrait of a woman with vibrant lighting and creative makeup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhYKB2oWI_-2KxVLI0-O9sa2B8kvX7G4WdXvZwGm4lGwVoYrnC9M0dOR8Fj6Vde6Gm535EmSHNx7OeGfcXfs-nVg8PTCpCh9o5KCW4IP33R3qfnmhK3XLTP8863hKPXgFIOuyQNBeNafJY0lGeUP3hynoKs4yBTMuKHBXXobOCTOtFSyxIYkamkyUkFEB6fZA8gx82qwJDhmR2mawIZG1ijjZ_cKVjqFkVNwfohVy85ZAi20MC5IokJjD86_ZpQlllFO_qE3rdSfw"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3">
+<h4 class="font-bold text-lg">Lina Rodriguez</h4>
+<span class="material-symbols-outlined text-orange-400 text-lg" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full max-w-[200px] overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary to-tertiary w-[45%] relative">
+<div class="absolute right-0 top-0 h-full w-2 bg-white/40 blur-[2px]"></div>
+</div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant">4/10 TO NEXT $</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Wallet</p>
+<p class="text-xl font-headline font-black text-on-surface">$210</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Visible on Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-3 md:hidden bg-[#0f1930]/90 backdrop-blur-2xl border-t border-[#40485d]/15">
+<button class="flex flex-col items-center justify-center text-[#cc97ff] bg-[#cc97ff]/10 rounded-2xl px-6 py-2 shadow-[0_0_15px_rgba(204,151,255,0.3)] transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1">leaderboard</span>
+<span class="font-['Manrope'] text-[11px] font-semibold uppercase tracking-widest">Leaderboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#a3aac4] opacity-60 hover:opacity-100 hover:text-[#34b5fa] transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1">admin_panel_settings</span>
+<span class="font-['Manrope'] text-[11px] font-semibold uppercase tracking-widest">Admin</span>
+</button>
+</nav>
+</body></html>

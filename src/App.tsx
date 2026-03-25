@@ -91,6 +91,14 @@ const PROGRAMS: SiteInfo[] = [
     url: '/time-timer/index.html',
     imageUrl: '/time_timer_thumb.png',
     tag: 'Utility'
+  },
+  {
+    id: '12',
+    title: '스탬프 티어 시스템',
+    description: '오버워치 테마의 게이미피케이션 스탬프 및 티어 관리 시스템입니다. 팀별로 요원들의 포인트를 관리하세요.',
+    url: '/stamp-tier/index.html',
+    imageUrl: '/stamp-tier/challenger.png',
+    tag: 'Management'
   }
 ];
 
