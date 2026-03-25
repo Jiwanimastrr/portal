@@ -820,7 +820,10 @@
 <div class="nav-tabs">
   <button class="ow-btn active" id="btn-admin" onclick="switchTab('admin')"><span>ROSTER (ADMIN)</span></button>
   <button class="ow-btn" id="btn-leaderboard" onclick="switchTab('leaderboard')"><span>TOP 30 (LEADERBOARD)</span></button>
+  <button class="ow-btn" id="btn-bgm" onclick="toggleBGM()" style="margin-left: auto; padding: 10px 20px; background: rgba(0,0,0,0.4); border: 2px solid var(--ow-mid);"><span>🎵 BGM OFF</span></button>
 </div>
+
+<audio id="bgmAudio" src="./assets/sounds/cinematic_intro.webm" loop></audio>
 
 <div class="content">
   <!-- 관리자 대시보드 -->
@@ -1308,7 +1311,7 @@
       currentPromoAudio.pause();
       currentPromoAudio.currentTime = 0;
     }
-    currentPromoAudio = new Audio('promotion.mp4');
+    currentPromoAudio = new Audio('./assets/sounds/rank_up.m4a');
     currentPromoAudio.play().catch(e => console.log('에러: 프로모션 오디오 재생 실패', e));
     
     if (promoTimeout) clearTimeout(promoTimeout);
@@ -1430,19 +1433,11 @@
         currentRank = index + 1;
       }
       const rank = currentRank; 
-      const percent = rank / N; 
+      const percent = N > 1 ? (rank - 1) / (N - 1) : 0; 
       let assignedTier = TIERS[TIERS.length - 1]; 
       
       if (student.totalStamps === 0) {
         assignedTier = TIERS[TIERS.length - 1];
-      } else if (rank === 1) {
-        assignedTier = TIERS[0]; // 챌린저
-      } else if (rank === 2) {
-        assignedTier = TIERS[1]; // 그랜드마스터
-      } else if (rank === 3) {
-        assignedTier = TIERS[2]; // 마스터
-      } else if (rank === 4) {
-        assignedTier = TIERS[3]; // 다이아몬드
       } else {
         for (let i = 0; i < TIERS.length; i++) {
           if (percent <= TIERS[i].threshold) {
@@ -1681,7 +1676,7 @@
           <div class="lb-details">
             ${generateNameHtml(student, true)}
             <div class="stats-info" style="font-size: 16px; margin-top: 10px;">
-              <span style="color:var(--ow-light)">[${student.tier.label}]</span>
+              <span style="color:var(--ow-light); display:inline-block; width:150px; text-align:left; letter-spacing:1px;">[${student.tier.label}]</span>
               <span>총 승점: ${student.totalStamps}</span>
               <span class="dollar">LEVEL ${student.dollars}${schoolLabel}</span>
             </div>
@@ -1698,6 +1693,23 @@
   window.onload = () => {
     switchTab('admin');
   };
+    function toggleBGM() {
+      const bgm = document.getElementById('bgmAudio');
+      const btn = document.getElementById('btn-bgm');
+      if (bgm.paused) {
+        bgm.play();
+        btn.innerHTML = '<span>🔊 BGM ON</span>';
+        btn.style.color = 'var(--ow-orange)';
+        btn.style.borderColor = 'var(--ow-orange)';
+        btn.style.boxShadow = 'inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2)';
+      } else {
+        bgm.pause();
+        btn.innerHTML = '<span>🎵 BGM OFF</span>';
+        btn.style.color = 'var(--ow-light)';
+        btn.style.borderColor = 'var(--ow-mid)';
+        btn.style.boxShadow = '';
+      }
+    }
 </script>
   <div id="promotionOverlay" class="promotion-overlay">
     <div class="promotion-content" style="z-index: 2; position: relative;">
