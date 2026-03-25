@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { SiNaver, SiInstagram } from 'react-icons/si';
 import { FiHome, FiMapPin, FiMonitor } from 'react-icons/fi';
 import { SiteCard, type SiteInfo } from './components/SiteCard';
@@ -95,9 +95,9 @@ const PROGRAMS: SiteInfo[] = [
   {
     id: '12',
     title: '스탬프 티어 시스템',
-    description: '오버워치 테마의 게이미피케이션 스탬프 및 티어 관리 시스템입니다. 팀별로 요원들의 포인트를 관리하세요.',
+    description: '나노바나나 테마의 게이미피케이션 스탬프 및 티어 관리 시스템입니다. 팀별로 요원들의 포인트를 관리하세요.',
     url: '/stamp-tier/index.html',
-    imageUrl: '/stamp-tier/challenger.png',
+    imageUrl: '/stamp-tier/nanobanana_challenger.png',
     tag: 'Management'
   }
 ];
@@ -109,17 +109,7 @@ function App() {
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const cursorRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-        if (cursorRef.current) {
-            cursorRef.current.style.transform = `translate3d(${e.clientX + 18}px, ${e.clientY + 18}px, 0)`;
-        }
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginPassword(e.target.value);
@@ -159,25 +149,7 @@ function App() {
 
   return (
     <div className="landing-container">
-      {/* Custom Cursor Text */}
-      <div 
-        ref={cursorRef}
-        style={{
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          pointerEvents: 'none',
-          zIndex: 9999,
-          fontSize: '13px',
-          fontWeight: 800,
-          color: '#0066FF',
-          letterSpacing: '1.5px',
-          textShadow: '0 0 10px rgba(255,255,255,1), 0 0 20px rgba(0,102,255,0.3)',
-          transition: 'transform 0.12s cubic-bezier(0.1, 0.5, 0.1, 1)'
-        }}
-      >
-        WILLGROW
-      </div>
+
       {/* Navigation Bar */}
       <nav className="navbar">
         <div className="navbar-container">

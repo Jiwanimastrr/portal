@@ -840,62 +840,72 @@
   </div>
 </div>
 
-<div class="ow-modal-backdrop" id="editModal" style="z-index: 1010;">
+<div class="ow-modal-backdrop" id="editModal" style="z-index: 1010;" onclick="if(event.target === this) closeEditModal()">
   <div class="ow-modal">
     <div>
-      <h2 id="modalStudentName">요원 관리</h2>
+      <h2 id="modalStudentName" style="font-size: 26px; display: flex; align-items: center; gap: 10px;">
+        <span style="color: var(--ow-blue);">👤</span> 요원 관리
+      </h2>
       <input type="hidden" id="modalStudentId">
       
-      <label>소속팀 변경</label>
-      <select id="modalClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);"></select>
-      <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyStudentEdit()"><span>팀 변경 적용</span></button>
+      <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-blue); display: flex; flex-direction: column; gap: 10px;">
+        <label>소속팀 변경</label>
+        <select id="modalClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);"></select>
+        <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyStudentEdit()"><span>팀 변경 적용</span></button>
+      </div>
       
-      <div style="margin-top: 15px; border-top: 2px dashed var(--ow-mid); padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-        <label style="color: #ff4444;">위험 구역</label>
+      <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid #ff4444; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;">
+        <label style="color: #ff4444; display: flex; align-items: center; gap: 5px;"><span>⚠️</span> 위험 구역</label>
         <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg);" onclick="deleteStudentFromModal()"><span>요원 로스터 제외</span></button>
       </div>
       
-      <div class="modal-actions">
+      <div class="modal-actions" style="margin-top: 10px;">
         <button class="ow-btn sm-btn" onclick="closeEditModal()"><span>닫기</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="ow-modal-backdrop" id="classModal">
-  <div class="ow-modal">
-    <div>
-      <h2>팀 관리</h2>
-      <label>관리할 팀 선택</label>
-      <select id="manageClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);" onchange="onManageClassChange()"></select>
+<div class="ow-modal-backdrop" id="classModal" onclick="if(event.target === this) closeClassModal()">
+  <div class="ow-modal" style="max-width: 500px;">
+    <div style="gap: 12px;">
+      <h2 style="font-size: 26px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--ow-orange); padding-bottom: 15px; margin-bottom: 5px;">
+        <span style="color: var(--ow-orange);">⚙️</span> 팀 관리
+      </h2>
       
-      <label style="margin-top:10px;">팀 이름 수정</label>
-      <input type="text" id="manageClassNameInput" class="ow-input" style="transform: none;">
+      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-orange); display: flex; flex-direction: column; gap: 8px;">
+        <label>관리할 팀 선택</label>
+        <select id="manageClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.6);" onchange="onManageClassChange()"></select>
+      </div>
       
-      <label style="margin-top:10px;">감독 이름 수정</label>
-      <input type="text" id="manageClassDirectorInput" class="ow-input" style="transform: none;">
-
-      <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyClassEdit()"><span>수정 적용</span></button>
+      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-mid); display: flex; flex-direction: column; gap: 8px;">
+        <label>팀/감독 정보 수정</label>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="manageClassNameInput" class="ow-input" placeholder="팀 이름" style="transform: none; flex: 1;">
+          <input type="text" id="manageClassDirectorInput" class="ow-input" placeholder="감독 이름" style="transform: none; flex: 1;">
+        </div>
+        <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyClassEdit()"><span>수정 적용</span></button>
+      </div>
       
-      <div style="margin-top: 15px; border-top: 2px solid var(--ow-mid); padding-top: 15px;">
+      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-blue); display: flex; flex-direction: column; gap: 8px;">
         <label>소속 요원 개별 관리</label>
-        <div style="display:flex; gap:10px; margin-top: 5px;">
-          <select id="manageStudentSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5); flex:1;"></select>
-          <button class="ow-btn sm-btn" style="transform: skewX(-10deg);" onclick="openEditSelectedStudent()"><span>⚙️ 관리</span></button>
+        <div style="display:flex; gap:10px;">
+          <select id="manageStudentSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.6); flex:1;"></select>
+          <button class="ow-btn sm-btn" style="transform: skewX(-10deg);" onclick="openEditSelectedStudent()"><span>⚙️ 요원 편집</span></button>
         </div>
       </div>
 
-      <div style="margin-top: 15px; border-top: 2px dashed var(--ow-mid); padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-        <label style="color: #ff4444;">위험 구역</label>
+      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid #ff4444; margin-top: 5px; display: flex; flex-direction: column; gap: 8px;">
+        <label style="color: #ff4444; display: flex; align-items: center; gap: 5px;"><span>⚠️</span> 위험 구역</label>
         
         <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg); background: #b36b00;" onclick="resetClassPoints()"><span>팀 전체 포인트 초기화</span></button>
-        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; margin-bottom: 10px;">* 해당 팀 소속 요원들의 스탬프와 레벨이 0으로 리셋됩니다.</p>
+        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; margin-bottom: 5px; line-height: 1.3;">* 해당 팀 소속 요원들의 스탬프와 레벨이 0으로 리셋됩니다.</p>
 
         <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg);" onclick="deleteClass()"><span>팀 해체 (삭제)</span></button>
-        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none;">* 소속된 요원이 있는 팀은 삭제할 수 없습니다. 먼저 요원의 소속을 변경하거나 제외해주세요.</p>
+        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; line-height: 1.3;">* 소속된 요원이 있는 팀은 삭제할 수 없습니다. 먼저 요원의 소속을 변경하거나 제외해주세요.</p>
       </div>
       
-      <div class="modal-actions">
+      <div class="modal-actions" style="margin-top: 15px;">
         <button class="ow-btn sm-btn" onclick="closeClassModal()"><span>닫기</span></button>
       </div>
     </div>
@@ -905,6 +915,15 @@
 <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 <script>
+  if (sessionStorage.getItem('stamp_auth') !== 'jctj8877') {
+    const userInput = prompt('비밀번호를 입력하세요:');
+    if (userInput !== 'jctj8877') {
+      document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">비밀번호가 틀렸습니다. 새로고침 후 다시 시도하세요.</h1>';
+      throw new Error('Unauthorized');
+    }
+    sessionStorage.setItem('stamp_auth', userInput);
+  }
+
   const firebaseConfig = {
     projectId: "willgrow-textbook-system",
     appId: "1:695680391212:web:c00517bb83964649995989",
