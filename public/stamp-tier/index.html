@@ -1491,7 +1491,6 @@
     }
     
     let tierHtml = '';
-    const schoolLabel = student.school ? `<span style="font-size: 14px; color: var(--ow-blue); font-weight: 500; font-style: normal; margin-left: 10px; text-shadow: none;">[${student.school}]</span>` : '';
     
     if (student.tier && student.totalStamps > 0) {
        const tierClass = student.tier.name;
@@ -1500,7 +1499,7 @@
          <div class="tier-badge ${tierClass}-img"></div>
          <div class="tier-wrapper ${tierClass}" style="padding-left: 20px;">
            <div>
-             <span class="name">${student.name}${schoolLabel}</span>
+             <span class="name">${student.name}</span>
            </div>
          </div>
        </div>`;
@@ -1510,7 +1509,7 @@
          <div class="tier-badge iron-img"></div>
          <div class="tier-wrapper iron" style="padding-left: 20px;">
            <div>
-             <span class="name">${student.name}${schoolLabel}</span>
+             <span class="name">${student.name}</span>
            </div>
          </div>
        </div>`;
@@ -1642,6 +1641,7 @@
         const adminItem = document.createElement('div');
         adminItem.className = 'student-item';
         adminItem.id = `student-${student.id}`;
+        const schoolLabel = student.school ? `<span style="font-size: 14px; color: var(--ow-blue); font-weight: 500; font-style: normal; margin-left: 10px; text-shadow: none;">[${student.school}]</span>` : '';
         adminItem.innerHTML = `
           <div class="main-info">
             ${generateNameHtml(student)}
@@ -1649,7 +1649,7 @@
             <div class="stats-info">
               <span>🏆 RANK: ${student.rank}</span>
               <span>총 스탬프: ${student.totalStamps}</span>
-              <span class="dollar">⭐ LEVEL ${student.dollars}</span>
+              <span class="dollar">⭐ LEVEL ${student.dollars}${schoolLabel}</span>
             </div>
           </div>
           <div class="controls">
@@ -1675,6 +1675,7 @@
           ? `<div class="lb-director">${directorName} 감독</div>` 
           : '';
 
+        const schoolLabel = student.school ? `<span style="font-size: 14px; color: var(--ow-blue); font-weight: 500; font-style: normal; margin-left: 10px; text-shadow: none;">[${student.school}]</span>` : '';
         lbItem.innerHTML = `
           <div class="lb-rank">${student.rank}</div>
           <div class="lb-details">
@@ -1682,7 +1683,7 @@
             <div class="stats-info" style="font-size: 16px; margin-top: 10px;">
               <span style="color:var(--ow-light)">[${student.tier.label}]</span>
               <span>총 승점: ${student.totalStamps}</span>
-              <span class="dollar">LEVEL ${student.dollars}</span>
+              <span class="dollar">LEVEL ${student.dollars}${schoolLabel}</span>
             </div>
           </div>
           ${directorHtml}
