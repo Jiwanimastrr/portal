@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WATCHPOINT: ACADEMY - Cinematic Promo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap');
+    @import url('https://webfontworld.github.io/score/S-CoreDream.css');
+
+    body, html {
+      margin: 0; padding: 0; width: 100vw; height: 100vh;
+      background-color: #0b0c10;
+      color: #fff;
+      font-family: 'S-CoreDream', sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .scene {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out, transform 4s ease-out;
+      transform: scale(0.9);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .scene.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .text-epic {
+      font-size: 4vw;
+      font-weight: 300;
+      letter-spacing: 5px;
+      text-shadow: 0 0 15px rgba(255,255,255,0.4);
+    }
+
+    .text-bold {
+      font-size: 5vw;
+      font-weight: 700;
+      letter-spacing: 8px;
+    }
+
+    .text-glitch {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 7vw;
+      font-weight: 900;
+      font-style: italic;
+      color: #f99e1a;
+      letter-spacing: 12px;
+      text-transform: uppercase;
+      text-shadow: 0 0 30px rgba(249, 158, 26, 0.6), 0 5px 0 #cc7c0d;
+      animation: glitch 0.5s infinite;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    #startScreen {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 100;
+      pointer-events: auto;
+      background: #000;
+    }
+
+    .start-btn {
+      padding: 15px 40px;
+      font-size: 20px;
+      font-weight: 500;
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: 0.3s;
+      letter-spacing: 3px;
+    }
+    
+    .start-btn:hover {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+
+    .willgrow-w {
+      font-size: 15vw;
+      font-weight: 900;
+      font-style: italic;
+      color: #f99e1a;
+      line-height: 1;
+      font-family: 'Montserrat', sans-serif;
+      text-shadow: 
+        0 2px 0 #e38d12, 0 4px 0 #cc7c0d, 0 6px 0 #b36a09, 
+        0 8px 0 #995906, 0 10px 0 #804803, 0 12px 0 #663801, 
+        0 14px 15px rgba(249,158,26,0.6);
+    }
+
+    .willgrow-dot {
+      width: 4.5vw;
+      height: 4.5vw;
+      background-color: #f99e1a;
+      margin-left: 1vw;
+      transform: skewX(-15deg);
+      box-shadow: 
+        0 2px 0 #e38d12, 0 4px 0 #cc7c0d, 0 6px 0 #b36a09, 
+        0 8px 0 #995906, 0 10px 0 #804803, 0 12px 0 #663801, 
+        0 14px 15px rgba(249,158,26,0.6);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      margin-bottom: 2vh;
+    }
+
+    /* Particles background for final scene */
+    #particles {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 2s;
+      background: radial-gradient(circle at center, rgba(30,35,45,1) 0%, rgba(10,12,15,1) 100%);
+    }
+
+  </style>
+</head>
+<body>
+
+<audio id="bgm" src="../stamp-tier/assets/sounds/cinematic_intro.webm"></audio>
+
+<div id="particles"></div>
+
+<div class="scene" id="startScreen">
+  <button class="start-btn" onclick="startPromo()">INITIATE SEQUENCE<br><span style="font-size:12px; color:#aaa; letter-spacing:1px; margin-top:5px; display:block;">(클릭 시 프로모션 비디오 시작)</span></button>
+</div>
+
+<div class="scene" id="scene1">
+  <div class="text-epic">평범했던 우리들의 영어학습...</div>
+</div>
+
+<div class="scene" id="scene2">
+  <div class="text-epic text-bold">이제, 모든 기준이 바뀝니다.</div>
+</div>
+
+<div class="scene" id="scene3">
+  <div class="text-epic" style="color: #00c3ff; text-shadow: 0 0 20px rgba(0,195,255,0.6); font-weight: 700;">윌그로우 어학원의 새로운 혁명</div>
+</div>
+
+<div class="scene" id="scene4">
+  <div class="text-glitch">WATCHPOINT</div>
+  <div class="text-epic" style="font-size: 3vw; letter-spacing: 20px; color: #aaa; margin-top: 1vh;">ACADEMY</div>
+</div>
+
+<div class="scene" id="scene5">
+  <div class="text-epic">숨겨진 잠재력을 증명하라.</div>
+</div>
+
+<div class="scene" id="scene6">
+  <div class="logo-container">
+    <div class="willgrow-w">W</div>
+    <div class="willgrow-dot"></div>
+  </div>
+  <div class="text-bold" style="font-size: 2vw; letter-spacing: 15px; margin-bottom: 5vh;">WILLGROW TIER SYSTEM</div>
+  
+  <button class="start-btn" onclick="location.href='../stamp-tier/index.html'" style="border-color: #f99e1a; color: #f99e1a; padding: 15px 60px; font-weight: 700;">시스템 접속하기</button>
+</div>
+
+<script>
+  // Timing sequence (in milliseconds)
+  const sequences = [
+    { id: 'scene1', start: 1000, duration: 3500 },
+    { id: 'scene2', start: 5500, duration: 3000 },
+    { id: 'scene3', start: 9500, duration: 3500 },
+    { id: 'scene4', start: 14000, duration: 4000 },
+    { id: 'scene5', start: 19000, duration: 3500 },
+    { id: 'scene6', start: 23500, duration: 999999 } // Final scene stays forever
+  ];
+
+  function startPromo() {
+    // Hide start screen smoothly
+    const startScreen = document.getElementById('startScreen');
+    startScreen.style.opacity = '0';
+    setTimeout(() => {
+        startScreen.style.display = 'none';
+    }, 1000);
+
+    // Play BGM
+    const bgm = document.getElementById('bgm');
+    bgm.currentTime = 0;
+    bgm.play().catch(e => console.error("Audio block: ", e));
+
+    // Queue scenes
+    sequences.forEach(seq => {
+      setTimeout(() => {
+        const el = document.getElementById(seq.id);
+        el.classList.add('active');
+        
+        // Remove glitch effect halfway through scene 4 for impact
+        if(seq.id === 'scene4') {
+            setTimeout(() => {
+                el.querySelector('.text-glitch').style.animation = 'none';
+                el.querySelector('.text-glitch').style.transform = 'scale(1.1)';
+                el.querySelector('.text-glitch').style.transition = '0.5s ease-out';
+            }, 1000);
+        }
+
+        // Show background on final scene
+        if (seq.id === 'scene6') {
+            document.getElementById('particles').style.opacity = '1';
+        }
+        
+        // Fade out
+        if (seq.duration < 100000) {
+          setTimeout(() => {
+            el.classList.remove('active');
+          }, seq.duration);
+        }
+      }, seq.start);
+    });
+  }
+</script>
+</body>
+</html>
