@@ -112,10 +112,25 @@
   p.subtitle {
     margin-top: 5px;
     margin-bottom: 0;
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: 3px;
     color: var(--ow-blue);
-    font-weight: 500;
-    letter-spacing: 1px;
+    line-height: 1;
+    text-shadow: 
+      0 1px 0 #00b3e6,
+      0 2px 0 #0099cc,
+      0 3px 0 #0080ab,
+      0 4px 0 #006688,
+      0 5px 0 #004d66,
+      0 6px 1px rgba(0,0,0,0.6),
+      0 0 5px rgba(0,0,0,0.4),
+      0 1px 3px rgba(0,0,0,0.5),
+      0 3px 5px rgba(0,0,0,0.4),
+      0 5px 10px rgba(0,0,0,0.5),
+      0 10px 10px rgba(0,0,0,0.4),
+      0 20px 20px rgba(0,0,0,0.3);
   }
 
   .nav-tabs {
@@ -818,6 +833,7 @@
 <div class="nav-tabs" style="position: relative;">
   <button class="ow-btn active" id="btn-admin" onclick="switchTab('admin')"><span>ROSTER (ADMIN)</span></button>
   <button class="ow-btn" id="btn-leaderboard" onclick="switchTab('leaderboard')"><span>TOP 30 (LEADERBOARD)</span></button>
+  <button class="ow-btn" id="btn-teamboard" onclick="switchTab('teamboard')"><span>TOP 5 TEAMBOARD</span></button>
 </div>
 
 <audio id="bgmAudio" src="./assets/sounds/cinematic_intro.webm" loop></audio>
@@ -864,6 +880,15 @@
       <select id="lbFilter" class="ow-select" style="display:none;" onchange="render()"><option value="ALL">전체 소속팀 보기</option></select>
     </div>
     <div class="lb-list" id="lbStudentList"></div>
+  </div>
+
+  <!-- 팀 보드 -->
+  <div id="teamboard" class="panel">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <h2 style="font-size: 40px; color: var(--ow-orange); font-style: italic; text-shadow: 2px 2px 0 #000; margin: 0;">GLOBAL TEAM RANKINGS</h2>
+      <p style="color: #ccc; font-size: 16px; margin: 5px 0 0 0; text-transform:none;">소속 요원들의 전체 획득 포인트를 합산하여 최고의 팀을 가립니다.</p>
+    </div>
+    <div class="lb-list" id="teamBoardList"></div>
   </div>
 </div>
 
@@ -1451,6 +1476,25 @@
     return sorted;
   }
 
+  function getTeamRankings() {
+    const teamScores = classes.map(c => {
+      const classStudents = students.filter(s => s.classId === c.id);
+      const totalScore = classStudents.reduce((sum, s) => sum + s.totalStamps, 0);
+      return { ...c, totalScore, studentCount: classStudents.length };
+    });
+    
+    const sorted = teamScores.sort((a, b) => b.totalScore - a.totalScore);
+    
+    let currentRank = 1;
+    sorted.forEach((team, index) => {
+      if (index > 0 && sorted[index - 1].totalScore !== team.totalScore) {
+        currentRank = index + 1;
+      }
+      team.rank = currentRank;
+    });
+    return sorted;
+  }
+
   function switchTab(tabId) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-tabs .ow-btn').forEach(btn => btn.classList.remove('active'));
@@ -1611,9 +1655,11 @@
     const sorted = calculateTiers();
     const adminList = document.getElementById('adminStudentList');
     const lbList = document.getElementById('lbStudentList');
+    const teamList = document.getElementById('teamBoardList');
     
-    adminList.innerHTML = '';
-    lbList.innerHTML = '';
+    if (adminList) adminList.innerHTML = '';
+    if (lbList) lbList.innerHTML = '';
+    if (teamList) teamList.innerHTML = '';
     
     const adminFilter = document.getElementById('adminFilter').value;
     const lbFilter = document.getElementById('lbFilter').value;
@@ -1624,14 +1670,14 @@
     }
 
     if (!adminFilter || adminFilter === '') {
-      adminList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700;"><span class="heartbeat-text">소속팀을 선택해 주세요</span></div>';
+      if (adminList) adminList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700;"><span class="heartbeat-text">소속팀을 선택해 주세요</span></div>';
     }
 
     const sortedByName = [...students].sort((a, b) => a.name.localeCompare(b.name));
 
     sortedByName.forEach(student => {
       // 관리자 화면
-      if (adminFilter && adminFilter !== '' && adminFilter === student.classId) {
+      if (adminFilter && adminFilter !== '' && adminFilter === student.classId && adminList) {
         const adminItem = document.createElement('div');
         adminItem.className = 'student-item';
         adminItem.id = `student-${student.id}`;
@@ -1658,7 +1704,7 @@
     let lbCount = 0;
     sorted.forEach(student => {
       // 명예의 전당
-      if (lbFilter === 'ALL' || lbFilter === student.classId) {
+      if ((lbFilter === 'ALL' || lbFilter === student.classId) && lbList) {
         if (lbCount >= 30) return;
         lbCount++;
         const lbItem = document.createElement('div');
@@ -1685,6 +1731,40 @@
         lbList.appendChild(lbItem);
       }
     });
+
+    if (teamList) {
+      const teamRankings = getTeamRankings();
+      let tbCount = 0;
+      teamRankings.forEach(team => {
+        if (tbCount >= 5) return;
+        if (team.studentCount === 0 && team.totalScore === 0) return;
+        
+        tbCount++;
+        const item = document.createElement('div');
+        item.className = 'lb-item';
+        const directorHtml = (team.director && team.director !== '공석') 
+          ? `<div class="lb-director">${team.director} 감독</div>` 
+          : '';
+
+        item.innerHTML = `
+          <div class="lb-rank">${team.rank}</div>
+          <div class="lb-details">
+            <div class="name-row">
+              <div class="class-tag" style="min-width: 150px; padding: 10px 15px; font-size: 22px;"><span>${team.name}</span></div>
+            </div>
+            <div class="stats-info" style="font-size: 20px; margin-top: 10px;">
+              <span style="color:var(--ow-orange); font-weight:700;">전체 합산 획득 승점: ${team.totalScore} 점</span>
+              <span style="color:#aaa;">(소속 요원: ${team.studentCount}명)</span>
+            </div>
+          </div>
+          ${directorHtml}
+        `;
+        teamList.appendChild(item);
+      });
+      if (tbCount === 0) {
+        teamList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700; color: #666;">등록된 팀 정보가 없습니다.</div>';
+      }
+    }
 
     checkChallengerAurora();
   }
