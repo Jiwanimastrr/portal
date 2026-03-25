@@ -781,7 +781,20 @@
   }
 </style>
 </head>
-<body>
+<body class="challenger-aurora">
+  <div id="authOverlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(30, 32, 37, 0.95); z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); transition: opacity 0.3s ease;">
+    <div style="background: var(--ow-dark); padding: 50px 70px; border: 2px solid var(--ow-orange); border-top: 8px solid var(--ow-orange); box-shadow: 0 10px 40px rgba(0,0,0,0.9); text-align: center; transform: skewX(-8deg);">
+      <div style="transform: skewX(8deg);">
+        <h1 style="color: var(--ow-light); font-size: 44px; text-shadow: 2px 2px 0 #000; margin: 0 0 10px 0; letter-spacing: 2px;">SECURITY <span style="color: var(--ow-orange);">CLEARANCE</span></h1>
+        <p style="color: #a0a5ad; font-size: 16px; text-transform: none; margin-bottom: 35px; letter-spacing: 1px;">관리자 전용 구역입니다. 승인 코드를 입력하십시오.</p>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+          <input type="password" id="authInput" class="ow-input" style="width: 250px; text-align: center; font-size: 24px; padding: 12px; letter-spacing: 5px; background: rgba(0,0,0,0.6); transform: none; border-left: 4px solid var(--ow-blue);" placeholder="******" onkeydown="if(event.key === 'Enter') checkStampAuth()">
+          <button class="ow-btn" style="width: 280px; font-size: 24px; padding: 15px; margin-top: 10px; background-color: var(--ow-orange); border-radius: 0;" onclick="checkStampAuth()"><span>CONFIRM IDENTITY</span></button>
+        </div>
+        <p id="authErrorMsg" style="color: #ff4444; margin-top: 20px; display: none; text-transform:none; font-weight: bold; font-size: 16px; text-shadow: 1px 1px 0 #000; background: rgba(255,0,0,0.1); padding: 5px;">[오류] 승인 코드가 일치하지 않습니다.</p>
+      </div>
+    </div>
+  </div>
 
 <header>
   <div class="willgrow-logo">
@@ -915,13 +928,22 @@
 <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 <script>
-  if (sessionStorage.getItem('stamp_auth') !== 'jctj8877') {
-    const userInput = prompt('비밀번호를 입력하세요:');
-    if (userInput !== 'jctj8877') {
-      document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">비밀번호가 틀렸습니다. 새로고침 후 다시 시도하세요.</h1>';
-      throw new Error('Unauthorized');
+  // Overwatch Auth Verification
+  if (sessionStorage.getItem('stamp_auth') === 'jctj8877') {
+    document.getElementById('authOverlay').style.display = 'none';
+  }
+
+  function checkStampAuth() {
+    const input = document.getElementById('authInput').value;
+    if (input === 'jctj8877') {
+      sessionStorage.setItem('stamp_auth', input);
+      document.getElementById('authOverlay').style.opacity = '0';
+      setTimeout(() => document.getElementById('authOverlay').style.display = 'none', 300);
+    } else {
+      document.getElementById('authErrorMsg').style.display = 'block';
+      setTimeout(() => document.getElementById('authErrorMsg').style.display = 'none', 3000);
+      document.getElementById('authInput').value = '';
     }
-    sessionStorage.setItem('stamp_auth', userInput);
   }
 
   const firebaseConfig = {
