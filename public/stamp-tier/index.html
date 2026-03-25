@@ -821,6 +821,7 @@
 </div>
 
 <audio id="bgmAudio" src="./assets/sounds/cinematic_intro.webm" loop></audio>
+<audio id="promoAudio" src="./assets/sounds/rank_up_v2.m4a"></audio>
 
 <div class="content">
   <!-- 관리자 대시보드 -->
@@ -1293,7 +1294,6 @@
   }
 
   let promoTimeout = null;
-  let currentPromoAudio = null;
   function showPromotionEffect(studentName, newTier) {
     const overlay = document.getElementById('promotionOverlay');
     if (!overlay) return;
@@ -1304,12 +1304,12 @@
 
     overlay.classList.add('active');
     
-    if (currentPromoAudio) {
-      currentPromoAudio.pause();
-      currentPromoAudio.currentTime = 0;
+    const audioEl = document.getElementById('promoAudio');
+    if (audioEl) {
+      audioEl.pause();
+      audioEl.currentTime = 0;
+      audioEl.play().catch(e => console.log('에러: 프로모션 오디오 재생 실패', e));
     }
-    currentPromoAudio = new Audio('./assets/sounds/rank_up.m4a');
-    currentPromoAudio.play().catch(e => console.log('에러: 프로모션 오디오 재생 실패', e));
     
     if (promoTimeout) clearTimeout(promoTimeout);
     
@@ -1321,7 +1321,8 @@
     // 마우스 누르면 바로 생략(닫기) 및 영상/소리 끄기
     overlay.onclick = () => {
       overlay.classList.remove('active');
-      if (currentPromoAudio) currentPromoAudio.pause();
+      const audioEl = document.getElementById('promoAudio');
+      if (audioEl) audioEl.pause();
       if (promoTimeout) clearTimeout(promoTimeout);
     };
   }
