@@ -835,6 +835,7 @@
       <div>
         <select id="classSelect" class="ow-select"></select>
         <input type="text" id="studentName" class="ow-input" placeholder="요원 이름 (학생명)..." onkeypress="handleKeyPress(event)">
+        <input type="text" id="studentSchool" class="ow-input" placeholder="학교 이름..." onkeypress="handleKeyPress(event)">
         <button class="ow-btn sm-btn accent" onclick="addStudent()"><span>요원 추가</span></button>
       </div>
     </div>
@@ -876,7 +877,9 @@
       <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-blue); display: flex; flex-direction: column; gap: 10px;">
         <label>소속팀 변경</label>
         <select id="modalClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);"></select>
-        <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyStudentEdit()"><span>팀 변경 적용</span></button>
+        <label style="margin-top: 5px;">학교 정보</label>
+        <input type="text" id="modalStudentSchool" class="ow-input" placeholder="학교 이름" style="transform: none; background: rgba(0,0,0,0.5); width: 100%; box-sizing: border-box;">
+        <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyStudentEdit()"><span>요원 정보 적용</span></button>
       </div>
       
       <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid #ff4444; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;">
@@ -1055,18 +1058,22 @@
 
   function addStudent() {
     const input = document.getElementById('studentName');
+    const schoolInput = document.getElementById('studentSchool');
     const classId = document.getElementById('classSelect').value;
     const name = input.value.trim();
+    const school = schoolInput ? schoolInput.value.trim() : '';
     if (name && classId) {
       students.push({
         id: Date.now().toString(),
         name: name,
+        school: school,
         classId: classId,
         stamps: 0,
         totalStamps: 0,
         dollars: 0
       });
       input.value = '';
+      if (schoolInput) schoolInput.value = '';
       saveData();
     }
   }
@@ -1077,6 +1084,7 @@
     
     document.getElementById('modalStudentId').value = student.id;
     document.getElementById('modalStudentName').textContent = `요원 관리: ${student.name}`;
+    document.getElementById('modalStudentSchool').value = student.school || '';
     
     const select = document.getElementById('modalClassSelect');
     let optionsHtml = '';
@@ -1095,10 +1103,12 @@
   function applyStudentEdit() {
     const studentId = document.getElementById('modalStudentId').value;
     const newClassId = document.getElementById('modalClassSelect').value;
+    const newSchool = document.getElementById('modalStudentSchool').value.trim();
     const student = students.find(s => s.id === studentId);
     
     if (student && newClassId) {
       student.classId = newClassId;
+      student.school = newSchool;
       saveData();
       closeEditModal();
       if(document.getElementById('classModal').classList.contains('active')) {
@@ -1481,6 +1491,8 @@
     }
     
     let tierHtml = '';
+    const schoolLabel = student.school ? `<span style="font-size: 14px; color: var(--ow-blue); font-weight: 500; font-style: normal; margin-left: 10px; text-shadow: none;">[${student.school}]</span>` : '';
+    
     if (student.tier && student.totalStamps > 0) {
        const tierClass = student.tier.name;
        tierHtml = `
@@ -1488,7 +1500,7 @@
          <div class="tier-badge ${tierClass}-img"></div>
          <div class="tier-wrapper ${tierClass}" style="padding-left: 20px;">
            <div>
-             <span class="name">${student.name}</span>
+             <span class="name">${student.name}${schoolLabel}</span>
            </div>
          </div>
        </div>`;
@@ -1498,7 +1510,7 @@
          <div class="tier-badge iron-img"></div>
          <div class="tier-wrapper iron" style="padding-left: 20px;">
            <div>
-             <span class="name">${student.name}</span>
+             <span class="name">${student.name}${schoolLabel}</span>
            </div>
          </div>
        </div>`;
