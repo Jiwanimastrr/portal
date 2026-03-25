@@ -902,21 +902,58 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 <script>
-  let students = JSON.parse(localStorage.getItem('nanoBananaStudents')) || [];
-  let classes = JSON.parse(localStorage.getItem('willgrowClasses')) || [];
-  if (students.length > 0 && classes.length === 0) {
-    classes.push({ id: 'class-0', name: '기본반', director: '공석' });
-    students.forEach(s => { if(!s.classId) s.classId = 'class-0'; });
-  } else if (classes.length === 0) {
-    classes.push({ id: 'class-0', name: '기본반', director: '공석' });
+  const firebaseConfig = {
+    projectId: "willgrow-textbook-system",
+    appId: "1:695680391212:web:c00517bb83964649995989",
+    storageBucket: "willgrow-textbook-system.firebasestorage.app",
+    apiKey: "AIzaSyDisSYRRDC4UKrMa2AKApib7--bwQak4Lg",
+    authDomain: "willgrow-textbook-system.firebaseapp.com",
+    messagingSenderId: "695680391212"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  let students = [];
+  let classes = [];
+
+  // Migrate existing localStorage data to Firebase
+  const localStudents = JSON.parse(localStorage.getItem('nanoBananaStudents'));
+  const localClasses = JSON.parse(localStorage.getItem('willgrowClasses'));
+  if (localStudents && localStudents.length > 0) {
+    db.collection('stamp_system').doc('master_db').set({
+      students: localStudents,
+      classes: localClasses && localClasses.length > 0 ? localClasses : [{ id: 'class-0', name: '기본반', director: '공석' }]
+    });
+    localStorage.removeItem('nanoBananaStudents');
+    localStorage.removeItem('willgrowClasses');
   }
-  
-  // Migrate existing classes
-  classes.forEach(c => {
-    if (!c.director) c.director = '공석';
+
+  // Real-time synchronization
+  db.collection('stamp_system').doc('master_db').onSnapshot((doc) => {
+    if (doc.exists) {
+      const data = doc.data();
+      students = data.students || [];
+      classes = data.classes || [];
+      
+      // Migrate existing classes inside real-time listener just in case
+      let changed = false;
+      classes.forEach(c => {
+        if (!c.director) {
+          c.director = '공석';
+          changed = true;
+        }
+      });
+      if (changed) saveData();
+    } else {
+      classes = [{ id: 'class-0', name: '기본반', director: '공석' }];
+      saveData();
+    }
+    render();
   });
-  
+
   const TIERS = [
     { name: 'challenger', label: 'CHALLENGER', threshold: 0.0004 },
     { name: 'grandmaster', label: 'GRANDMASTER', threshold: 0.001 },
@@ -931,9 +968,10 @@
   ];
 
   function saveData() {
-    localStorage.setItem('nanoBananaStudents', JSON.stringify(students));
-    localStorage.setItem('willgrowClasses', JSON.stringify(classes));
-    render();
+    db.collection('stamp_system').doc('master_db').set({
+      students: students,
+      classes: classes
+    });
   }
 
   function handleKeyPress(e) { if (e.key === 'Enter') addStudent(); }
