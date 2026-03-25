@@ -59,35 +59,24 @@
     transform: skewX(-10deg);
   }
   .willgrow-w {
-    color: #ff2a2a;
     font-size: 70px;
     font-weight: 900;
     font-style: italic;
     line-height: 1;
     font-family: var(--ow-font);
     margin-right: 15px;
-    text-shadow: 
-      -1px 1px 0 #e60000,
-      -2px 2px 0 #cc0000,
-      -3px 3px 0 #b30000,
-      -4px 4px 0 #990000,
-      -5px 5px 0 #800000,
-      -6px 6px 0 #660000,
-      -8px 8px 10px rgba(0,0,0,0.5);
+    background: linear-gradient(to bottom, #ff9999 0%, #e60000 21%, #800000 49%, #cc0000 80%, #ff9999 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 4px 5px rgba(0,0,0,0.7));
   }
   .willgrow-dot {
     width: 24px;
     height: 24px;
-    background-color: #a2ff00;
+    background: linear-gradient(135deg, #d9ff99 0%, #99ff00 21%, #4d8000 49%, #80cc00 80%, #d9ff99 100%);
     transform: skewX(-15deg);
-    box-shadow: 
-      -1px 1px 0 #8ad900,
-      -2px 2px 0 #7acc00,
-      -3px 3px 0 #66b300,
-      -4px 4px 0 #529900,
-      -5px 5px 0 #3d8000,
-      -6px 6px 0 #296600,
-      -8px 8px 10px rgba(0,0,0,0.5);
+    box-shadow: 0px 4px 5px rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.3);
   }
 
   h1 {
@@ -95,18 +84,13 @@
     font-size: 46px;
     font-weight: 900;
     letter-spacing: 3px;
-    color: #ffffff;
     font-style: italic;
     line-height: 1;
     text-transform: uppercase;
-    text-shadow: 
-      -1px 1px 0 #e6e6e6,
-      -2px 2px 0 #cccccc,
-      -3px 3px 0 #b3b3b3,
-      -4px 4px 0 #999999,
-      -5px 5px 0 #808080,
-      -6px 6px 0 #666666,
-      -8px 8px 10px rgba(0,0,0,0.4);
+    background: linear-gradient(to bottom, #f5f6f6 0%, #dbdce2 21%, #80828c 49%, #aeb0bc 80%, #f5f6f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 6px 6px rgba(0,0,0,0.7));
   }
 
   p.subtitle {
@@ -116,15 +100,11 @@
     font-weight: 900;
     font-style: italic;
     letter-spacing: 3px;
-    color: var(--ow-blue);
     line-height: 1;
-    text-shadow: 
-      -1px 1px 0 #00b3e6,
-      -2px 2px 0 #0099cc,
-      -3px 3px 0 #0080ab,
-      -4px 4px 0 #006688,
-      -5px 5px 0 #004d66,
-      -7px 7px 10px rgba(0,0,0,0.4);
+    background: linear-gradient(to bottom, #a3e9ff 0%, #00b3e6 21%, #005c80 49%, #008eb3 80%, #a3e9ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 4px 5px rgba(0,0,0,0.7));
   }
 
   .nav-tabs {
