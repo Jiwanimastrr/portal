@@ -723,14 +723,14 @@
   .promotion-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.9);
+    background: radial-gradient(circle, rgba(50,55,65,0.95) 0%, rgba(15,18,22,1) 100%);
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.3s ease;
   }
   .promotion-overlay.active {
     opacity: 1;
@@ -738,46 +738,58 @@
   }
   .promotion-content {
     text-align: center;
-    transform: scale(0.5);
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: scale(3);
+    opacity: 0;
+    filter: brightness(2) blur(10px);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, filter 0.5s ease;
   }
   .promotion-overlay.active .promotion-content {
     transform: scale(1);
+    opacity: 1;
+    filter: brightness(1) blur(0);
   }
   .promo-title {
-    font-size: 70px;
+    font-size: 80px;
     font-weight: 900;
     color: var(--ow-orange);
-    text-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
-    margin: 0 0 10px;
+    text-shadow: 0 0 30px rgba(249, 158, 26, 0.8), 2px 2px 0 #000;
+    margin: 0 0 -10px;
     font-style: italic;
     transform: skewX(-10deg);
+    letter-spacing: 5px;
   }
   .promo-name {
-    font-size: 35px;
-    color: white;
+    font-size: 40px;
+    color: var(--ow-light);
     font-weight: bold;
     font-style: italic;
     transform: skewX(-10deg);
+    text-shadow: 2px 2px 0 #000;
   }
   #promoBadge {
-    width: 280px;
-    height: 280px;
-    margin: 30px auto;
-    filter: drop-shadow(0 0 30px rgba(255,255,255,0.3));
+    width: 320px;
+    height: 320px;
+    margin: 20px auto;
+    filter: drop-shadow(0 0 50px rgba(255,255,255,0.4));
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    animation: badgePulse 2s infinite alternate ease-in-out 0.5s;
+  }
+  @keyframes badgePulse {
+    from { filter: drop-shadow(0 0 30px rgba(255,255,255,0.4)) scale(1); }
+    to { filter: drop-shadow(0 0 60px rgba(249,158,26,0.6)) scale(1.05); }
   }
   .promo-tier-name {
-    font-size: 60px;
+    font-size: 65px;
     font-weight: 900;
     margin-top: 10px;
     font-style: italic;
     color: var(--ow-light);
     transform: skewX(-10deg);
     text-transform: uppercase;
-    text-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.8), 0 0 20px rgba(0,195,255,0.5);
+    letter-spacing: 3px;
   }
 </style>
 </head>
@@ -1271,10 +1283,10 @@
   }
 
   let promoTimeout = null;
+  let currentPromoAudio = null;
   function showPromotionEffect(studentName, newTier) {
     const overlay = document.getElementById('promotionOverlay');
-    const video = document.getElementById('promoVideo');
-    if (!overlay || !video) return;
+    if (!overlay) return;
     
     document.getElementById('promoName').textContent = studentName;
     document.getElementById('promoBadge').className = newTier.name + '-img';
@@ -1282,21 +1294,24 @@
 
     overlay.classList.add('active');
     
-    video.currentTime = 0;
-    video.play().catch(e => console.log('에러: 프로모션 비디오 재생 실패', e));
+    if (currentPromoAudio) {
+      currentPromoAudio.pause();
+      currentPromoAudio.currentTime = 0;
+    }
+    currentPromoAudio = new Audio('promotion.mp4');
+    currentPromoAudio.play().catch(e => console.log('에러: 프로모션 오디오 재생 실패', e));
     
     if (promoTimeout) clearTimeout(promoTimeout);
     
     // 4.5초 후 자동 닫기 (영상 길이에 맞춤)
     promoTimeout = setTimeout(() => {
       overlay.classList.remove('active');
-      video.pause();
     }, 4500);
     
     // 마우스 누르면 바로 생략(닫기) 및 영상/소리 끄기
     overlay.onclick = () => {
       overlay.classList.remove('active');
-      video.pause();
+      if (currentPromoAudio) currentPromoAudio.pause();
       if (promoTimeout) clearTimeout(promoTimeout);
     };
   }
@@ -1672,7 +1687,6 @@
   };
 </script>
   <div id="promotionOverlay" class="promotion-overlay">
-    <video id="promoVideo" src="promotion.mp4" style="position: absolute; width: 100vw; height: 100vh; object-fit: cover; z-index: 1;" preload="auto"></video>
     <div class="promotion-content" style="z-index: 2; position: relative;">
       <h2 class="promo-title">TIER PROMOTED!</h2>
       <div class="promo-name" id="promoName">요원 이름</div>
