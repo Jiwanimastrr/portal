@@ -490,11 +490,8 @@
   @keyframes emWave { 50% { box-shadow: 0 0 40px rgba(43, 247, 132, 0.7); } }
   .emerald::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, rgba(43,247,132,0.6), transparent 70%); animation: emLiquid 4s infinite alternate ease-in-out; pointer-events: none; }
   @keyframes emLiquid { to { transform: scale(1.2) translateY(-20px); } }
-  .emerald::after { content: '✨'; position: absolute; color: #2bf784; font-size: 14px; bottom: 0; left: 50%; opacity: 0; animation: emParticles 3s infinite ease-out; pointer-events: none; }
-  @keyframes emParticles { 50% { opacity: 1; transform: translate(-20px, -30px); } 100% { opacity: 0; transform: translate(20px, -60px); } }
   .emerald:hover { animation: emWave 1s infinite ease-out; }
   .emerald:hover::before { animation: emLiquid 0.5s infinite alternate ease-in-out; }
-  .emerald:hover::after { animation: emParticles 0.8s infinite ease-out; }
 
   /* 7. 다이아몬드 (Diamond) */
   .diamond { border-bottom: 4px solid #3d58d6; color: #fff; background: linear-gradient(135deg, rgba(61,88,214,0.7), rgba(180,220,255,0.9), rgba(61,88,214,0.7)); box-shadow: 0 0 25px rgba(127,153,255,0.7); position: relative; overflow: hidden; animation: diaAura 2s infinite alternate; }
@@ -794,6 +791,7 @@
 </style>
 </head>
 <body class="challenger-aurora">
+  <button class="ow-btn" id="btn-bgm" onclick="toggleBGM()" style="position: fixed; top: 20px; right: 20px; z-index: 9999999; transform: skewX(-15deg); padding: 10px 20px; background: rgba(0,0,0,0.4); border: 2px solid var(--ow-mid);"><span>🎵 BGM OFF</span></button>
   <div id="authOverlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(30, 32, 37, 0.95); z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); transition: opacity 0.3s ease;">
     <div style="background: var(--ow-dark); padding: 50px 70px; border: 2px solid var(--ow-orange); border-top: 8px solid var(--ow-orange); box-shadow: 0 10px 40px rgba(0,0,0,0.9); text-align: center; transform: skewX(-8deg);">
       <div style="transform: skewX(8deg);">
@@ -817,10 +815,9 @@
   <p class="subtitle">WATCHPOINT : ACADEMY</p>
 </header>
 
-<div class="nav-tabs">
+<div class="nav-tabs" style="position: relative;">
   <button class="ow-btn active" id="btn-admin" onclick="switchTab('admin')"><span>ROSTER (ADMIN)</span></button>
   <button class="ow-btn" id="btn-leaderboard" onclick="switchTab('leaderboard')"><span>TOP 30 (LEADERBOARD)</span></button>
-  <button class="ow-btn" id="btn-bgm" onclick="toggleBGM()" style="margin-left: auto; padding: 10px 20px; background: rgba(0,0,0,0.4); border: 2px solid var(--ow-mid);"><span>🎵 BGM OFF</span></button>
 </div>
 
 <audio id="bgmAudio" src="./assets/sounds/cinematic_intro.webm" loop></audio>
@@ -1342,13 +1339,14 @@
         student.dollars += 1;
       }
       saveData();
-      playCoinSound();
 
       const afterTiers = calculateTiers();
       const currTier = afterTiers.find(s => s.id === id)?.tier;
 
       if (prevTier && currTier && prevTier.name !== currTier.name) {
         showPromotionEffect(student.name, currTier);
+      } else {
+        playCoinSound();
       }
 
       render();
@@ -1693,23 +1691,61 @@
   window.onload = () => {
     switchTab('admin');
   };
-    function toggleBGM() {
-      const bgm = document.getElementById('bgmAudio');
-      const btn = document.getElementById('btn-bgm');
-      if (bgm.paused) {
-        bgm.play();
-        btn.innerHTML = '<span>🔊 BGM ON</span>';
-        btn.style.color = 'var(--ow-orange)';
-        btn.style.borderColor = 'var(--ow-orange)';
-        btn.style.boxShadow = 'inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2)';
-      } else {
-        bgm.pause();
-        btn.innerHTML = '<span>🎵 BGM OFF</span>';
-        btn.style.color = 'var(--ow-light)';
-        btn.style.borderColor = 'var(--ow-mid)';
-        btn.style.boxShadow = '';
-      }
+
+  let bgmStarted = false;
+  function startBGMAutoplay(e) {
+    if (bgmStarted) return;
+    if (e && e.type === 'pointerdown' && e.target.closest('#btn-bgm')) return;
+    
+    const bgm = document.getElementById('bgmAudio');
+    if (!bgm) return;
+    
+    const promise = bgm.play();
+    if (promise !== undefined) {
+      promise.then(() => {
+        bgmStarted = true;
+        const btn = document.getElementById('btn-bgm');
+        if (btn) {
+          btn.innerHTML = '<span>🔊 BGM ON</span>';
+          btn.style.color = 'var(--ow-orange)';
+          btn.style.borderColor = 'var(--ow-orange)';
+          btn.style.boxShadow = 'inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2)';
+        }
+        document.removeEventListener('pointerdown', startBGMAutoplay);
+        document.removeEventListener('keydown', startBGMAutoplay);
+      }).catch(err => {
+        // Autoplay prevented
+      });
     }
+  }
+  document.addEventListener('pointerdown', startBGMAutoplay);
+  document.addEventListener('keydown', startBGMAutoplay);
+
+  function toggleBGM() {
+    const bgm = document.getElementById('bgmAudio');
+    const btn = document.getElementById('btn-bgm');
+    bgmStarted = true; // Ensure autoplay doesn't trigger if manually toggled
+    
+    if (bgm.paused) {
+      const promise = bgm.play();
+      if (promise !== undefined) {
+        promise.then(() => {
+          btn.innerHTML = '<span>🔊 BGM ON</span>';
+          btn.style.color = 'var(--ow-orange)';
+          btn.style.borderColor = 'var(--ow-orange)';
+          btn.style.boxShadow = 'inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2)';
+        }).catch(err => {
+          console.log('Playback failed:', err);
+        });
+      }
+    } else {
+      bgm.pause();
+      btn.innerHTML = '<span>🎵 BGM OFF</span>';
+      btn.style.color = 'var(--ow-light)';
+      btn.style.borderColor = 'var(--ow-mid)';
+      btn.style.boxShadow = '';
+    }
+  }
 </script>
   <div id="promotionOverlay" class="promotion-overlay">
     <div class="promotion-content" style="z-index: 2; position: relative;">
