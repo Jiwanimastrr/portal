@@ -1271,39 +1271,32 @@
   }
 
   let promoTimeout = null;
-  let currentPromoAudio = null;
   function showPromotionEffect(studentName, newTier) {
     const overlay = document.getElementById('promotionOverlay');
-    if (!overlay) return;
+    const video = document.getElementById('promoVideo');
+    if (!overlay || !video) return;
+    
     document.getElementById('promoName').textContent = studentName;
     document.getElementById('promoBadge').className = newTier.name + '-img';
     document.getElementById('promoTierName').textContent = newTier.label;
 
     overlay.classList.add('active');
     
-    // 이전 오디오가 재생 중이라면 중지
-    if (currentPromoAudio) {
-      currentPromoAudio.pause();
-      currentPromoAudio.currentTime = 0;
-    }
-    
-    // mp4 파일에서 오디오만 추출하여 오디오 객체로 바로 재생
-    currentPromoAudio = new Audio('promotion.mp4');
-    currentPromoAudio.play().catch(e => console.log('에러: 프로모션 오디오 재생 실패', e));
+    video.currentTime = 0;
+    video.play().catch(e => console.log('에러: 프로모션 비디오 재생 실패', e));
     
     if (promoTimeout) clearTimeout(promoTimeout);
     
-    // 3초 후 자동 닫기
+    // 4.5초 후 자동 닫기 (영상 길이에 맞춤)
     promoTimeout = setTimeout(() => {
       overlay.classList.remove('active');
-    }, 3000);
+      video.pause();
+    }, 4500);
     
-    // 마우스 누르면 바로 생략(닫기) 및 소리 끄기
+    // 마우스 누르면 바로 생략(닫기) 및 영상/소리 끄기
     overlay.onclick = () => {
       overlay.classList.remove('active');
-      if (currentPromoAudio) {
-        currentPromoAudio.pause();
-      }
+      video.pause();
       if (promoTimeout) clearTimeout(promoTimeout);
     };
   }
@@ -1679,7 +1672,8 @@
   };
 </script>
   <div id="promotionOverlay" class="promotion-overlay">
-    <div class="promotion-content">
+    <video id="promoVideo" src="promotion.mp4" style="position: absolute; width: 100vw; height: 100vh; object-fit: cover; z-index: 1;" preload="auto"></video>
+    <div class="promotion-content" style="z-index: 2; position: relative;">
       <h2 class="promo-title">TIER PROMOTED!</h2>
       <div class="promo-name" id="promoName">요원 이름</div>
       <div id="promoBadge"></div>
