@@ -89,7 +89,7 @@ const PROGRAMS: SiteInfo[] = [
     title: '디지털 타임타이머',
     description: '어학원 수업 및 자습 환경에서 높은 집중력을 유지할 수 있도록 돕는 직관적인 타이머입니다.',
     url: '/time-timer/index.html',
-    imageUrl: '/placeholder_thumb.png',
+    imageUrl: '/time_timer_thumb.png',
     tag: 'Utility'
   }
 ];
