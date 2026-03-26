@@ -483,6 +483,25 @@
             osc1.stop(t+offset+0.11); osc2.stop(t+offset+0.11);
           }
         }
+      },
+      { id: 'mega_retro', name: '🚨 아주 큰 메가 레트로', 
+        func: () => {
+          if(!audioCtx) return; const t=audioCtx.currentTime;
+          // Very loud, piercing, fast repeating double tone like classic mechanical/electronic alarm
+          for(let i=0; i<30; i++) {
+            const offset = i * 0.08;
+            const osc1 = audioCtx.createOscillator(), osc2 = audioCtx.createOscillator(), g = audioCtx.createGain();
+            osc1.type = 'square'; osc1.frequency.value = 1000;
+            osc2.type = 'square'; osc2.frequency.value = 1300;
+            g.gain.setValueAtTime(0, t+offset); 
+            g.gain.linearRampToValueAtTime(0.8, t+offset+0.01); 
+            g.gain.linearRampToValueAtTime(0.6, t+offset+0.05); 
+            g.gain.linearRampToValueAtTime(0, t+offset+0.07);
+            osc1.connect(g); osc2.connect(g); g.connect(audioCtx.destination);
+            osc1.start(t+offset); osc2.start(t+offset);
+            osc1.stop(t+offset+0.07); osc2.stop(t+offset+0.07);
+          }
+        }
       }
     ];
     let currentSoundIdx=0, isSoundOn=true;
