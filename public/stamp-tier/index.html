@@ -832,10 +832,13 @@
         <button class="ow-btn sm-btn accent" onclick="addStudent()"><span>요원 추가</span></button>
       </div>
     </div>
-    <div class="filter-container" style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
-      <div class="custom-select-wrapper" id="adminSelectWrapper">
-        <button class="ow-btn" id="adminSelectBtn" onclick="toggleCustomMenu('admin')"><span>▼ 소속팀 선택</span></button>
-        <div id="adminCustomOptions" class="custom-options"></div>
+    <div class="filter-container" style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <div class="custom-select-wrapper" id="adminSelectWrapper">
+          <button class="ow-btn" id="adminSelectBtn" onclick="toggleCustomMenu('admin')"><span>▼ 소속팀 선택</span></button>
+          <div id="adminCustomOptions" class="custom-options"></div>
+        </div>
+        <input type="text" id="adminSearchInput" class="ow-input" placeholder="요원 검색..." style="width: 180px;" oninput="render()">
       </div>
       <select id="adminFilter" class="ow-select" style="display:none;" onchange="render()"><option value="ALL">전체 소속팀 보기</option></select>
       <div id="bulkPointContainer" style="display: none; gap: 5px; align-items: center;">
@@ -1640,6 +1643,7 @@
     
     const adminFilter = document.getElementById('adminFilter').value;
     const lbFilter = document.getElementById('lbFilter').value;
+    const adminSearch = document.getElementById('adminSearchInput') ? document.getElementById('adminSearchInput').value.trim().toLowerCase() : '';
 
     const bulkContainer = document.getElementById('bulkPointContainer');
     if (bulkContainer) {
@@ -1655,6 +1659,8 @@
     sortedByName.forEach(student => {
       // 관리자 화면
       if (adminFilter && adminFilter !== '' && adminFilter === student.classId && adminList) {
+        if (adminSearch && !student.name.toLowerCase().includes(adminSearch)) return;
+
         const adminItem = document.createElement('div');
         adminItem.className = 'student-item';
         adminItem.id = `student-${student.id}`;
