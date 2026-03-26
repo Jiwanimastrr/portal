@@ -133,7 +133,7 @@ export async function onRequestPost({ request, env }) {
         select: { name: data.gender } 
       },
       "학생 연락처": { 
-        phone_number: data.student_phone || "" 
+        phone_number: data.student_phone && data.student_phone.trim() !== "" ? data.student_phone : null 
       },
       "학교": { 
         rich_text: [{ text: { content: data.school_name || "" } }] 
@@ -146,7 +146,7 @@ export async function onRequestPost({ request, env }) {
         rich_text: [{ text: { content: data.parent_name || "" } }] 
       },
       "보호자 연락처": { 
-        phone_number: data.parent_phone || "" 
+        phone_number: data.parent_phone && data.parent_phone.trim() !== "" ? data.parent_phone : null 
       },
       "주소": { 
         rich_text: [{ text: { content: data.address || "" } }] 
@@ -169,13 +169,13 @@ export async function onRequestPost({ request, env }) {
       },
       // 4. 상담 목적 및 고려사항
       "등록 사유": { 
-        multi_select: (data.reason || []).map(r => ({ name: r })) 
+        multi_select: (data.reason || []).filter(r => r.trim() !== "").map(r => ({ name: r })) 
       },
       "기타 사유": { 
         rich_text: [{ text: { content: data.reason_other || "" } }] 
       },
       "최우선 고려사항": { 
-        multi_select: (data.priority || []).map(p => ({ name: p })) 
+        multi_select: (data.priority || []).filter(p => p.trim() !== "").map(p => ({ name: p })) 
       },
       "특이사항": { 
         rich_text: [{ text: { content: data.student_features || "" } }] 
@@ -223,7 +223,7 @@ export async function onRequestPost({ request, env }) {
             });
             const retryResult = await retryResponse.json();
             if(!retryResponse.ok) {
-                return new Response(JSON.stringify({ error: "Notion API Error: 컬럼 이름이 노션 데이터베이스와 일치하지 않습니다. " + JSON.stringify(retryResult) }), { status: 500 });
+                return new Response(JSON.stringify({ error: "Notion API Error (Retry Failed): " + JSON.stringify(retryResult) }), { status: 500 });
             }
         } else {
             return new Response(JSON.stringify({ error: "Notion API Error: " + JSON.stringify(notionResult) }), { status: 500 });
