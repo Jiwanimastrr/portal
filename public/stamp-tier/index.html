@@ -1664,14 +1664,14 @@
             ${generateNameHtml(student)}
             ${generateProgressHtml(student.stamps)}
             <div class="stats-info">
-              <span>🏆 RANK: ${student.rank}</span>
-              <span>총 스탬프: ${student.totalStamps}</span>
+              <span>🏆 RANK: ${student.rank} [${student.tier.label}]</span>
+              <span>총 승점: ${student.totalStamps}</span>
               <span class="dollar">⭐ LEVEL ${student.dollars}${schoolLabel}</span>
             </div>
           </div>
           <div class="controls">
-            <button class="sm-btn accent" onclick="giveStamp('${student.id}')"><span>+1 포인트</span></button>
-            <button class="sm-btn danger" style="background:#8b1c1c" onclick="removeStamp('${student.id}')"><span>-1 포인트</span></button>
+            <button class="sm-btn accent" onclick="giveStamp('${student.id}')"><span>+1 Point</span></button>
+            <button class="sm-btn danger" style="background:#8b1c1c" onclick="removeStamp('${student.id}')"><span>-1 Point</span></button>
           </div>
         `;
         adminList.appendChild(adminItem);
