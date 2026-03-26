@@ -1650,7 +1650,7 @@
       bulkContainer.style.display = (!adminFilter || adminFilter === '' || adminFilter === 'ALL') ? 'none' : 'flex';
     }
 
-    if (!adminFilter || adminFilter === '') {
+    if ((!adminFilter || adminFilter === '') && !adminSearch) {
       if (adminList) adminList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700;"><span class="heartbeat-text">소속팀을 선택해 주세요</span></div>';
     }
 
@@ -1658,8 +1658,15 @@
 
     sortedByName.forEach(student => {
       // 관리자 화면
-      if (adminFilter && adminFilter !== '' && adminFilter === student.classId && adminList) {
-        if (adminSearch && !student.name.toLowerCase().includes(adminSearch)) return;
+      if (adminList) {
+        let shouldShow = false;
+        if (adminSearch) {
+          shouldShow = student.name.toLowerCase().includes(adminSearch);
+        } else {
+          shouldShow = (adminFilter && adminFilter !== '' && adminFilter === student.classId);
+        }
+
+        if (!shouldShow) return;
 
         const adminItem = document.createElement('div');
         adminItem.className = 'student-item';
