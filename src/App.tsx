@@ -76,14 +76,7 @@ const PROGRAMS: SiteInfo[] = [
     imageUrl: '/pdf_utility_thumb.png',
     tag: 'Utility'
   },
-  {
-    id: '10',
-    title: '교재 간편 주문',
-    description: '수업에 필요한 교재를 빠르게 검색하고 장바구니에 담아 실시간으로 주문할 수 있는 시스템입니다.',
-    url: 'https://textbook-order.pages.dev/teacher/order',
-    imageUrl: '/placeholder_thumb.png',
-    tag: 'Management'
-  },
+
   {
     id: '11',
     title: '디지털 타임타이머',
@@ -97,7 +90,7 @@ const PROGRAMS: SiteInfo[] = [
     title: '스탬프 티어 시스템',
     description: '나노바나나 테마의 게이미피케이션 스탬프 및 티어 관리 시스템입니다. 팀별로 요원들의 포인트를 관리하세요.',
     url: '/stamp-tier/index.html',
-    imageUrl: '/stamp-tier/nanobanana_challenger.png',
+    imageUrl: '/stamp-tier/challenger.png',
     tag: 'Management'
   }
 ];
