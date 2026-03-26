@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { SiNaver, SiInstagram } from 'react-icons/si';
 import { FiHome, FiMapPin, FiMonitor } from 'react-icons/fi';
 import { SiteCard, type SiteInfo } from './components/SiteCard';
+import { AdmissionForm } from './components/AdmissionForm';
 
 const PROGRAMS: SiteInfo[] = [
   {
@@ -56,7 +57,7 @@ const PROGRAMS: SiteInfo[] = [
     id: '7',
     title: '입학 상담서',
     description: '신규 원생 학부모님 대상 맞춤형 입학 상담 및 안내를 지원하는 스마트 폼입니다.',
-    url: 'https://willgrow-admission.pages.dev',
+    url: '/admission/index.html',
     imageUrl: '/willgrow_admission_thumb.png',
     tag: 'Admission'
   },
@@ -96,6 +97,7 @@ const PROGRAMS: SiteInfo[] = [
 ];
 
 function App() {
+  const [currentView, setCurrentView] = useState<'landing' | 'admission'>('landing');
   const [showPrograms, setShowPrograms] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -140,6 +142,22 @@ function App() {
     }
   };
 
+  if (currentView === 'admission') {
+    return (
+      <div className="min-h-screen bg-[#f1f3f6]">
+        <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 flex items-center px-4 md:px-8 py-3 no-print">
+          <button 
+            onClick={() => { setCurrentView('landing'); window.scrollTo(0, 0); }} 
+            className="flex items-center gap-2 text-gray-600 hover:text-[#4d76bf] transition-colors font-medium text-sm sm:text-base py-2 px-4 rounded-lg hover:bg-gray-50 border-none bg-transparent cursor-pointer font-inherit"
+          >
+            <FiHome size={18} /> 홈페이지로 돌아가기
+          </button>
+        </div>
+        <AdmissionForm />
+      </div>
+    );
+  }
+
   return (
     <div className="landing-container">
 
@@ -182,7 +200,7 @@ function App() {
               <FiMonitor size={16} />
               선생님용
             </a>
-            <a href="https://willgrow-admission.pages.dev" className="nav-cta" target="_blank" rel="noopener noreferrer">입학 상담</a>
+            <a href="#admission" onClick={(e) => { e.preventDefault(); setCurrentView('admission'); window.scrollTo(0, 0); }} className="nav-cta">입학 상담</a>
           </div>
         </div>
       </nav>
@@ -205,7 +223,7 @@ function App() {
             영어로 지식기부의 기회와 경험을 만들어주는 학원
           </p>
           <div className="hero-actions">
-            <a href="https://willgrow-admission.pages.dev" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">입학 상담 신청</a>
+            <a href="#admission" onClick={(e) => { e.preventDefault(); setCurrentView('admission'); window.scrollTo(0, 0); }} className="btn btn-secondary">입학 상담 신청</a>
           </div>
         </div>
       </section>
@@ -284,7 +302,7 @@ function App() {
               <FiMapPin size={14} />
               오시는 길
             </a>
-            <a href="https://willgrow-admission.pages.dev" target="_blank" rel="noopener noreferrer">입학 안내</a>
+            <a href="#admission" onClick={(e) => { e.preventDefault(); setCurrentView('admission'); window.scrollTo(0, 0); }}>입학 안내</a>
           </div>
           <div className="footer-social">
             <h3>소셜 미디어</h3>
