@@ -210,14 +210,14 @@
 
   .student-list { display: flex; flex-direction: column; gap: 15px; }
   .student-list.horizontal-view { flex-direction: row; flex-wrap: wrap; }
-  .student-list.horizontal-view .student-item { width: calc(33.333% - 10px); flex: none; }
+  .student-list.horizontal-view .student-item { width: calc(33.333% - 10px); flex: none; flex-direction: column; }
   .student-list.horizontal-view .student-item, 
   .student-list.horizontal-view .student-item * { white-space: nowrap; }
-  .student-list.horizontal-view .student-item .main-info { min-width: 0; overflow: hidden; }
+  .student-list.horizontal-view .student-item .main-info { min-width: 0; overflow: hidden; padding-bottom: 20px; }
   .student-list.horizontal-view .student-item .stats-info,
   .student-list.horizontal-view .student-item .stats-info span { overflow: hidden; text-overflow: ellipsis; }
-  .student-list.horizontal-view .student-item .controls { flex-shrink: 0; padding: 0 10px; }
-  .student-list.horizontal-view .student-item .controls .sm-btn { padding: 8px 12px; font-size: 16px; }
+  .student-list.horizontal-view .student-item .controls { flex-shrink: 0; padding: 15px 20px; justify-content: flex-end; margin-top: auto; }
+  .student-list.horizontal-view .student-item .controls .sm-btn { padding: 8px 18px; font-size: 18px; }
   @media (max-width: 1024px) {
     .student-list.horizontal-view .student-item { width: calc(50% - 7.5px); }
   }
