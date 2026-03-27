@@ -209,6 +209,11 @@
   .ow-select:focus { border-color: var(--ow-blue); }
 
   .student-list { display: flex; flex-direction: column; gap: 15px; }
+  .student-list.horizontal-view { flex-direction: row; flex-wrap: wrap; }
+  .student-list.horizontal-view .student-item { width: calc(50% - 7.5px); flex: none; }
+  @media (max-width: 768px) {
+    .student-list.horizontal-view .student-item { width: 100%; }
+  }
 
   .student-item {
     display: flex;
@@ -857,6 +862,7 @@
           <div id="adminCustomOptions" class="custom-options"></div>
         </div>
         <input type="text" id="adminSearchInput" class="ow-input" placeholder="요원 검색..." style="width: 180px;" oninput="render()">
+        <button class="ow-btn sm-btn" id="viewToggleBtn" style="display: none; padding: 10px 15px; font-size: 16px;" onclick="toggleViewMode()"><span>가로 모드</span></button>
       </div>
       <select id="adminFilter" class="ow-select" style="display:none;" onchange="render()"><option value="ALL">전체 소속팀 보기</option></select>
       <div id="bulkPointContainer" style="display: none; gap: 5px; align-items: center;">
@@ -966,6 +972,14 @@
 <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 <script>
+  let isHorizontalView = false;
+  function toggleViewMode() {
+    isHorizontalView = !isHorizontalView;
+    const btn = document.getElementById('viewToggleBtn');
+    if (btn) btn.innerHTML = isHorizontalView ? '<span>세로 모드</span>' : '<span>가로 모드</span>';
+    render();
+  }
+
   // Overwatch Auth Verification
   if (sessionStorage.getItem('stamp_auth') === 'jctj8877') {
     document.getElementById('authOverlay').style.display = 'none';
@@ -1693,6 +1707,19 @@
     const bulkContainer = document.getElementById('bulkPointContainer');
     if (bulkContainer) {
       bulkContainer.style.display = (!adminFilter || adminFilter === '' || adminFilter === 'ALL') ? 'none' : 'flex';
+    }
+
+    const viewToggleBtn = document.getElementById('viewToggleBtn');
+    if (viewToggleBtn) {
+      viewToggleBtn.style.display = (!adminFilter || adminFilter === '' || adminFilter === 'ALL') ? 'none' : 'inline-block';
+    }
+
+    if (adminList) {
+      if (isHorizontalView && adminFilter && adminFilter !== 'ALL') {
+        adminList.classList.add('horizontal-view');
+      } else {
+        adminList.classList.remove('horizontal-view');
+      }
     }
 
     if ((!adminFilter || adminFilter === '') && !adminSearch) {
