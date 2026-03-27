@@ -211,6 +211,8 @@
   .student-list { display: flex; flex-direction: column; gap: 15px; }
   .student-list.horizontal-view { flex-direction: row; flex-wrap: wrap; }
   .student-list.horizontal-view .student-item { width: calc(50% - 7.5px); flex: none; }
+  .student-list.horizontal-view .student-item, 
+  .student-list.horizontal-view .student-item * { white-space: nowrap; }
   @media (max-width: 768px) {
     .student-list.horizontal-view .student-item { width: 100%; }
   }
