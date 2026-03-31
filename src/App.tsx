@@ -17,7 +17,7 @@ const PROGRAMS: SiteInfo[] = [
     id: '2',
     title: '파닉스 플립북',
     description: '아이들이 즐겁게 파닉스 규칙을 익힐 수 있는 반응형 디지털 플립북입니다.',
-    url: 'https://phonics-flipbook.pages.dev',
+    url: '/flipbook/index.html',
     imageUrl: '/phonics_flipbook_thumb.png',
     tag: 'Phonics'
   },
