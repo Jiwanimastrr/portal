@@ -93,6 +93,14 @@ const PROGRAMS: SiteInfo[] = [
     url: '/stamp-tier/index.html',
     imageUrl: '/stamp-tier/challenger.png',
     tag: 'Management'
+  },
+  {
+    id: '13',
+    title: '윌그로우 이벤트',
+    description: '학원 내 다양한 이벤트 및 행사를 관리하고 학생들의 참여를 유도하는 호스트 전용 대시보드입니다.',
+    url: 'https://willgrow-event-438539119316.asia-northeast3.run.app/host',
+    imageUrl: '/logo.png',
+    tag: 'Event'
   }
 ];
 
