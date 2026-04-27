@@ -1058,16 +1058,16 @@
   });
 
   const TIERS = [
-    { name: 'challenger', label: 'CHALLENGER', threshold: 0.0004 },
-    { name: 'grandmaster', label: 'GRANDMASTER', threshold: 0.001 },
-    { name: 'master', label: 'MASTER', threshold: 0.01 },
-    { name: 'diamond', label: 'DIAMOND', threshold: 0.04 },
-    { name: 'emerald', label: 'EMERALD', threshold: 0.10 },
-    { name: 'platinum', label: 'PLATINUM', threshold: 0.27 },
-    { name: 'gold', label: 'GOLD', threshold: 0.52 },
-    { name: 'silver', label: 'SILVER', threshold: 0.78 },
-    { name: 'bronze', label: 'BRONZE', threshold: 0.97 },
-    { name: 'iron', label: 'IRON', threshold: 1.00 }
+    { name: 'challenger', label: 'CHALLENGER', maxRank: 1 },
+    { name: 'grandmaster', label: 'GRANDMASTER', maxRank: 2 },
+    { name: 'master', label: 'MASTER', maxRank: 3 },
+    { name: 'diamond', label: 'DIAMOND', maxRank: 5 },
+    { name: 'emerald', label: 'EMERALD', maxRank: 8 },
+    { name: 'platinum', label: 'PLATINUM', maxRank: 12 },
+    { name: 'gold', label: 'GOLD', maxRank: 18 },
+    { name: 'silver', label: 'SILVER', maxRank: 25 },
+    { name: 'bronze', label: 'BRONZE', maxRank: 35 },
+    { name: 'iron', label: 'IRON', maxRank: Infinity }
   ];
 
   function saveData() {
@@ -1497,7 +1497,6 @@
 
   function calculateTiers() {
     const sorted = [...students].sort((a, b) => b.totalStamps - a.totalStamps);
-    const N = sorted.length;
     
     let currentRank = 1;
     sorted.forEach((student, index) => {
@@ -1505,14 +1504,13 @@
         currentRank = index + 1;
       }
       const rank = currentRank; 
-      const percent = N > 1 ? (rank - 1) / (N - 1) : 0; 
       let assignedTier = TIERS[TIERS.length - 1]; 
       
       if (student.totalStamps === 0) {
         assignedTier = TIERS[TIERS.length - 1];
       } else {
         for (let i = 0; i < TIERS.length; i++) {
-          if (percent <= TIERS[i].threshold) {
+          if (rank <= TIERS[i].maxRank) {
              assignedTier = TIERS[i];
              break;
           }
