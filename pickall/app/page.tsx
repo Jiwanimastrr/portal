@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dices, ListOrdered, UserRound, Users, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -94,11 +95,19 @@ export default function Home() {
 
       {/* Header Area */}
       <motion.div 
-        className="text-center space-y-4"
+        className="text-center space-y-4 flex flex-col items-center"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
+        <Image
+          src="/willgrow-logo.png"
+          alt="윌그로우 로고"
+          width={120}
+          height={120}
+          className="rounded-2xl shadow-md mb-2"
+          priority
+        />
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-primary">모두의 뽑기</h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-[600px] px-4">
           수업 시간에 필요한 모든 뽑기 도구를 한 곳에서 만나보세요.
