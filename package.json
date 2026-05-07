@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler pages dev -- npx vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && cd pickall && npm install && npm run build && cp -r out ../dist/pickall",
     "lint": "eslint .",
     "preview": "vite preview"
   },
