@@ -135,11 +135,13 @@ export function NameListInput() {
           />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-4 border-t">
           {/* 직접 입력 */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-primary">1. 직접 입력 / 붙여넣기</h3>
-            <p className="text-xs text-muted-foreground">줄바꿈이나 쉼표로 구분하세요.</p>
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-semibold text-primary mb-1">1. 직접 입력 / 붙여넣기</h3>
+              <p className="text-xs text-muted-foreground">줄바꿈이나 쉼표로 구분하세요.</p>
+            </div>
             <textarea 
               className="w-full min-h-[120px] rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               placeholder="홍길동&#13;&#10;김철수&#13;&#10;이영희"
@@ -150,15 +152,17 @@ export function NameListInput() {
           </div>
 
           {/* 숫자 범위 */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-primary">2. 번호로 자동 생성</h3>
-            <p className="text-xs text-muted-foreground">시작과 끝 번호를 입력하세요.</p>
-            <div className="flex items-center space-x-2">
-              <Input type="number" placeholder="시작" value={startNum} onChange={e => setStartNum(e.target.value)} />
-              <span>~</span>
-              <Input type="number" placeholder="끝" value={endNum} onChange={e => setEndNum(e.target.value)} />
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-semibold text-primary mb-1">2. 번호로 자동 생성</h3>
+              <p className="text-xs text-muted-foreground">시작과 끝 번호를 입력하세요.</p>
             </div>
-            <div className="flex space-x-2 mt-2">
+            <div className="flex items-center space-x-3">
+              <Input type="number" placeholder="시작" value={startNum} onChange={e => setStartNum(e.target.value)} className="w-full" />
+              <span className="text-muted-foreground font-medium">~</span>
+              <Input type="number" placeholder="끝" value={endNum} onChange={e => setEndNum(e.target.value)} className="w-full" />
+            </div>
+            <div className="flex space-x-3 mt-3">
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -180,9 +184,11 @@ export function NameListInput() {
           </div>
 
           {/* 엑셀 업로드 */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-primary">3. 엑셀/CSV 업로드</h3>
-            <p className="text-xs text-muted-foreground">첫 번째 열(A열)을 명단으로 가져옵니다.</p>
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-semibold text-primary mb-1">3. 엑셀/CSV 업로드</h3>
+              <p className="text-xs text-muted-foreground">첫 번째 열(A열)을 명단으로 가져옵니다.</p>
+            </div>
             <div className="flex h-[120px] items-center justify-center rounded-md border border-dashed border-input p-4 text-center">
               <div>
                 <Input 
