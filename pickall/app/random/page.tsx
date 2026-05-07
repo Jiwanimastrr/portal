@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import confetti from "canvas-confetti";
 import * as XLSX from "xlsx";
-import { Dices, RefreshCcw, UserMinus, Download, Settings, History } from "lucide-react";
+import { Dices, RefreshCcw, UserMinus, Download, Settings, History, Zap, Save } from "lucide-react";
 
 import { useListStore } from "@/lib/store/useListStore";
 import { useSettingsStore } from "@/lib/store/useSettingsStore";
@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 type DrawMode = "single" | "cycle" | "allow_dup";
+type InputMode = "quick" | "saved";
 
 interface HistoryItem {
   id: string;
@@ -31,8 +32,15 @@ interface HistoryItem {
 export default function RandomPage() {
   const lists = useListStore((state) => state.lists);
   const currentListId = useListStore((state) => state.currentListId);
+  const setCurrentList = useListStore((state) => state.setCurrentList);
   const currentList = lists.find((l) => l.id === currentListId);
   const soundEnabled = useSettingsStore((state) => state.soundEnabled);
+
+  // Input mode
+  const [inputMode, setInputMode] = useState<InputMode>("quick");
+  const [quickText, setQuickText] = useState("");
+  const [quickItems, setQuickItems] = useState<string[]>([]);
+  const [quickActive, setQuickActive] = useState(false); // 빠른 입력이 활성화 상태인지
 
   // States
   const [availableItems, setAvailableItems] = useState<string[]>([]);
@@ -48,24 +56,80 @@ export default function RandomPage() {
   const { initAudio, playTick, playSuccess } = useTickSound();
   const shouldReduceMotion = useReducedMotion();
 
-  // Initialize available items when list changes
+  // 통합 소스: 빠른 입력 모드 vs 저장된 명단 모드
+  const activeSourceItems = useMemo(() => {
+    if (inputMode === "quick" && quickActive) {
+      return quickItems;
+    }
+    return currentList?.items ?? [];
+  }, [inputMode, quickActive, quickItems, currentList]);
+
+  const hasActiveList = activeSourceItems.length > 0;
+
+  // Initialize available items when source changes
   useEffect(() => {
-    if (currentList) {
-      setAvailableItems([...currentList.items]);
+    if (activeSourceItems.length > 0) {
+      setAvailableItems([...activeSourceItems]);
       setHistory([]);
       setWinners([]);
       setCurrentRollingItems([]);
     } else {
       setAvailableItems([]);
     }
-  }, [currentListId, currentList]);
+  }, [activeSourceItems]);
+
+  // 모드 전환 시 상태 초기화
+  const handleModeChange = (mode: InputMode) => {
+    setInputMode(mode);
+    setHistory([]);
+    setWinners([]);
+    setCurrentRollingItems([]);
+    if (mode === "quick") {
+      // 빠른 입력 모드로 전환
+      setCurrentList(null);
+      if (quickActive && quickItems.length > 0) {
+        setAvailableItems([...quickItems]);
+      } else {
+        setAvailableItems([]);
+      }
+    } else {
+      // 저장된 명단 모드로 전환
+      setQuickActive(false);
+      if (currentList) {
+        setAvailableItems([...currentList.items]);
+      } else {
+        setAvailableItems([]);
+      }
+    }
+  };
+
+  // 빠른 입력 적용
+  const handleQuickApply = () => {
+    const items = quickText
+      .split(/[\n,]+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    if (items.length === 0) {
+      toast.error("명단에 포함될 항목을 입력해주세요.");
+      return;
+    }
+
+    setQuickItems(items);
+    setQuickActive(true);
+    setAvailableItems([...items]);
+    setHistory([]);
+    setWinners([]);
+    setCurrentRollingItems([]);
+    toast.success(`${items.length}명의 임시 명단이 적용되었습니다.`);
+  };
 
   const handleResetAvailable = useCallback(() => {
-    if (currentList) {
-      setAvailableItems([...currentList.items]);
+    if (activeSourceItems.length > 0) {
+      setAvailableItems([...activeSourceItems]);
       toast.success("명단이 초기화되었습니다.");
     }
-  }, [currentList]);
+  }, [activeSourceItems]);
 
   const handleStartDraw = useCallback(() => {
     if (!hasInteracted) {
@@ -73,8 +137,8 @@ export default function RandomPage() {
       setHasInteracted(true);
     }
 
-    if (!currentList) {
-      toast.error("먼저 명단을 선택해주세요.");
+    if (!hasActiveList) {
+      toast.error("먼저 명단을 입력해주세요.");
       return;
     }
 
@@ -91,10 +155,10 @@ export default function RandomPage() {
 
     let itemsPool = [...availableItems];
     if (drawMode === "allow_dup") {
-      itemsPool = [...currentList.items];
+      itemsPool = [...activeSourceItems];
     } else if (drawMode === "cycle") {
       if (itemsPool.length === 0) {
-        itemsPool = [...currentList.items];
+        itemsPool = [...activeSourceItems];
         setAvailableItems(itemsPool);
         toast.info("모든 인원이 뽑혀 새로운 사이클을 시작합니다.");
       }
@@ -171,37 +235,28 @@ export default function RandomPage() {
     };
 
     requestAnimationFrame(animate);
-  }, [hasInteracted, currentList, drawMode, availableItems, drawCount, history.length, soundEnabled, initAudio, playTick, playSuccess, handleResetAvailable, shouldReduceMotion]);
-
-  // Initialize available items when list changes
-  useEffect(() => {
-    if (currentList) {
-      setAvailableItems([...currentList.items]);
-      setHistory([]);
-      setWinners([]);
-      setCurrentRollingItems([]);
-    } else {
-      setAvailableItems([]);
-    }
-  }, [currentListId, currentList]);
+  }, [hasInteracted, hasActiveList, activeSourceItems, drawMode, availableItems, drawCount, history.length, soundEnabled, initAudio, playTick, playSuccess, handleResetAvailable, shouldReduceMotion]);
 
   // Keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Space" && !isDrawing && currentList && availableItems.length > 0) {
+      if (e.code === "Space" && !isDrawing && hasActiveList && availableItems.length > 0) {
+        // textarea에 포커스되어 있으면 스페이스바 동작 방지
+        const tag = (e.target as HTMLElement)?.tagName;
+        if (tag === "TEXTAREA" || tag === "INPUT") return;
         e.preventDefault();
         handleStartDraw();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isDrawing, currentList, availableItems, handleStartDraw]);
+  }, [isDrawing, hasActiveList, availableItems, handleStartDraw]);
 
   const handleResetHistory = () => {
     setHistory([]);
     setWinners([]);
     setCurrentRollingItems([]);
-    if (currentList) setAvailableItems([...currentList.items]);
+    setAvailableItems([...activeSourceItems]);
     toast.success("이력이 초기화되었습니다.");
   };
 
@@ -228,7 +283,7 @@ export default function RandomPage() {
   };
 
   // Stats calculation
-  const totalCount = currentList ? currentList.items.length : 0;
+  const totalCount = activeSourceItems.length;
   const remainingCount = availableItems.length;
   const drawnCount = totalCount - remainingCount;
 
@@ -252,16 +307,73 @@ export default function RandomPage() {
             <CardHeader className="pb-3">
               <CardTitle className="text-lg">명단 설정</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <NameListSelector />
-              {currentList && (
-                <div className="text-sm font-medium bg-muted p-3 rounded-md text-center border">
-                  현재 선택된 명단: <span className="text-primary font-bold">{totalCount}명</span>
+            <CardContent className="space-y-4">
+              {/* 모드 선택 탭 */}
+              <div className="flex rounded-lg border overflow-hidden">
+                <button
+                  onClick={() => handleModeChange("quick")}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm font-medium transition-colors ${
+                    inputMode === "quick"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <Zap className="w-4 h-4" />
+                  빠른 입력
+                </button>
+                <button
+                  onClick={() => handleModeChange("saved")}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm font-medium transition-colors ${
+                    inputMode === "saved"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <Save className="w-4 h-4" />
+                  저장된 명단
+                </button>
+              </div>
+
+              {inputMode === "quick" ? (
+                /* 빠른 입력 모드 */
+                <div className="space-y-3">
+                  <p className="text-xs text-muted-foreground">
+                    이름이나 항목을 입력하면 저장 없이 바로 사용합니다.<br/>
+                    줄바꿈 또는 쉼표(,)로 구분하세요.
+                  </p>
+                  <textarea
+                    className="w-full min-h-[180px] rounded-lg border border-input bg-transparent px-4 py-3 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
+                    placeholder={"홍길동\n김철수\n이영희\n박지민\n최수현"}
+                    value={quickText}
+                    onChange={(e) => setQuickText(e.target.value)}
+                  />
+                  <Button
+                    onClick={handleQuickApply}
+                    className="w-full h-11 text-base bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white"
+                  >
+                    <Zap className="w-4 h-4 mr-2" />
+                    바로 사용하기
+                  </Button>
+                  {quickActive && quickItems.length > 0 && (
+                    <div className="text-sm font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 p-3 rounded-md text-center border border-emerald-200 dark:border-emerald-800">
+                      ⚡ 임시 명단 사용 중: <span className="font-bold">{quickItems.length}명</span>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* 저장된 명단 모드 */
+                <div className="space-y-4">
+                  <NameListSelector />
+                  {currentList && (
+                    <div className="text-sm font-medium bg-muted p-3 rounded-md text-center border">
+                      현재 선택된 명단: <span className="text-primary font-bold">{totalCount}명</span>
+                    </div>
+                  )}
+                  <div className="pt-4 border-t">
+                    <NameListInput />
+                  </div>
                 </div>
               )}
-              <div className="pt-4 border-t">
-                <NameListInput />
-              </div>
             </CardContent>
           </Card>
         </div>
@@ -269,10 +381,14 @@ export default function RandomPage() {
         {/* Center Panel: 메인 추첨 영역 (2 columns) */}
         <div className="lg:col-span-2">
           <Card className="h-full min-h-[500px] flex flex-col p-4 md:p-8 border-2 shadow-sm bg-gradient-to-b from-background to-emerald-50/30 dark:to-emerald-950/20">
-            {!currentList ? (
+            {!hasActiveList ? (
               <div className="m-auto text-center text-muted-foreground flex flex-col items-center">
                 <Dices className="w-20 h-20 mb-6 opacity-20" />
-                <p className="text-lg">좌측 패널에서 명단을 선택하거나 새로 추가해주세요.</p>
+                <p className="text-lg">
+                  {inputMode === "quick"
+                    ? "좌측에서 이름을 입력하고 '바로 사용하기'를 눌러주세요."
+                    : "좌측 패널에서 명단을 선택하거나 새로 추가해주세요."}
+                </p>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-between h-full w-full">
@@ -382,7 +498,7 @@ export default function RandomPage() {
                 />
               </div>
 
-              {currentList && (
+              {hasActiveList && (
                 <div className="bg-muted rounded-lg p-4 grid grid-cols-2 gap-4 text-center text-sm border">
                   <div>
                     <div className="text-muted-foreground text-xs mb-1">총 인원</div>
