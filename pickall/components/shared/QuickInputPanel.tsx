@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Zap, Save } from "lucide-react";
+import { Zap, Save, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NameListSelector } from "@/components/shared/NameListSelector";
 import { NameListInput } from "@/components/shared/NameListInput";
 import { toast } from "sonner";
 
-type InputMode = "quick" | "saved";
+type InputMode = "quick" | "saved" | "create";
 
 interface QuickInputPanelProps {
   onQuickApply: (items: string[]) => void;
@@ -52,7 +52,7 @@ export function QuickInputPanel({
       <div className="flex rounded-lg border overflow-hidden">
         <button
           onClick={() => setInputMode("quick")}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm font-medium transition-colors ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-medium transition-colors ${
             inputMode === "quick"
               ? "bg-primary text-primary-foreground"
               : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -63,14 +63,25 @@ export function QuickInputPanel({
         </button>
         <button
           onClick={() => setInputMode("saved")}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm font-medium transition-colors ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-medium transition-colors ${
             inputMode === "saved"
               ? "bg-primary text-primary-foreground"
               : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted"
           }`}
         >
           <Save className="w-4 h-4" />
-          저장된 명단
+          명단 선택
+        </button>
+        <button
+          onClick={() => setInputMode("create")}
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-medium transition-colors ${
+            inputMode === "create"
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted"
+          }`}
+        >
+          <Plus className="w-4 h-4" />
+          명단 생성
         </button>
       </div>
 
@@ -100,14 +111,16 @@ export function QuickInputPanel({
             </div>
           )}
         </div>
-      ) : (
+      ) : inputMode === "saved" ? (
         /* 저장된 명단 모드 */
         <div className="space-y-4">
           <NameListSelector />
           {savedListInfo}
-          <div className="pt-4 border-t">
-            <NameListInput />
-          </div>
+        </div>
+      ) : (
+        /* 명단 생성 모드 */
+        <div className="space-y-4">
+          <NameListInput />
         </div>
       )}
     </>
