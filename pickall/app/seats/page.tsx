@@ -19,7 +19,6 @@ import { NameListSelector } from "@/components/shared/NameListSelector";
 import { NameListInput } from "@/components/shared/NameListInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
@@ -495,10 +494,29 @@ export default function SeatsPage() {
                     </div>
 
                     <div className="pt-4 border-t space-y-4">
-                      <div className="flex items-center justify-between">
-                        <Label htmlFor="disableMode" className="text-sm font-medium">자리 비우기 모드 (클릭)</Label>
-                        <Switch id="disableMode" checked={isDisableMode} onCheckedChange={setIsDisableMode} />
-                      </div>
+                      <button
+                        onClick={() => setIsDisableMode(!isDisableMode)}
+                        className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 text-sm font-bold transition-all ${
+                          isDisableMode
+                            ? "bg-red-500 text-white border-red-500 shadow-lg shadow-red-500/20 hover:bg-red-600"
+                            : "bg-background text-muted-foreground border-input hover:border-red-300 hover:text-red-500"
+                        }`}
+                      >
+                        <UserMinus className="w-4 h-4" />
+                        자리 비우기 모드
+                        <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
+                          isDisableMode
+                            ? "bg-white/20 text-white"
+                            : "bg-muted text-muted-foreground"
+                        }`}>
+                          {isDisableMode ? "ON" : "OFF"}
+                        </span>
+                      </button>
+                      {isDisableMode && (
+                        <p className="text-xs text-red-500 text-center font-medium animate-pulse">
+                          좌석을 클릭하면 비활성화/활성화됩니다
+                        </p>
+                      )}
                       <Button variant="secondary" className="w-full" onClick={handleAddAisle}>
                         <UserMinus className="w-4 h-4 mr-2" /> 중앙 복도 추가
                       </Button>

@@ -14,7 +14,7 @@ import { NameListSelector } from "@/components/shared/NameListSelector";
 import { NameListInput } from "@/components/shared/NameListInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -468,20 +468,34 @@ export default function RandomPage() {
             <CardContent className="space-y-6">
               <div className="space-y-3">
                 <Label className="text-sm font-semibold">추첨 방식</Label>
-                <RadioGroup value={drawMode} onValueChange={(val: DrawMode) => setDrawMode(val)}>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="single" id="r-single" />
-                    <Label htmlFor="r-single">단일 추첨 (중복X)</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="cycle" id="r-cycle" />
-                    <Label htmlFor="r-cycle">모든 항목 순환</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="allow_dup" id="r-dup" />
-                    <Label htmlFor="r-dup">중복 허용</Label>
-                  </div>
-                </RadioGroup>
+                <div className="flex flex-col gap-2">
+                  {[
+                    { value: "single" as DrawMode, label: "단일 추첨 (중복X)" },
+                    { value: "cycle" as DrawMode, label: "모든 항목 순환" },
+                    { value: "allow_dup" as DrawMode, label: "중복 허용" }
+                  ].map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setDrawMode(opt.value)}
+                      className={`flex items-center gap-3 px-4 py-2.5 rounded-lg border text-sm font-medium text-left transition-all ${
+                        drawMode === opt.value
+                          ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                          : "bg-background text-foreground border-input hover:bg-muted"
+                      }`}
+                    >
+                      <span className={`flex shrink-0 items-center justify-center w-4 h-4 rounded-full border-2 ${
+                        drawMode === opt.value
+                          ? "border-primary-foreground"
+                          : "border-muted-foreground/40"
+                      }`}>
+                        {drawMode === opt.value && (
+                          <span className="w-2 h-2 rounded-full bg-primary-foreground" />
+                        )}
+                      </span>
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-3">
