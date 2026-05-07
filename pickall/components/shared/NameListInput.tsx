@@ -121,21 +121,22 @@ export function NameListInput() {
 
   return (
     <Card className="w-full">
-      <CardHeader>
-        <CardTitle>새 명단 추가</CardTitle>
+      <CardHeader className="pb-4">
+        <CardTitle className="text-lg">새 명단 추가</CardTitle>
         <CardDescription>학생 이름이나 항목을 추가하여 명단을 만듭니다.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-1">명단 이름</label>
+          <label className="block text-sm font-medium mb-2">명단 이름</label>
           <Input 
             placeholder="예: 1학년 2반, 조별 과제 명단 등" 
             value={listName}
             onChange={(e) => setListName(e.target.value)}
+            className="h-12 text-base px-4"
           />
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-4 border-t">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-6 border-t">
           {/* 직접 입력 */}
           <div className="space-y-4">
             <div>
@@ -143,12 +144,12 @@ export function NameListInput() {
               <p className="text-xs text-muted-foreground">줄바꿈이나 쉼표로 구분하세요.</p>
             </div>
             <textarea 
-              className="w-full min-h-[120px] rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              placeholder="홍길동&#13;&#10;김철수&#13;&#10;이영희"
+              className="w-full min-h-[160px] rounded-lg border border-input bg-transparent px-4 py-3 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
+              placeholder={"홍길동\n김철수\n이영희"}
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
             />
-            <Button onClick={handleSaveText} className="w-full">저장하기</Button>
+            <Button onClick={handleSaveText} className="w-full h-11 text-base">저장하기</Button>
           </div>
 
           {/* 숫자 범위 */}
@@ -157,30 +158,28 @@ export function NameListInput() {
               <h3 className="text-sm font-semibold text-primary mb-1">2. 번호로 자동 생성</h3>
               <p className="text-xs text-muted-foreground">시작과 끝 번호를 입력하세요.</p>
             </div>
-            <div className="flex items-center space-x-3">
-              <Input type="number" placeholder="시작" value={startNum} onChange={e => setStartNum(e.target.value)} className="w-full" />
-              <span className="text-muted-foreground font-medium">~</span>
-              <Input type="number" placeholder="끝" value={endNum} onChange={e => setEndNum(e.target.value)} className="w-full" />
+            <div className="flex items-center gap-3">
+              <Input type="number" placeholder="시작" value={startNum} onChange={e => setStartNum(e.target.value)} className="w-full h-12 text-base text-center px-4" />
+              <span className="text-muted-foreground font-bold text-lg shrink-0">~</span>
+              <Input type="number" placeholder="끝" value={endNum} onChange={e => setEndNum(e.target.value)} className="w-full h-12 text-base text-center px-4" />
             </div>
-            <div className="flex space-x-3 mt-3">
+            <div className="flex gap-3">
               <Button 
                 variant="outline" 
-                size="sm" 
-                className="flex-1"
+                className="flex-1 h-11 text-base"
                 onClick={() => { setStartNum("1"); setEndNum("30"); }}
               >
                 1~30번
               </Button>
               <Button 
                 variant="outline" 
-                size="sm" 
-                className="flex-1"
+                className="flex-1 h-11 text-base"
                 onClick={() => { setStartNum("1"); setEndNum("50"); }}
               >
                 1~50번
               </Button>
             </div>
-            <Button onClick={handleSaveRange} className="w-full mt-2" variant="secondary">생성 및 저장</Button>
+            <Button onClick={handleSaveRange} className="w-full h-11 text-base" variant="secondary">생성 및 저장</Button>
           </div>
 
           {/* 엑셀 업로드 */}
@@ -189,13 +188,13 @@ export function NameListInput() {
               <h3 className="text-sm font-semibold text-primary mb-1">3. 엑셀/CSV 업로드</h3>
               <p className="text-xs text-muted-foreground">첫 번째 열(A열)을 명단으로 가져옵니다.</p>
             </div>
-            <div className="flex h-[120px] items-center justify-center rounded-md border border-dashed border-input p-4 text-center">
-              <div>
+            <div className="flex min-h-[140px] items-center justify-center rounded-lg border-2 border-dashed border-input p-6 text-center">
+              <div className="w-full">
                 <Input 
                   type="file" 
                   accept=".xlsx, .xls, .csv" 
                   onChange={handleFileUpload}
-                  className="cursor-pointer"
+                  className="cursor-pointer h-12 text-base"
                 />
               </div>
             </div>
