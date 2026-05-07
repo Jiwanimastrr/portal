@@ -7,7 +7,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 
 import { EmptyState } from "./EmptyState";
@@ -21,6 +20,11 @@ export function NameListSelector() {
     return <EmptyState />;
   }
 
+  const selectedList = lists.find((l) => l.id === currentListId);
+  const displayText = selectedList
+    ? `${selectedList.name} (${selectedList.items.length}명)`
+    : "명단을 선택하세요";
+
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium">사용할 명단 선택</label>
@@ -29,7 +33,7 @@ export function NameListSelector() {
         onValueChange={(value) => setCurrentList(value)}
       >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="명단을 선택하세요" />
+          <span className="truncate">{displayText}</span>
         </SelectTrigger>
         <SelectContent>
           {lists.map((list) => (
