@@ -8,7 +8,7 @@ import html2canvas from "html2canvas";
 import { 
   Grid3X3, Settings, Users, Shuffle, Printer, Download, Image as ImageIcon,
   Plus, Minus, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, UserMinus, UserPlus,
-  Star, Link as LinkIcon, Unlink, AlertCircle, Save
+  Star, Link as LinkIcon, Unlink, AlertCircle, Save, RotateCcw
 } from "lucide-react";
 
 import { useListStore } from "@/lib/store/useListStore";
@@ -107,6 +107,18 @@ export default function SeatsPage() {
     };
     localStorage.setItem("pickall_classroom_layout", JSON.stringify(layout));
     toast.success("교실 레이아웃이 저장되었습니다.");
+  };
+
+  const resetLayout = () => {
+    setRows(5);
+    setCols(6);
+    setBoardPos("top");
+    setDisabledSeats(new Set());
+    setIsDisableMode(false);
+    setAssignments({});
+    setAnimatedSeats(new Set());
+    localStorage.removeItem("pickall_classroom_layout");
+    toast.success("교실 레이아웃이 초기화되었습니다.");
   };
 
   const handleSeatClick = (r: number, c: number) => {
@@ -555,9 +567,14 @@ export default function SeatsPage() {
                       <Button variant="secondary" className="w-full" onClick={handleAddAisle}>
                         <UserMinus className="w-4 h-4 mr-2" /> 중앙 복도 추가
                       </Button>
-                      <Button variant="outline" className="w-full" onClick={saveLayout}>
-                        <Save className="w-4 h-4 mr-2" /> 레이아웃 저장
-                      </Button>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button variant="outline" className="w-full" onClick={saveLayout}>
+                          <Save className="w-4 h-4 mr-2" /> 저장
+                        </Button>
+                        <Button variant="outline" className="w-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20" onClick={resetLayout}>
+                          <RotateCcw className="w-4 h-4 mr-2" /> 초기화
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </>
