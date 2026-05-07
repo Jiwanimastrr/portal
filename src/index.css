@@ -514,121 +514,179 @@ a {
   line-height: 1.7;
 }
 
-.programs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2.5rem;
-  max-width: 1200px;
+/* iPad-style Icon Grid */
+.ipad-frame {
+  max-width: 800px;
   margin: 0 auto;
+  background: #1c1c1e;
+  border-radius: 40px;
+  padding: 16px;
+  box-shadow: 
+    0 40px 80px -15px rgba(0,0,0,0.4),
+    inset 0 0 0 2px #3a3a3c,
+    inset 0 0 20px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 10;
 }
 
-/* Site Card Styles (Updated for Landing Page) */
-.site-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px;
+.ipad-screen {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  border-radius: 28px;
   overflow: hidden;
+  position: relative;
+  min-height: 550px;
+  padding: 50px 20px 60px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.ipad-status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.ipad-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ipad-home-indicator {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 100px;
+}
+
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 32px 20px;
+  max-width: 720px;
+  margin: 0 auto;
+  justify-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+/* iPad App Icon Card */
+.site-card {
+  background: transparent;
+  border: none;
+  overflow: visible;
   text-decoration: none;
   color: var(--color-text);
-  transition: all 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: var(--glass-shadow);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  align-items: center;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  max-width: 110px;
+  transition: transform 200ms ease;
 }
 
 .site-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
-  z-index: 1;
-  pointer-events: none;
+  display: none;
 }
 
 .site-card:hover {
-  transform: translateY(-8px);
-  background: var(--glass-bg-hover);
-  box-shadow: 0 20px 40px 0 rgba(31, 38, 135, 0.1);
-  border-color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.08);
 }
 
+.site-card:active {
+  transform: scale(0.95);
+}
+
+/* Icon image - rounded square like iPad */
 .site-card-image-wrap {
-  width: 100%;
-  height: 200px;
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
   overflow: hidden;
-  background-color: rgba(0,0,0,0.02);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: #fff;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.08),
+    0 6px 20px rgba(0,0,0,0.06);
   position: relative;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: box-shadow 300ms ease;
+}
+
+.site-card:hover .site-card-image-wrap {
+  box-shadow:
+    0 4px 14px rgba(0,0,0,0.12),
+    0 10px 30px rgba(0,0,0,0.1);
 }
 
 .site-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
-  transition: transform 600ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  object-position: center;
+  transition: transform 400ms ease;
 }
 
 .site-card:hover .site-card-image {
   transform: scale(1.05);
 }
 
+/* Label below icon */
 .site-card-content {
-  padding: var(--space-xl);
-  flex: 1;
+  padding: 8px 2px 0;
+  flex: none;
   display: flex;
   flex-direction: column;
+  align-items: center;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
 .site-card-title {
-  font-size: 1.35rem;
-  margin-bottom: var(--space-xs);
-  color: var(--color-primary);
-}
-
-.site-card-desc {
-  font-size: 1rem;
-  color: var(--color-text-light);
-  line-height: 1.6;
-  flex: 1;
-  margin-bottom: var(--space-xl);
-}
-
-.site-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
-
-.site-tag {
-  background: rgba(212, 175, 55, 0.1);
-  color: #B8860B;
-  padding: 8px 14px;
-  border-radius: 8px;
   font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 700;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: keep-all;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  letter-spacing: 0.02em;
+}
+
+/* Hide description and footer in icon mode */
+.site-card-desc,
+.site-card-footer {
+  display: none;
+}
+
+/* Tag badge - small dot on icon */
+.site-tag {
+  display: none;
 }
 
 .site-arrow {
-  color: var(--color-cta);
-  transition: transform 300ms ease;
-  font-weight: 700;
-  font-size: 1.25rem;
-}
-
-.site-card:hover .site-arrow {
-  transform: translateX(6px);
+  display: none;
 }
 
 /* Footer Section */
@@ -854,12 +912,19 @@ a {
   }
 
   .programs-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px 16px;
+    max-width: 100%;
+  }
+
+  .site-card-image-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
   }
 
   .site-card-title {
-    font-size: 1.2rem;
+    font-size: 0.7rem;
   }
   
   .footer {

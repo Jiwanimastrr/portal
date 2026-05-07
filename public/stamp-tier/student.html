@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Willgrow Tier - My Rank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a1d23;
+    --card: #22262e;
+    --card-hover: #2a2f38;
+    --border: #333840;
+    --orange: #f99e1a;
+    --blue: #00c3ff;
+    --light: #f0edee;
+    --muted: #8a909b;
+    --font: 'Teko', 'Noto Sans KR', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--light);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 24px 16px 20px;
+    background: linear-gradient(180deg, #22262e 0%, var(--bg) 100%);
+    border-bottom: 3px solid var(--orange);
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    display: inline-flex; align-items: flex-start; justify-content: center;
+    transform: skewX(-10deg); margin-bottom: -2px;
+  }
+  .logo-w {
+    font-size: 48px; font-weight: 900; font-style: italic; line-height: 1;
+    padding-right: 6px; margin-right: 4px;
+    background: linear-gradient(to bottom, #ff9999, #e60000 21%, #800000 49%, #cc0000 80%, #ff9999);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,.7));
+  }
+  .logo-dot {
+    width: 12px; height: 12px; margin-top: 4px;
+    background: linear-gradient(135deg, #d9ff99, #99ff00 21%, #4d8000 49%, #80cc00 80%, #d9ff99);
+    transform: skewX(-15deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,.7);
+  }
+  .header h1 {
+    font-size: 28px; font-weight: 900; letter-spacing: 2px; font-style: italic;
+    text-transform: uppercase; margin: 2px 0 0;
+    background: linear-gradient(to bottom, #f5f6f6, #dbdce2 21%, #80828c 49%, #aeb0bc 80%, #f5f6f6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 3px 4px rgba(0,0,0,.7));
+  }
+  .header .sub {
+    font-size: 13px; font-weight: 700; letter-spacing: 2px; color: var(--blue);
+    text-transform: uppercase; margin-top: 2px;
+  }
+
+  /* Search */
+  .search-wrap {
+    padding: 16px;
+    position: sticky; top: 105px; z-index: 90;
+    background: var(--bg);
+  }
+  .search-box {
+    position: relative; max-width: 480px; margin: 0 auto;
+  }
+  .search-box input {
+    width: 100%; padding: 14px 18px 14px 46px;
+    font-family: 'Noto Sans KR', sans-serif; font-size: 16px; font-weight: 700;
+    background: var(--card); color: var(--light);
+    border: 2px solid var(--border); border-radius: 12px;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+  }
+  .search-box input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(249,158,26,.15);
+  }
+  .search-box input::placeholder { color: var(--muted); font-weight: 500; }
+  .search-icon {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    font-size: 18px; color: var(--muted); pointer-events: none;
+  }
+
+  /* Content */
+  .content { padding: 0 16px 100px; max-width: 520px; margin: 0 auto; }
+
+  /* Empty / Prompt States */
+  .state-msg {
+    text-align: center; padding: 60px 20px;
+    font-size: 18px; color: var(--muted); font-weight: 500;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .state-msg .icon { font-size: 48px; margin-bottom: 12px; display: block; }
+
+  /* Student Card (search results) */
+  .result-card {
+    background: var(--card);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform .15s, box-shadow .15s;
+    cursor: pointer;
+  }
+  .result-card:active { transform: scale(.98); }
+  .result-card .card-top {
+    display: flex; align-items: center; padding: 16px;
+    gap: 14px;
+  }
+  .result-card .badge-small {
+    width: 48px; height: 48px; flex-shrink: 0;
+    background-size: contain; background-position: center; background-repeat: no-repeat;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,.2));
+  }
+  .result-card .card-name {
+    font-size: 20px; font-weight: 900; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .result-card .card-class {
+    font-size: 13px; color: var(--blue); font-weight: 600;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .result-card .card-rank-tag {
+    margin-left: auto; text-align: right;
+    font-size: 14px; font-weight: 600; color: var(--muted);
+  }
+  .result-card .card-rank-tag .rank-num {
+    font-size: 28px; font-weight: 900; color: var(--orange); line-height: 1;
+  }
+
+  /* Detail View (expanded) */
+  .detail-overlay {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,.85);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s;
+  }
+  .detail-overlay.active { opacity: 1; pointer-events: all; }
+
+  .detail-card {
+    width: 92%; max-width: 400px;
+    background: var(--card);
+    border-radius: 20px;
+    border: 2px solid var(--border);
+    overflow: hidden;
+    transform: translateY(30px) scale(.95);
+    transition: transform .3s cubic-bezier(.175,.885,.32,1.275);
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  }
+  .detail-overlay.active .detail-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .detail-top {
+    padding: 30px 24px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .detail-top::before {
+    content: ''; position: absolute; inset: 0;
+    opacity: .15; pointer-events: none;
+  }
+  .detail-badge {
+    width: 140px; height: 140px; margin: 0 auto 12px;
+    background-size: contain; background-position: center; background-repeat: no-repeat;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,.25));
+    animation: badgeFloat 3s ease-in-out infinite alternate;
+  }
+  @keyframes badgeFloat {
+    from { transform: translateY(0); }
+    to { transform: translateY(-8px); }
+  }
+  .detail-name {
+    font-size: 32px; font-weight: 900; letter-spacing: 2px;
+    text-transform: uppercase; font-style: italic;
+    text-shadow: 0 2px 4px rgba(0,0,0,.8);
+  }
+  .detail-tier-label {
+    font-size: 22px; font-weight: 700; letter-spacing: 3px;
+    margin-top: 4px; text-transform: uppercase;
+  }
+  .detail-class {
+    font-size: 14px; color: var(--blue); font-weight: 600;
+    margin-top: 6px; font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .detail-stats {
+    padding: 20px 24px 24px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .stat-box {
+    background: rgba(0,0,0,.3); border-radius: 12px; padding: 16px;
+    text-align: center; border: 1px solid rgba(255,255,255,.05);
+  }
+  .stat-box.wide { grid-column: 1 / -1; }
+  .stat-label {
+    font-size: 12px; color: var(--muted); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .stat-value {
+    font-size: 32px; font-weight: 900; line-height: 1;
+  }
+  .stat-value.orange { color: var(--orange); }
+  .stat-value.blue { color: var(--blue); }
+
+  /* Progress bar in detail */
+  .progress-wrap { padding: 0 24px 24px; }
+  .progress-label {
+    display: flex; justify-content: space-between; margin-bottom: 6px;
+    font-size: 13px; color: var(--muted); font-weight: 600;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .progress-track {
+    height: 10px; background: rgba(0,0,0,.4); border-radius: 5px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 5px;
+    background: linear-gradient(90deg, var(--orange), #ffb84d);
+    box-shadow: 0 0 10px rgba(249,158,26,.4);
+    transition: width .5s ease;
+  }
+
+  .detail-close {
+    display: block; width: calc(100% - 48px); margin: 0 24px 24px;
+    padding: 14px; border: none; border-radius: 12px;
+    background: var(--border); color: var(--light);
+    font-family: 'Noto Sans KR', sans-serif; font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: background .15s;
+  }
+  .detail-close:active { background: #444; }
+
+  /* Tier colors */
+  .tier-iron { color: #8e8f93; }
+  .tier-bronze { color: #cd8a61; }
+  .tier-silver { color: #c0d8e8; }
+  .tier-gold { color: #ffd700; }
+  .tier-platinum { color: #5be6d6; }
+  .tier-emerald { color: #24b861; }
+  .tier-diamond { color: #7f99ff; }
+  .tier-master { color: #c77dff; }
+  .tier-grandmaster { color: #ff6b6b; }
+  .tier-challenger { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,.5); }
+
+  /* Detail top backgrounds per tier */
+  .bg-iron { background: linear-gradient(180deg, #2d2d2d, var(--card)); }
+  .bg-bronze { background: linear-gradient(180deg, #3a2515, var(--card)); }
+  .bg-silver { background: linear-gradient(180deg, #2a3540, var(--card)); }
+  .bg-gold { background: linear-gradient(180deg, #3a2e08, var(--card)); }
+  .bg-platinum { background: linear-gradient(180deg, #0a2e28, var(--card)); }
+  .bg-emerald { background: linear-gradient(180deg, #0a2e15, var(--card)); }
+  .bg-diamond { background: linear-gradient(180deg, #151a3a, var(--card)); }
+  .bg-master { background: linear-gradient(180deg, #2a0836, var(--card)); }
+  .bg-grandmaster { background: linear-gradient(180deg, #3a0a0a, var(--card)); }
+  .bg-challenger { background: linear-gradient(180deg, #1a1500, var(--card)); }
+
+  /* Leaderboard mini */
+  .section-title {
+    font-size: 14px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 2px;
+    padding: 20px 0 10px; border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .lb-mini {
+    display: flex; align-items: center; padding: 12px 14px; gap: 12px;
+    background: var(--card); border-radius: 12px; margin-bottom: 8px;
+    border: 1px solid var(--border);
+  }
+  .lb-mini .lb-rank {
+    font-size: 22px; font-weight: 900; color: var(--muted);
+    width: 32px; text-align: center; font-style: italic;
+  }
+  .lb-mini:nth-child(2) .lb-rank { color: #ffd700; }
+  .lb-mini:nth-child(3) .lb-rank { color: #c0c0c0; }
+  .lb-mini:nth-child(4) .lb-rank { color: #cd7f32; }
+  .lb-mini .lb-badge {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background-size: contain; background-position: center; background-repeat: no-repeat;
+  }
+  .lb-mini .lb-info { flex: 1; min-width: 0; }
+  .lb-mini .lb-name {
+    font-size: 16px; font-weight: 800; text-transform: uppercase;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .lb-mini .lb-class-name {
+    font-size: 11px; color: var(--blue); font-weight: 600;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .lb-mini .lb-pts {
+    font-size: 18px; font-weight: 900; color: var(--orange);
+    flex-shrink: 0;
+  }
+
+  /* Badge image classes */
+  .iron-img { background-image: url('iron.png'); }
+  .bronze-img { background-image: url('bronze.png'); }
+  .silver-img { background-image: url('silver.png'); }
+  .gold-img { background-image: url('gold.png'); }
+  .platinum-img { background-image: url('platinum.png'); }
+  .emerald-img { background-image: url('emerald.png'); }
+  .diamond-img { background-image: url('diamond.png?v=2'); }
+  .master-img { background-image: url('master.png'); }
+  .grandmaster-img { background-image: url('grandmaster.png'); }
+  .challenger-img { background-image: url('challenger.png'); }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo"><div class="logo-w">W</div><div class="logo-dot"></div></div>
+  <h1>WILLGROW TIER</h1>
+  <div class="sub">My Rank Lookup</div>
+</header>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="이름을 검색하세요..." autocomplete="off">
+  </div>
+</div>
+
+<div class="content" id="content">
+  <div class="state-msg" id="defaultMsg">
+    <span class="icon">🎮</span>
+    이름을 검색하면<br>내 티어와 랭킹을 확인할 수 있어요!
+  </div>
+</div>
+
+<!-- Detail Overlay -->
+<div class="detail-overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="detail-card">
+    <div class="detail-top" id="detailTop">
+      <div class="detail-badge" id="detailBadge"></div>
+      <div class="detail-name" id="detailName"></div>
+      <div class="detail-tier-label" id="detailTier"></div>
+      <div class="detail-class" id="detailClass"></div>
+    </div>
+    <div class="detail-stats">
+      <div class="stat-box">
+        <div class="stat-label">전체 순위</div>
+        <div class="stat-value orange" id="detailRank">#1</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">총 승점</div>
+        <div class="stat-value blue" id="detailTotal">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">⭐ 레벨</div>
+        <div class="stat-value orange" id="detailLevel">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">학교</div>
+        <div class="stat-value" id="detailSchool" style="font-size:18px;color:var(--light);">-</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>다음 레벨까지</span>
+        <span id="detailProgress">0 / 20</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="detailFill" style="width:0%"></div>
+      </div>
+    </div>
+    <button class="detail-close" onclick="closeDetail()">닫기</button>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    projectId: "willgrow-textbook-system",
+    appId: "1:695680391212:web:c00517bb83964649995989",
+    storageBucket: "willgrow-textbook-system.firebasestorage.app",
+    apiKey: "AIzaSyDisSYRRDC4UKrMa2AKApib7--bwQak4Lg",
+    authDomain: "willgrow-textbook-system.firebaseapp.com",
+    messagingSenderId: "695680391212"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  let students = [];
+  let classes = [];
+
+  const TIERS = [
+    { name: 'challenger', label: 'CHALLENGER', maxRank: 1 },
+    { name: 'grandmaster', label: 'GRANDMASTER', maxRank: 2 },
+    { name: 'master', label: 'MASTER', maxRank: 3 },
+    { name: 'diamond', label: 'DIAMOND', maxRank: 5 },
+    { name: 'emerald', label: 'EMERALD', maxRank: 8 },
+    { name: 'platinum', label: 'PLATINUM', maxRank: 12 },
+    { name: 'gold', label: 'GOLD', maxRank: 18 },
+    { name: 'silver', label: 'SILVER', maxRank: 25 },
+    { name: 'bronze', label: 'BRONZE', maxRank: 35 },
+    { name: 'iron', label: 'IRON', maxRank: Infinity }
+  ];
+
+  // Real-time sync (READ-ONLY)
+  db.collection('stamp_system').doc('master_db').onSnapshot((doc) => {
+    if (doc.exists) {
+      const data = doc.data();
+      students = data.students || [];
+      classes = data.classes || [];
+    }
+    renderSearch();
+  });
+
+  function calculateTiers() {
+    const sorted = [...students].sort((a, b) => b.totalStamps - a.totalStamps);
+    let currentRank = 1;
+    sorted.forEach((student, index) => {
+      if (index > 0 && sorted[index - 1].totalStamps !== student.totalStamps) {
+        currentRank = index + 1;
+      }
+      let assignedTier = TIERS[TIERS.length - 1];
+      if (student.totalStamps > 0) {
+        for (let i = 0; i < TIERS.length; i++) {
+          if (currentRank <= TIERS[i].maxRank) { assignedTier = TIERS[i]; break; }
+        }
+      }
+      student.rank = currentRank;
+      student.tier = assignedTier;
+    });
+    return sorted;
+  }
+
+  function getClassName(classId) {
+    const c = classes.find(c => c.id === classId);
+    return c ? c.name : '';
+  }
+
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', renderSearch);
+
+  function renderSearch() {
+    const query = searchInput.value.trim().toLowerCase();
+    const content = document.getElementById('content');
+    const sorted = calculateTiers();
+
+    if (!query) {
+      // Show top 10 leaderboard
+      let html = '<div class="section-title">🏆 TOP 10 랭킹</div>';
+      const top10 = sorted.filter(s => s.totalStamps > 0).slice(0, 10);
+      if (top10.length === 0) {
+        html += '<div class="state-msg"><span class="icon">📊</span>아직 랭킹 데이터가 없습니다.</div>';
+      } else {
+        top10.forEach(s => {
+          html += `
+          <div class="lb-mini" onclick="showDetail('${s.id}')">
+            <div class="lb-rank">${s.rank}</div>
+            <div class="lb-badge ${s.tier.name}-img"></div>
+            <div class="lb-info">
+              <div class="lb-name">${s.name}</div>
+              <div class="lb-class-name">${getClassName(s.classId)}</div>
+            </div>
+            <div class="lb-pts">${s.totalStamps}pt</div>
+          </div>`;
+        });
+      }
+      content.innerHTML = html;
+      return;
+    }
+
+    const results = sorted.filter(s => s.name.toLowerCase().includes(query));
+
+    if (results.length === 0) {
+      content.innerHTML = '<div class="state-msg"><span class="icon">😢</span>검색 결과가 없습니다.<br>이름을 다시 확인해 주세요.</div>';
+      return;
+    }
+
+    let html = '';
+    results.forEach(s => {
+      const tierName = s.totalStamps > 0 ? s.tier.name : 'iron';
+      const tierLabel = s.totalStamps > 0 ? s.tier.label : 'IRON';
+      html += `
+      <div class="result-card" onclick="showDetail('${s.id}')">
+        <div class="card-top">
+          <div class="badge-small ${tierName}-img"></div>
+          <div>
+            <div class="card-name">${s.name}</div>
+            <div class="card-class">${getClassName(s.classId)}</div>
+          </div>
+          <div class="card-rank-tag">
+            <div class="rank-num">#${s.rank}</div>
+            <div class="tier-${tierName}">${tierLabel}</div>
+          </div>
+        </div>
+      </div>`;
+    });
+    content.innerHTML = html;
+  }
+
+  function showDetail(id) {
+    calculateTiers();
+    const s = students.find(st => st.id === id);
+    if (!s) return;
+
+    const tierName = s.totalStamps > 0 ? s.tier.name : 'iron';
+    const tierLabel = s.totalStamps > 0 ? s.tier.label : 'IRON';
+
+    document.getElementById('detailTop').className = 'detail-top bg-' + tierName;
+    document.getElementById('detailBadge').className = 'detail-badge ' + tierName + '-img';
+    document.getElementById('detailName').textContent = s.name;
+    document.getElementById('detailTier').className = 'detail-tier-label tier-' + tierName;
+    document.getElementById('detailTier').textContent = tierLabel;
+    document.getElementById('detailClass').textContent = getClassName(s.classId);
+    document.getElementById('detailRank').textContent = '#' + s.rank;
+    document.getElementById('detailTotal').textContent = s.totalStamps;
+    document.getElementById('detailLevel').textContent = s.dollars || 0;
+    document.getElementById('detailSchool').textContent = s.school || '-';
+    document.getElementById('detailProgress').textContent = s.stamps + ' / 20';
+    document.getElementById('detailFill').style.width = Math.min((s.stamps / 20) * 100, 100) + '%';
+
+    document.getElementById('detailOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDetail() {
+    document.getElementById('detailOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Prevent back button closing page, close detail instead
+  window.addEventListener('popstate', () => {
+    if (document.getElementById('detailOverlay').classList.contains('active')) {
+      closeDetail();
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Willgrow Tier QR Code</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<style>
+  body {
+    margin: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 100vh; background: #1a1d23;
+    font-family: 'Segoe UI', sans-serif; color: #f0edee;
+  }
+  h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: 2px; }
+  .sub { font-size: 14px; color: #8a909b; margin-bottom: 24px; }
+  #qr {
+    background: #fff; padding: 24px; border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.5);
+  }
+  .url {
+    margin-top: 20px; font-size: 11px; color: #666;
+    word-break: break-all; max-width: 350px; text-align: center;
+  }
+  .tip {
+    margin-top: 30px; font-size: 14px; color: #f99e1a;
+    background: rgba(249,158,26,.1); padding: 12px 20px;
+    border-radius: 8px; border: 1px solid rgba(249,158,26,.3);
+  }
+</style>
+</head>
+<body>
+  <h1>📱 WILLGROW TIER</h1>
+  <div class="sub">학생 전용 내 순위 조회</div>
+  <div id="qr"></div>
+  <div class="url" id="urlDisplay"></div>
+  <div class="tip">👆 이 QR코드를 스캔하면 학생 조회 페이지로 이동합니다</div>
+
+<script>
+  const url = 'https://willgrow-textbook-system.web.app/student.html';
+  document.getElementById('urlDisplay').textContent = url;
+
+  QRCode.toCanvas(document.createElement('canvas'), url, {
+    width: 300,
+    margin: 0,
+    color: { dark: '#000000', light: '#ffffff' }
+  }, function(err, canvas) {
+    if (err) { console.error(err); return; }
+    document.getElementById('qr').appendChild(canvas);
+  });
+</script>
+</body>
+</html>
