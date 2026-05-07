@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import confetti from "canvas-confetti";
 import * as XLSX from "xlsx";
@@ -15,8 +15,7 @@ import { useListStore } from "@/lib/store/useListStore";
 import { useSettingsStore } from "@/lib/store/useSettingsStore";
 import { useTickSound } from "@/lib/hooks/useTickSound";
 import { secureRandom } from "@/lib/utils/random";
-import { NameListSelector } from "@/components/shared/NameListSelector";
-import { NameListInput } from "@/components/shared/NameListInput";
+import { QuickInputPanel } from "@/components/shared/QuickInputPanel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -36,6 +35,22 @@ export default function SeatsPage() {
   const [step, setStep] = useState<1 | 2>(1);
   const [hasInteracted, setHasInteracted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+
+  // Quick input
+  const [quickItems, setQuickItems] = useState<string[]>([]);
+  const [quickActive, setQuickActive] = useState(false);
+
+  const activeSourceItems = useMemo(() => {
+    if (quickActive && quickItems.length > 0) return quickItems;
+    return currentList?.items ?? [];
+  }, [quickActive, quickItems, currentList]);
+
+  const handleQuickApply = (items: string[]) => {
+    setQuickItems(items);
+    setQuickActive(true);
+    setAssignments({});
+    setAnimatedSeats(new Set());
+  };
 
   // ================= 1단계: 교실 레이아웃 상태 =================
   const [rows, setRows] = useState(5);
@@ -58,16 +73,16 @@ export default function SeatsPage() {
 
   // 유효 좌석 계산
   const availableSeatsCount = rows * cols - disabledSeats.size;
-  const studentsCount = currentList?.items.length || 0;
+  const studentsCount = activeSourceItems.length;
 
   useEffect(() => {
-    // 명단이 바뀌면 결과 초기화
     setAssignments({});
     setAnimatedSeats(new Set());
     setSwapTarget(null);
     setFrontRows(new Set());
     setKeepApart([]);
     setKeepTogether([]);
+    setQuickActive(false);
   }, [currentListId]);
 
   // Load saved layout on mount
@@ -204,8 +219,8 @@ export default function SeatsPage() {
       setHasInteracted(true);
     }
 
-    if (!currentList || studentsCount === 0) {
-      toast.error("명단을 먼저 선택해주세요.");
+    if (activeSourceItems.length === 0) {
+      toast.error("명단을 먼저 입력하거나 선택해주세요.");
       return;
     }
     if (studentsCount > availableSeatsCount) {
@@ -245,7 +260,7 @@ export default function SeatsPage() {
     for (let retry = 0; retry < maxRetries; retry++) {
       const tempAssignment: Record<string, string> = {};
       const remainingPos = [...availablePos];
-      const students = [...currentList.items];
+      const students = [...activeSourceItems];
       
       // 앞자리 배정
       const frontStudents = students.filter(s => frontRows.has(s));
@@ -426,7 +441,7 @@ export default function SeatsPage() {
           <button 
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${step === 2 ? 'bg-background shadow text-foreground' : 'text-muted-foreground hover:bg-background/50'}`}
             onClick={() => {
-              if (!currentList) toast.error("먼저 명단을 선택해주세요.");
+              if (activeSourceItems.length === 0) toast.error("먼저 명단을 입력하거나 선택해주세요.");
               else if (studentsCount > availableSeatsCount) toast.error("유효 좌석이 학생 수보다 적습니다.");
               else setStep(2);
             }}
@@ -446,12 +461,32 @@ export default function SeatsPage() {
                 {step === 1 ? <><Settings className="w-5 h-5 mr-2" /> 교실 설정</> : <><Users className="w-5 h-5 mr-2" /> 제약 조건</>}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-4">
               {step === 1 && (
                 <>
-                  <NameListSelector />
-                  
-                  {currentList && (
+                  <QuickInputPanel
+                    onQuickApply={handleQuickApply}
+                    quickActive={quickActive}
+                    quickItemsCount={quickItems.length}
+                    accentFrom="from-indigo-500"
+                    accentTo="to-violet-600"
+                    savedListInfo={
+                      activeSourceItems.length > 0 ? (
+                        <div className={`text-sm font-medium p-3 rounded-md border ${studentsCount > availableSeatsCount ? 'bg-red-50 dark:bg-red-950/30 border-red-200 text-red-600 dark:text-red-400' : 'bg-muted'}`}>
+                          <div className="flex justify-between mb-1">
+                            <span>학생 수: <b>{studentsCount}명</b></span>
+                            <span>자리 수: <b>{availableSeatsCount}개</b></span>
+                          </div>
+                          {studentsCount > availableSeatsCount && (
+                            <p className="text-xs font-bold mt-2 flex items-center"><AlertCircle className="w-4 h-4 mr-1"/> {studentsCount - availableSeatsCount}자리가 부족합니다!</p>
+                          )}
+                        </div>
+                      ) : undefined
+                    }
+                  />
+
+                  {/* 빠른입력 적용 시에도 학생/좌석 수 표시 */}
+                  {quickActive && quickItems.length > 0 && (
                     <div className={`text-sm font-medium p-3 rounded-md border ${studentsCount > availableSeatsCount ? 'bg-red-50 dark:bg-red-950/30 border-red-200 text-red-600 dark:text-red-400' : 'bg-muted'}`}>
                       <div className="flex justify-between mb-1">
                         <span>학생 수: <b>{studentsCount}명</b></span>
@@ -525,19 +560,17 @@ export default function SeatsPage() {
                       </Button>
                     </div>
                   </div>
-                  
-                  {!currentList && <div className="pt-4 border-t"><NameListInput /></div>}
                 </>
               )}
 
-              {step === 2 && currentList && (
+              {step === 2 && activeSourceItems.length > 0 && (
                 <div className="space-y-6">
                   <div className="space-y-3">
                     <Label className="flex items-center text-indigo-600 dark:text-indigo-400 font-bold">
                       <Star className="w-4 h-4 mr-1 fill-indigo-600 dark:fill-indigo-400" /> 앞자리 우선 학생
                     </Label>
                     <div className="flex flex-wrap gap-2">
-                      {currentList.items.map(name => (
+                      {activeSourceItems.map(name => (
                         <Badge 
                           key={`front-${name}`}
                           variant={frontRows.has(name) ? "default" : "outline"}
@@ -571,11 +604,11 @@ export default function SeatsPage() {
                     <div className="flex gap-2">
                       <Select onValueChange={(v) => { if (typeof v === 'string') document.getElementById('apart1')?.setAttribute('value', v); }}>
                         <SelectTrigger id="apart1"><SelectValue placeholder="학생1" /></SelectTrigger>
-                        <SelectContent>{currentList.items.map(n => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
+                        <SelectContent>{activeSourceItems.map(n => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
                       </Select>
                       <Select onValueChange={(v) => { if (typeof v === 'string') document.getElementById('apart2')?.setAttribute('value', v); }}>
                         <SelectTrigger id="apart2"><SelectValue placeholder="학생2" /></SelectTrigger>
-                        <SelectContent>{currentList.items.map(n => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
+                        <SelectContent>{activeSourceItems.map(n => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
                       </Select>
                       <Button variant="outline" onClick={() => {
                         const n1 = document.getElementById('apart1')?.getAttribute('value');
@@ -598,11 +631,11 @@ export default function SeatsPage() {
                     <div className="flex gap-2">
                       <Select onValueChange={(v) => { if (typeof v === 'string') document.getElementById('tgt1')?.setAttribute('value', v); }}>
                         <SelectTrigger id="tgt1"><SelectValue placeholder="학생1" /></SelectTrigger>
-                        <SelectContent>{currentList.items.map(n => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
+                        <SelectContent>{activeSourceItems.map(n => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
                       </Select>
                       <Select onValueChange={(v) => { if (typeof v === 'string') document.getElementById('tgt2')?.setAttribute('value', v); }}>
                         <SelectTrigger id="tgt2"><SelectValue placeholder="학생2" /></SelectTrigger>
-                        <SelectContent>{currentList.items.map(n => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
+                        <SelectContent>{activeSourceItems.map(n => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
                       </Select>
                       <Button variant="outline" onClick={() => {
                         const n1 = document.getElementById('tgt1')?.getAttribute('value');

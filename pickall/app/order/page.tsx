@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import confetti from "canvas-confetti";
 import * as XLSX from "xlsx";
@@ -11,11 +11,9 @@ import { useListStore } from "@/lib/store/useListStore";
 import { useSettingsStore } from "@/lib/store/useSettingsStore";
 import { useTickSound } from "@/lib/hooks/useTickSound";
 import { secureShuffle } from "@/lib/utils/random";
-import { NameListSelector } from "@/components/shared/NameListSelector";
-import { NameListInput } from "@/components/shared/NameListInput";
+import { QuickInputPanel } from "@/components/shared/QuickInputPanel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -36,6 +34,25 @@ export default function OrderPage() {
   const captureRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
+  // Quick input
+  const [quickItems, setQuickItems] = useState<string[]>([]);
+  const [quickActive, setQuickActive] = useState(false);
+
+  const activeSourceItems = useMemo(() => {
+    if (quickActive && quickItems.length > 0) return quickItems;
+    return currentList?.items ?? [];
+  }, [quickActive, quickItems, currentList]);
+
+  const hasActiveList = activeSourceItems.length > 0;
+
+  const handleQuickApply = (items: string[]) => {
+    setQuickItems(items);
+    setQuickActive(true);
+    setResults(null);
+    setRevealedCount(0);
+    setClickedCard(null);
+  };
+
   // Options
   const [revealOneByOne, setRevealOneByOne] = useState(false);
   const [reverseOrder, setReverseOrder] = useState(false);
@@ -54,6 +71,7 @@ export default function OrderPage() {
     setRevealedCount(0);
     setClickedCard(null);
     setPartialCount("");
+    setQuickActive(false);
   }, [currentListId]);
 
   const fireConfetti = useCallback(() => {
@@ -72,12 +90,12 @@ export default function OrderPage() {
       initAudio();
       setHasInteracted(true);
     }
-    if (!currentList || currentList.items.length === 0) {
+    if (!hasActiveList) {
       toast.error("명단을 선택하거나 인원을 추가해주세요.");
       return;
     }
 
-    const items = [...currentList.items];
+    const items = [...activeSourceItems];
     const total = items.length;
     let targetCount = total;
 
@@ -117,7 +135,7 @@ export default function OrderPage() {
         fireConfetti();
       }
     }, 1500);
-  }, [hasInteracted, currentList, partialCount, soundEnabled, revealOneByOne, initAudio, playTick, playSuccess, fireConfetti]);
+  }, [hasInteracted, hasActiveList, activeSourceItems, partialCount, soundEnabled, revealOneByOne, initAudio, playTick, playSuccess, fireConfetti]);
 
   const handleRevealNext = useCallback(() => {
     if (results && revealedCount < results.length) {
@@ -134,7 +152,9 @@ export default function OrderPage() {
   // Keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Space" && currentList) {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "TEXTAREA" || tag === "INPUT") return;
+      if (e.code === "Space" && hasActiveList) {
         e.preventDefault();
         if (!isShuffling && !results) {
           handleStartOrder();
@@ -145,7 +165,7 @@ export default function OrderPage() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isShuffling, results, revealOneByOne, revealedCount, currentList, handleStartOrder, handleRevealNext]);
+  }, [isShuffling, results, revealOneByOne, revealedCount, hasActiveList, handleStartOrder, handleRevealNext]);
 
   const handleRevealAll = () => {
     if (results) {
@@ -156,8 +176,9 @@ export default function OrderPage() {
   };
 
   const handleSaveFixedOrder = () => {
-    if (!results || !currentList) return;
-    const newName = `${currentList.name} - 순서고정`;
+    if (!results) return;
+    const baseName = currentList?.name || "빠른입력";
+    const newName = `${baseName} - 순서고정`;
     const newItems = results.map((r) => r.name);
     addList({ name: newName, items: newItems });
     toast.success(`새 명단 "${newName}"이 저장되었습니다.`);
@@ -225,23 +246,51 @@ export default function OrderPage() {
             <CardHeader className="pb-3">
               <CardTitle className="text-lg">명단 및 옵션</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <NameListSelector />
-              {currentList && (
-                <div className="text-sm font-medium bg-muted p-3 rounded-md text-center border">
-                  현재 선택된 명단: <span className="text-indigo-600 dark:text-indigo-400 font-bold">{currentList.items.length}명</span>
-                </div>
-              )}
+            <CardContent className="space-y-4">
+              <QuickInputPanel
+                onQuickApply={handleQuickApply}
+                quickActive={quickActive}
+                quickItemsCount={quickItems.length}
+                accentFrom="from-indigo-500"
+                accentTo="to-purple-600"
+                savedListInfo={
+                  currentList ? (
+                    <div className="text-sm font-medium bg-muted p-3 rounded-md text-center border">
+                      현재 선택된 명단: <span className="text-indigo-600 dark:text-indigo-400 font-bold">{currentList.items.length}명</span>
+                    </div>
+                  ) : undefined
+                }
+              />
               
               <div className="pt-4 border-t space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="oneByOne" className="text-sm font-medium">한 명씩 공개</Label>
-                  <Switch id="oneByOne" checked={revealOneByOne} onCheckedChange={setRevealOneByOne} disabled={isShuffling || results !== null} />
+                  <Label className="text-sm font-medium">한 명씩 공개</Label>
+                  <button
+                    onClick={() => { if (!isShuffling && !results) setRevealOneByOne(!revealOneByOne); }}
+                    className={`px-3 py-1 rounded-full text-xs font-bold transition-all border ${
+                      revealOneByOne
+                        ? "bg-indigo-500 text-white border-indigo-500"
+                        : "bg-muted text-muted-foreground border-input hover:border-indigo-300"
+                    } ${isShuffling || results !== null ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={isShuffling || results !== null}
+                  >
+                    {revealOneByOne ? "ON" : "OFF"}
+                  </button>
                 </div>
                 {revealOneByOne && (
                   <div className="flex items-center justify-between pl-4 border-l-2 border-indigo-100 dark:border-indigo-900">
-                    <Label htmlFor="reverseOrder" className="text-sm font-medium text-muted-foreground">꼴등부터 발표(역순)</Label>
-                    <Switch id="reverseOrder" checked={reverseOrder} onCheckedChange={setReverseOrder} disabled={isShuffling || results !== null} />
+                    <Label className="text-sm font-medium text-muted-foreground">꼴등부터 발표(역순)</Label>
+                    <button
+                      onClick={() => { if (!isShuffling && !results) setReverseOrder(!reverseOrder); }}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition-all border ${
+                        reverseOrder
+                          ? "bg-indigo-500 text-white border-indigo-500"
+                          : "bg-muted text-muted-foreground border-input hover:border-indigo-300"
+                      } ${isShuffling || results !== null ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      disabled={isShuffling || results !== null}
+                    >
+                      {reverseOrder ? "ON" : "OFF"}
+                    </button>
                   </div>
                 )}
                 
@@ -261,12 +310,6 @@ export default function OrderPage() {
                   <p className="text-xs text-muted-foreground">빈칸일 경우 전체 인원의 순서를 정합니다.</p>
                 </div>
               </div>
-
-              {!currentList && (
-                <div className="pt-4 border-t">
-                  <NameListInput />
-                </div>
-              )}
             </CardContent>
           </Card>
         </div>
@@ -274,10 +317,10 @@ export default function OrderPage() {
         {/* Center Panel: Main Draw Area */}
         <div className="lg:col-span-3">
           <Card className="h-full min-h-[600px] flex flex-col p-4 md:p-8 border-2 shadow-sm bg-gradient-to-br from-background via-indigo-50/20 to-slate-100/50 dark:from-background dark:via-indigo-950/10 dark:to-slate-900/20">
-            {!currentList ? (
+            {!hasActiveList ? (
               <div className="m-auto text-center text-muted-foreground flex flex-col items-center">
                 <ListOrdered className="w-20 h-20 mb-6 opacity-20" />
-                <p className="text-lg">좌측 패널에서 명단을 선택해주세요.</p>
+                <p className="text-lg">좌측 패널에서 명단을 입력하거나 선택해주세요.</p>
               </div>
             ) : (
               <div className="flex flex-col h-full w-full relative">

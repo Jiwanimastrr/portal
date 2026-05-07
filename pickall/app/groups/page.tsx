@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import confetti from "canvas-confetti";
 import * as XLSX from "xlsx";
@@ -15,14 +15,11 @@ import { useListStore } from "@/lib/store/useListStore";
 import { useSettingsStore } from "@/lib/store/useSettingsStore";
 import { useTickSound } from "@/lib/hooks/useTickSound";
 import { secureRandom } from "@/lib/utils/random";
-import { NameListSelector } from "@/components/shared/NameListSelector";
-import { NameListInput } from "@/components/shared/NameListInput";
+import { QuickInputPanel } from "@/components/shared/QuickInputPanel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 
@@ -69,6 +66,24 @@ export default function GroupsPage() {
 
   const [hasInteracted, setHasInteracted] = useState(false);
 
+  // Quick input
+  const [quickItems, setQuickItems] = useState<string[]>([]);
+  const [quickActive, setQuickActive] = useState(false);
+
+  const activeSourceItems = useMemo(() => {
+    if (quickActive && quickItems.length > 0) return quickItems;
+    return currentList?.items ?? [];
+  }, [quickActive, quickItems, currentList]);
+
+  const hasActiveList = activeSourceItems.length > 0;
+
+  const handleQuickApply = (items: string[]) => {
+    setQuickItems(items);
+    setQuickActive(true);
+    setGroups([]);
+    setGroupLeaders({});
+  };
+
   // ================= 1. 좌측 메타데이터 상태 =================
   const [useMeta, setUseMeta] = useState(false);
   const [meta, setMeta] = useState<Record<string, StudentMeta>>({});
@@ -80,7 +95,7 @@ export default function GroupsPage() {
   
   const [balanceGender, setBalanceGender] = useState(false);
   const [balanceLevel, setBalanceLevel] = useState(false);
-  const [mixGrade, setMixGrade] = useState(false);
+  // mixGrade는 향후 구현 예정 (현재 UI에서 disabled 상태)
   
   const [keepApart, setKeepApart] = useState<{n1: string; n2: string}[]>([]);
   const [keepTogether, setKeepTogether] = useState<{n1: string; n2: string}[]>([]);
@@ -102,6 +117,7 @@ export default function GroupsPage() {
     setSwapTarget(null);
     setKeepApart([]);
     setKeepTogether([]);
+    setQuickActive(false);
   }, [currentListId]);
 
   // 메타데이터 자동 저장/불러오기
@@ -255,8 +271,8 @@ export default function GroupsPage() {
       setHasInteracted(true);
     }
 
-    if (!currentList || currentList.items.length === 0) {
-      toast.error("명단을 먼저 선택해주세요.");
+    if (!hasActiveList) {
+      toast.error("명단을 먼저 입력하거나 선택해주세요.");
       return;
     }
 
@@ -265,7 +281,7 @@ export default function GroupsPage() {
     setGroups([]);
     setGroupLeaders({});
 
-    const students = [...currentList.items];
+    const students = [...activeSourceItems];
     const totalStudents = students.length;
     
     let numGroups = 0;
@@ -493,20 +509,41 @@ export default function GroupsPage() {
                 <Users className="w-5 h-5 mr-2" /> 명단 & 상세정보
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6 pt-4">
-              <NameListSelector />
-              {!currentList && <div className="pt-2"><NameListInput /></div>}
+            <CardContent className="space-y-4 pt-4">
+              <QuickInputPanel
+                onQuickApply={handleQuickApply}
+                quickActive={quickActive}
+                quickItemsCount={quickItems.length}
+                accentFrom="from-pink-500"
+                accentTo="to-rose-600"
+                savedListInfo={
+                  currentList ? (
+                    <div className="text-sm font-medium bg-muted p-3 rounded-md text-center border">
+                      현재 선택된 명단: <span className="text-pink-600 dark:text-pink-400 font-bold">{currentList.items.length}명</span>
+                    </div>
+                  ) : undefined
+                }
+              />
               
-              {currentList && (
+              {hasActiveList && (
                 <div className="space-y-4 pt-2 border-t">
                   <div className="flex items-center justify-between">
                     <Label className="font-bold">학생 상세정보 입력 모드</Label>
-                    <Switch checked={useMeta} onCheckedChange={setUseMeta} />
+                    <button
+                      onClick={() => setUseMeta(!useMeta)}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition-all border ${
+                        useMeta
+                          ? "bg-pink-500 text-white border-pink-500"
+                          : "bg-muted text-muted-foreground border-input hover:border-pink-300"
+                      }`}
+                    >
+                      {useMeta ? "ON" : "OFF"}
+                    </button>
                   </div>
                   
-                  {useMeta && (
+                  {useMeta && currentList && (
                     <div className="max-h-[400px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
-                      {currentList.items.map((name) => {
+                      {activeSourceItems.map((name) => {
                         const m = meta[name] || {};
                         return (
                           <div key={name} className="flex flex-col space-y-2 p-3 bg-muted rounded-md border border-border/50 text-sm">
@@ -559,16 +596,29 @@ export default function GroupsPage() {
               
               <div className="space-y-4">
                 <Label className="font-bold">편성 기준</Label>
-                <RadioGroup value={mode} onValueChange={(v) => setMode(v as GroupMode)} className="flex flex-col space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="groupCount" id="mode-group" />
-                    <Label htmlFor="mode-group">모둠 개수 지정</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="studentsPerGroup" id="mode-student" />
-                    <Label htmlFor="mode-student">조당 인원 지정</Label>
-                  </div>
-                </RadioGroup>
+                <div className="flex flex-col gap-2">
+                  {[
+                    { value: "groupCount" as GroupMode, label: "모둠 개수 지정" },
+                    { value: "studentsPerGroup" as GroupMode, label: "조당 인원 지정" }
+                  ].map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setMode(opt.value)}
+                      className={`flex items-center gap-3 px-4 py-2.5 rounded-lg border text-sm font-medium text-left transition-all ${
+                        mode === opt.value
+                          ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                          : "bg-background text-foreground border-input hover:bg-muted"
+                      }`}
+                    >
+                      <span className={`flex shrink-0 items-center justify-center w-4 h-4 rounded-full border-2 ${
+                        mode === opt.value ? "border-primary-foreground" : "border-muted-foreground/40"
+                      }`}>
+                        {mode === opt.value && <span className="w-2 h-2 rounded-full bg-primary-foreground" />}
+                      </span>
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
 
                 {mode === "groupCount" ? (
                   <div className="flex items-center justify-between bg-muted p-3 rounded-md">
@@ -596,15 +646,15 @@ export default function GroupsPage() {
                   <Label className="font-bold text-teal-600 dark:text-teal-400">균형 옵션 (알고리즘)</Label>
                   <div className="flex items-center justify-between bg-muted/50 p-2 rounded">
                     <Label className="font-medium">성별 균형 맞추기</Label>
-                    <Switch checked={balanceGender} onCheckedChange={setBalanceGender} />
+                    <button onClick={() => setBalanceGender(!balanceGender)} className={`px-3 py-1 rounded-full text-xs font-bold transition-all border ${balanceGender ? "bg-teal-500 text-white border-teal-500" : "bg-muted text-muted-foreground border-input"}`}>{balanceGender ? "ON" : "OFF"}</button>
                   </div>
                   <div className="flex items-center justify-between bg-muted/50 p-2 rounded">
                     <Label className="font-medium">레벨 균형 맞추기 (스네이크)</Label>
-                    <Switch checked={balanceLevel} onCheckedChange={setBalanceLevel} />
+                    <button onClick={() => setBalanceLevel(!balanceLevel)} className={`px-3 py-1 rounded-full text-xs font-bold transition-all border ${balanceLevel ? "bg-teal-500 text-white border-teal-500" : "bg-muted text-muted-foreground border-input"}`}>{balanceLevel ? "ON" : "OFF"}</button>
                   </div>
-                  <div className="flex items-center justify-between bg-muted/50 p-2 rounded">
+                  <div className="flex items-center justify-between bg-muted/50 p-2 rounded opacity-50">
                     <Label className="font-medium text-muted-foreground">학년 섞기 (미구현)</Label>
-                    <Switch checked={mixGrade} onCheckedChange={setMixGrade} disabled />
+                    <button disabled className="px-3 py-1 rounded-full text-xs font-bold bg-muted text-muted-foreground border border-input">OFF</button>
                   </div>
                 </div>
               )}
@@ -624,7 +674,7 @@ export default function GroupsPage() {
                 </div>
                 <div className="flex items-center justify-between pt-2">
                   <Label className="flex items-center gap-1 font-medium"><Star className="w-4 h-4 text-yellow-500 fill-yellow-500"/> 모둠장 자동 추천</Label>
-                  <Switch checked={autoLeader} onCheckedChange={setAutoLeader} />
+                  <button onClick={() => setAutoLeader(!autoLeader)} className={`px-3 py-1 rounded-full text-xs font-bold transition-all border ${autoLeader ? "bg-yellow-500 text-white border-yellow-500" : "bg-muted text-muted-foreground border-input"}`}>{autoLeader ? "ON" : "OFF"}</button>
                 </div>
               </div>
 
@@ -686,7 +736,7 @@ export default function GroupsPage() {
                 <Button 
                   size="lg" 
                   onClick={handleStartAllocation}
-                  disabled={isAnimating || !currentList}
+                  disabled={isAnimating || !hasActiveList}
                   className="w-full text-xl font-bold h-16 bg-gradient-to-r from-pink-500 to-indigo-500 hover:from-pink-600 hover:to-indigo-600 shadow-lg text-white"
                 >
                   <Shuffle className="w-5 h-5 mr-2" /> 모둠 뽑기 시작!
