@@ -136,7 +136,7 @@ export function NameListInput() {
           />
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-6 border-t">
+        <div className="space-y-6 pt-6 border-t">
           {/* 직접 입력 */}
           <div className="space-y-4">
             <div>
