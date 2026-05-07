@@ -514,64 +514,7 @@ a {
   line-height: 1.7;
 }
 
-/* iPad-style Icon Grid */
-.ipad-frame {
-  max-width: 800px;
-  margin: 0 auto;
-  background: #1c1c1e;
-  border-radius: 40px;
-  padding: 16px;
-  box-shadow: 
-    0 40px 80px -15px rgba(0,0,0,0.4),
-    inset 0 0 0 2px #3a3a3c,
-    inset 0 0 20px rgba(0,0,0,0.5);
-  position: relative;
-  z-index: 10;
-}
-
-.ipad-screen {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  border-radius: 28px;
-  overflow: hidden;
-  position: relative;
-  min-height: 550px;
-  padding: 50px 20px 60px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-}
-
-.ipad-status-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 30px;
-  padding: 0 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 13px;
-  font-weight: 600;
-  z-index: 10;
-}
-
-.ipad-status-icons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.ipad-home-indicator {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 100px;
-}
-
+/* App Icon Grid */
 .programs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -620,18 +563,19 @@ a {
   overflow: hidden;
   background: #fff;
   box-shadow:
-    0 2px 8px rgba(0,0,0,0.08),
-    0 6px 20px rgba(0,0,0,0.06);
+    0 10px 20px rgba(0,0,0,0.15),
+    0 4px 8px rgba(0,0,0,0.1);
   position: relative;
   flex-shrink: 0;
-  border: 1px solid rgba(0,0,0,0.06);
-  transition: box-shadow 300ms ease;
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: box-shadow 300ms ease, transform 300ms ease;
 }
 
 .site-card:hover .site-card-image-wrap {
   box-shadow:
-    0 4px 14px rgba(0,0,0,0.12),
-    0 10px 30px rgba(0,0,0,0.1);
+    0 15px 30px rgba(0,0,0,0.2),
+    0 8px 12px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
 }
 
 .site-card-image {
@@ -660,8 +604,8 @@ a {
 
 .site-card-title {
   font-size: 0.8rem;
-  font-weight: 500;
-  color: #ffffff;
+  font-weight: 600;
+  color: var(--color-text);
   text-align: center;
   line-height: 1.3;
   display: -webkit-box;
@@ -670,7 +614,6 @@ a {
   overflow: hidden;
   word-break: keep-all;
   margin: 0;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
   letter-spacing: 0.02em;
 }
 

@@ -273,27 +273,10 @@ function App() {
         </div>
         
         {showPrograms && (
-          <div className="ipad-frame">
-            <div className="ipad-screen">
-              {/* iPad Status Bar */}
-              <div className="ipad-status-bar">
-                <span className="ipad-time">9:41 AM</span>
-                <div className="ipad-status-icons">
-                  <FiMapPin size={12} />
-                  <span className="ipad-battery">100%</span>
-                </div>
-              </div>
-              
-              {/* App Icons Grid */}
-              <div className="programs-grid">
-                {PROGRAMS.map((site) => (
-                  <SiteCard key={site.id} site={site} />
-                ))}
-              </div>
-              
-              {/* iPad Home Indicator */}
-              <div className="ipad-home-indicator"></div>
-            </div>
+          <div className="programs-grid">
+            {PROGRAMS.map((site) => (
+              <SiteCard key={site.id} site={site} />
+            ))}
           </div>
         )}
       </section>
