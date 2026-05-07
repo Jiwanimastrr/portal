@@ -101,6 +101,14 @@ const PROGRAMS: SiteInfo[] = [
     url: 'https://willgrow-event-438539119316.asia-northeast3.run.app/host',
     imageUrl: '/logo.png',
     tag: 'Event'
+  },
+  {
+    id: '14',
+    title: '모두의 뽑기 (랜덤게임)',
+    description: '수업 시간에 활용할 수 있는 다채로운 랜덤 뽑기 및 게임 도구 모음입니다.',
+    url: '#', // TODO: 정확한 랜덤게임 URL로 변경 필요
+    imageUrl: '/random_game_thumb.png', // TODO: 실제 썸네일 이미지로 변경 필요
+    tag: 'Game'
   }
 ];
 
