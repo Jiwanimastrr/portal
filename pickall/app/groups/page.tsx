@@ -604,16 +604,16 @@ export default function GroupsPage() {
                     <button
                       key={opt.value}
                       onClick={() => setMode(opt.value)}
-                      className={`flex items-center gap-3 px-4 py-2.5 rounded-lg border text-sm font-medium text-left transition-all ${
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg border-2 text-sm font-bold text-left transition-all ${
                         mode === opt.value
-                          ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                          : "bg-background text-foreground border-input hover:bg-muted"
+                          ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white border-pink-500 shadow-md shadow-pink-500/20"
+                          : "bg-background text-foreground border-input hover:bg-muted hover:border-pink-200 dark:hover:border-pink-800"
                       }`}
                     >
-                      <span className={`flex shrink-0 items-center justify-center w-4 h-4 rounded-full border-2 ${
-                        mode === opt.value ? "border-primary-foreground" : "border-muted-foreground/40"
+                      <span className={`flex shrink-0 items-center justify-center w-5 h-5 rounded-full border-2 ${
+                        mode === opt.value ? "border-white bg-white/20" : "border-muted-foreground/30"
                       }`}>
-                        {mode === opt.value && <span className="w-2 h-2 rounded-full bg-primary-foreground" />}
+                        {mode === opt.value && <span className="w-2.5 h-2.5 rounded-full bg-white" />}
                       </span>
                       {opt.label}
                     </button>
