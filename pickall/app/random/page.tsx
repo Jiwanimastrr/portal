@@ -1,0 +1,447 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import confetti from "canvas-confetti";
+import * as XLSX from "xlsx";
+import { Dices, RefreshCcw, UserMinus, Download, Settings, History } from "lucide-react";
+
+import { useListStore } from "@/lib/store/useListStore";
+import { useSettingsStore } from "@/lib/store/useSettingsStore";
+import { useTickSound } from "@/lib/hooks/useTickSound";
+import { secureRandom } from "@/lib/utils/random";
+import { NameListSelector } from "@/components/shared/NameListSelector";
+import { NameListInput } from "@/components/shared/NameListInput";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+
+type DrawMode = "single" | "cycle" | "allow_dup";
+
+interface HistoryItem {
+  id: string;
+  round: number;
+  time: string;
+  results: string[];
+}
+
+export default function RandomPage() {
+  const lists = useListStore((state) => state.lists);
+  const currentListId = useListStore((state) => state.currentListId);
+  const currentList = lists.find((l) => l.id === currentListId);
+  const soundEnabled = useSettingsStore((state) => state.soundEnabled);
+
+  // States
+  const [availableItems, setAvailableItems] = useState<string[]>([]);
+  const [drawMode, setDrawMode] = useState<DrawMode>("single");
+  const [drawCount, setDrawCount] = useState<number>(1);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
+  
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [currentRollingItems, setCurrentRollingItems] = useState<string[]>([]);
+  const [winners, setWinners] = useState<string[]>([]);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  
+  const { initAudio, playTick, playSuccess } = useTickSound();
+  const shouldReduceMotion = useReducedMotion();
+
+  // Initialize available items when list changes
+  useEffect(() => {
+    if (currentList) {
+      setAvailableItems([...currentList.items]);
+      setHistory([]);
+      setWinners([]);
+      setCurrentRollingItems([]);
+    } else {
+      setAvailableItems([]);
+    }
+  }, [currentListId, currentList]);
+
+  const handleResetAvailable = useCallback(() => {
+    if (currentList) {
+      setAvailableItems([...currentList.items]);
+      toast.success("명단이 초기화되었습니다.");
+    }
+  }, [currentList]);
+
+  const handleStartDraw = useCallback(() => {
+    if (!hasInteracted) {
+      initAudio();
+      setHasInteracted(true);
+    }
+
+    if (!currentList) {
+      toast.error("먼저 명단을 선택해주세요.");
+      return;
+    }
+
+    // Check available items
+    if (drawMode === "single" && availableItems.length === 0) {
+      toast.error("모두 뽑혔어요! 초기화할까요?", {
+        action: {
+          label: "초기화",
+          onClick: handleResetAvailable
+        }
+      });
+      return;
+    }
+
+    let itemsPool = [...availableItems];
+    if (drawMode === "allow_dup") {
+      itemsPool = [...currentList.items];
+    } else if (drawMode === "cycle") {
+      if (itemsPool.length === 0) {
+        itemsPool = [...currentList.items];
+        setAvailableItems(itemsPool);
+        toast.info("모든 인원이 뽑혀 새로운 사이클을 시작합니다.");
+      }
+    }
+
+    // Clamp draw count
+    const actualDrawCount = Math.min(drawCount, itemsPool.length);
+    if (actualDrawCount === 0) return;
+
+    setIsDrawing(true);
+    setWinners([]);
+    setCurrentRollingItems(Array(actualDrawCount).fill("?"));
+
+    // Slot machine logic (slow down over 3 seconds)
+    const duration = 3000;
+    const startTime = Date.now();
+    let lastTick = 0;
+
+    const animate = () => {
+      const now = Date.now();
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing out (slowing down)
+      const currentTick = Math.floor(progress * progress * progress * 50);
+
+      if (currentTick !== lastTick && progress < 1) {
+        if (soundEnabled) playTick(800 + Math.random() * 200, 0.05);
+        const rolling = Array.from({ length: actualDrawCount }, () => itemsPool[secureRandom(itemsPool.length)]);
+        setCurrentRollingItems(rolling);
+        lastTick = currentTick;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        // Finish
+        const finalWinners: string[] = [];
+        const remainingPool = [...itemsPool];
+        
+        for (let i = 0; i < actualDrawCount; i++) {
+          const idx = secureRandom(remainingPool.length);
+          finalWinners.push(remainingPool[idx]);
+          remainingPool.splice(idx, 1);
+        }
+
+        if (soundEnabled) playSuccess();
+        if (!shouldReduceMotion) {
+          confetti({
+            particleCount: 150,
+            spread: 80,
+            origin: { y: 0.6 },
+            colors: ['#10B981', '#6366F1', '#F59E0B', '#F43F5E']
+          });
+        }
+
+        setCurrentRollingItems(finalWinners);
+        setWinners(finalWinners);
+        setIsDrawing(false);
+
+        // Update state
+        if (drawMode !== "allow_dup") {
+          setAvailableItems(remainingPool);
+        }
+
+        const newHistoryItem: HistoryItem = {
+          id: crypto.randomUUID(),
+          round: history.length + 1,
+          time: new Date().toLocaleTimeString('ko-KR', { hour12: false }),
+          results: finalWinners
+        };
+        setHistory(prev => [newHistoryItem, ...prev]);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [hasInteracted, currentList, drawMode, availableItems, drawCount, history.length, soundEnabled, initAudio, playTick, playSuccess, handleResetAvailable, shouldReduceMotion]);
+
+  // Initialize available items when list changes
+  useEffect(() => {
+    if (currentList) {
+      setAvailableItems([...currentList.items]);
+      setHistory([]);
+      setWinners([]);
+      setCurrentRollingItems([]);
+    } else {
+      setAvailableItems([]);
+    }
+  }, [currentListId, currentList]);
+
+  // Keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" && !isDrawing && currentList && availableItems.length > 0) {
+        e.preventDefault();
+        handleStartDraw();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isDrawing, currentList, availableItems, handleStartDraw]);
+
+  const handleResetHistory = () => {
+    setHistory([]);
+    setWinners([]);
+    setCurrentRollingItems([]);
+    if (currentList) setAvailableItems([...currentList.items]);
+    toast.success("이력이 초기화되었습니다.");
+  };
+
+  const handleExcludeLast = () => {
+    if (winners.length === 0) return;
+    setAvailableItems(prev => prev.filter(item => !winners.includes(item)));
+    toast.success("방금 뽑힌 항목을 명단에서 제외했습니다.");
+  };
+
+  const handleExportExcel = () => {
+    if (history.length === 0) {
+      toast.error("내보낼 이력이 없습니다.");
+      return;
+    }
+    const data = history.map(h => ({
+      회차: h.round,
+      시각: h.time,
+      결과: h.results.join(", ")
+    }));
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "뽑기이력");
+    XLSX.writeFile(wb, `랜덤뽑기_이력_${new Date().getTime()}.xlsx`);
+  };
+
+  // Stats calculation
+  const totalCount = currentList ? currentList.items.length : 0;
+  const remainingCount = availableItems.length;
+  const drawnCount = totalCount - remainingCount;
+
+  return (
+    <div className="container mx-auto p-4 md:p-6 lg:p-8 max-w-7xl">
+      <div className="flex items-center space-x-3 mb-6 md:mb-8">
+        <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl">
+          <Dices className="w-8 h-8" />
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">랜덤뽑기</h1>
+          <p className="text-muted-foreground hidden sm:block">명단에서 인원을 무작위로 추첨합니다. (스페이스바로 시작 가능)</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        {/* Left Panel: 명단 입력 및 선택 (1 column) */}
+        <div className="lg:col-span-1 space-y-6">
+          <Card className="h-full">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">명단 설정</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <NameListSelector />
+              {currentList && (
+                <div className="text-sm font-medium bg-muted p-3 rounded-md text-center border">
+                  현재 선택된 명단: <span className="text-primary font-bold">{totalCount}명</span>
+                </div>
+              )}
+              <div className="pt-4 border-t">
+                <NameListInput />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Center Panel: 메인 추첨 영역 (2 columns) */}
+        <div className="lg:col-span-2">
+          <Card className="h-full min-h-[500px] flex flex-col p-4 md:p-8 border-2 shadow-sm bg-gradient-to-b from-background to-emerald-50/30 dark:to-emerald-950/20">
+            {!currentList ? (
+              <div className="m-auto text-center text-muted-foreground flex flex-col items-center">
+                <Dices className="w-20 h-20 mb-6 opacity-20" />
+                <p className="text-lg">좌측 패널에서 명단을 선택하거나 새로 추가해주세요.</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-between h-full w-full">
+                <div 
+                  className="flex-1 flex items-center justify-center w-full my-8"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {currentRollingItems.length === 0 ? (
+                    <div className="text-4xl md:text-6xl font-bold text-muted-foreground/30 uppercase tracking-widest">
+                      Ready
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap items-center justify-center gap-4 w-full">
+                      <AnimatePresence mode="popLayout">
+                        {currentRollingItems.map((item, idx) => (
+                          <motion.div
+                            key={`roll-${idx}-${item}`}
+                            initial={{ y: 30, opacity: 0 }}
+                            animate={{ 
+                              y: 0, 
+                              opacity: 1, 
+                              scale: winners.length > 0 && !shouldReduceMotion ? [1, 1.2, 1] : 1 
+                            }}
+                            transition={{ 
+                              type: "spring", 
+                              stiffness: 260, 
+                              damping: 20,
+                              scale: { duration: shouldReduceMotion ? 0 : 0.5, ease: "easeInOut" }
+                            }}
+                            className={`flex items-center justify-center p-6 md:p-8 rounded-3xl border-4 shadow-xl bg-card w-full max-w-[400px] ${
+                              winners.length > 0 ? "border-emerald-500 shadow-emerald-500/20" : "border-emerald-100 dark:border-emerald-900"
+                            } ${currentRollingItems.length > 1 ? "max-w-[250px] md:max-w-[300px]" : "max-w-[500px]"}`}
+                          >
+                            <span className={`${currentRollingItems.length > 1 ? "text-4xl md:text-5xl" : "text-6xl md:text-7xl"} font-black tracking-tight text-center break-keep w-full ${
+                              winners.length > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-foreground"
+                            }`}>
+                              {item}
+                            </span>
+                          </motion.div>
+                        ))}
+                      </AnimatePresence>
+                    </div>
+                  )}
+                </div>
+
+                {/* 하단 액션 버튼들 */}
+                <div className="w-full flex flex-col gap-4 mt-auto">
+                  <Button 
+                    size="lg" 
+                    onClick={handleStartDraw}
+                    disabled={isDrawing || (drawMode === "single" && availableItems.length === 0)}
+                    className="w-full h-20 md:h-24 text-3xl md:text-4xl font-black rounded-3xl shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white relative overflow-hidden group"
+                  >
+                    <span className="relative z-10">{isDrawing ? "추첨 중..." : "START"}</span>
+                    {!isDrawing && <div className="absolute inset-0 bg-white/20 animate-pulse z-0 rounded-3xl"></div>}
+                  </Button>
+
+                  {winners.length > 0 && drawMode === "allow_dup" && (
+                    <Button variant="outline" onClick={handleExcludeLast} className="w-full" size="lg">
+                      <UserMinus className="w-4 h-4 mr-2" /> 이 결과 명단에서 제외하기
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
+          </Card>
+        </div>
+
+        {/* Right Panel: 설정 및 이력 (1 column) */}
+        <div className="lg:col-span-1 space-y-6">
+          
+          <Card>
+            <CardHeader className="pb-3 flex flex-row items-center justify-between">
+              <CardTitle className="text-lg flex items-center"><Settings className="w-5 h-5 mr-2"/> 설정</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-3">
+                <Label className="text-sm font-semibold">추첨 방식</Label>
+                <RadioGroup value={drawMode} onValueChange={(val: DrawMode) => setDrawMode(val)}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="single" id="r-single" />
+                    <Label htmlFor="r-single">단일 추첨 (중복X)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="cycle" id="r-cycle" />
+                    <Label htmlFor="r-cycle">모든 항목 순환</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="allow_dup" id="r-dup" />
+                    <Label htmlFor="r-dup">중복 허용</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              <div className="space-y-3">
+                <Label className="text-sm font-semibold">한 번에 뽑을 인원 (1~10명)</Label>
+                <Input 
+                  type="number" 
+                  min={1} 
+                  max={10} 
+                  value={drawCount} 
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value);
+                    if (!isNaN(val)) setDrawCount(Math.max(1, Math.min(10, val)));
+                  }}
+                />
+              </div>
+
+              {currentList && (
+                <div className="bg-muted rounded-lg p-4 grid grid-cols-2 gap-4 text-center text-sm border">
+                  <div>
+                    <div className="text-muted-foreground text-xs mb-1">총 인원</div>
+                    <div className="font-bold text-lg">{totalCount}</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground text-xs mb-1">남은 인원</div>
+                    <div className="font-bold text-lg text-primary">{remainingCount}</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground text-xs mb-1">뽑힌 인원</div>
+                    <div className="font-bold text-lg">{drawnCount}</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground text-xs mb-1">총 횟수</div>
+                    <div className="font-bold text-lg">{history.length}</div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="flex flex-col h-[400px]">
+            <CardHeader className="pb-3 flex flex-row items-center justify-between sticky top-0 bg-card z-10 rounded-t-xl border-b">
+              <CardTitle className="text-lg flex items-center"><History className="w-5 h-5 mr-2"/> 추첨 이력</CardTitle>
+              <div className="flex space-x-1">
+                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleExportExcel} title="엑셀로 내보내기">
+                  <Download className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={handleResetHistory} title="이력 초기화">
+                  <RefreshCcw className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="flex-1 overflow-y-auto p-0">
+              {history.length === 0 ? (
+                <div className="h-full flex items-center justify-center text-sm text-muted-foreground p-6 text-center">
+                  아직 추첨 이력이 없습니다.
+                </div>
+              ) : (
+                <div className="divide-y">
+                  {history.slice(0, 20).map((h) => (
+                    <div key={h.id} className="p-4 hover:bg-muted/50 transition-colors flex flex-col gap-1">
+                      <div className="flex justify-between items-center text-xs text-muted-foreground">
+                        <span className="font-medium px-2 py-0.5 bg-primary/10 text-primary rounded-full">{h.round}회차</span>
+                        <span>{h.time}</span>
+                      </div>
+                      <div className="text-sm font-semibold mt-1">
+                        {h.results.join(", ")}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+        </div>
+      </div>
+    </div>
+  );
+}
