@@ -3,7 +3,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Link from "next/link";
-import Image from "next/image";
+
 import { SettingsDialog } from "@/components/shared/SettingsDialog";
 
 
@@ -44,8 +44,9 @@ export default function RootLayout({
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <div className="container mx-auto flex h-14 items-center justify-between px-4">
                 <Link href="/" className="flex items-center gap-2.5">
-                  <Image
-                    src="/willgrow-logo.png"
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/pickall/willgrow-logo.png"
                     alt="Willgrow Logo"
                     width={32}
                     height={32}

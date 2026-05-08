@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { Dices, ListOrdered, UserRound, Users, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -100,13 +100,13 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
-        <Image
-          src="/willgrow-logo.png"
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/pickall/willgrow-logo.png"
           alt="윌그로우 로고"
           width={120}
           height={120}
           className="rounded-2xl shadow-md mb-2"
-          priority
         />
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-primary">모두의 뽑기</h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-[600px] px-4">

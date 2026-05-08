@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pickall-v3';
+const CACHE_NAME = 'pickall-v4';
 const STATIC_ASSETS = [
   '/',
   '/random',
