@@ -3,6 +3,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Link from "next/link";
+import Image from "next/image";
 import { SettingsDialog } from "@/components/shared/SettingsDialog";
 
 
@@ -42,12 +43,19 @@ export default function RootLayout({
           <div className="flex flex-1 flex-col">
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <div className="container mx-auto flex h-14 items-center justify-between px-4">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-[-2px]">Willgrow Language Institute</span>
-                  <Link href="/" className="flex items-center space-x-2">
-                    <span className="font-bold text-xl text-primary">모두의 뽑기</span>
-                  </Link>
-                </div>
+                <Link href="/" className="flex items-center gap-2.5">
+                  <Image
+                    src="/pickall/willgrow-logo.png"
+                    alt="Willgrow Logo"
+                    width={32}
+                    height={32}
+                    className="rounded-md"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider leading-tight">Willgrow Language Institute</span>
+                    <span className="font-bold text-lg text-primary leading-tight">모두의 뽑기</span>
+                  </div>
+                </Link>
                 <div className="flex items-center space-x-2">
                   <SettingsDialog />
                 </div>
