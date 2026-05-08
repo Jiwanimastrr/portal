@@ -59,26 +59,30 @@
     transform: skewX(-10deg);
   }
   .willgrow-w {
-    font-size: 70px;
+    color: var(--ow-light);
+    font-size: 54px;
     font-weight: 900;
-    font-style: italic;
     line-height: 1;
     font-family: var(--ow-font);
-    padding-right: 10px;
-    margin-right: 5px;
-    background: linear-gradient(to bottom, #ff9999 0%, #e60000 21%, #800000 49%, #cc0000 80%, #ff9999 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0px 4px 5px rgba(0,0,0,0.7));
+    text-shadow: 
+      0 1px 0 #cc7a00, 
+      0 2px 0 #b36b00, 
+      0 3px 0 #995c00, 
+      0 4px 0 #804d00, 
+      0 5px 0 #663d00,
+      0 6px 1px rgba(0,0,0,0.5),
+      0 0 5px rgba(0,0,0,0.3),
+      0 3px 5px rgba(0,0,0,0.4),
+      0 5px 10px rgba(0,0,0,0.5);
+    color: var(--ow-orange);
   }
   .willgrow-dot {
-    width: 18px;
-    height: 18px;
-    margin-top: 4px;
-    background: linear-gradient(135deg, #d9ff99 0%, #99ff00 21%, #4d8000 49%, #80cc00 80%, #d9ff99 100%);
-    transform: skewX(-15deg);
-    box-shadow: 0px 4px 5px rgba(0,0,0,0.7);
-    border: 1px solid rgba(255,255,255,0.3);
+    width: 14px;
+    height: 14px;
+    background-color: var(--ow-orange);
+    margin-left: 4px;
+    margin-top: 5px;
+    box-shadow: 0 4px 0 #b36b00;
   }
 
   h1 {
@@ -86,27 +90,32 @@
     font-size: 46px;
     font-weight: 900;
     letter-spacing: 3px;
+    color: #ffffff;
     font-style: italic;
     line-height: 1;
     text-transform: uppercase;
-    background: linear-gradient(to bottom, #f5f6f6 0%, #dbdce2 21%, #80828c 49%, #aeb0bc 80%, #f5f6f6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0px 6px 6px rgba(0,0,0,0.7));
+    text-shadow: 
+      0 1px 0 #d9d9d9,
+      0 2px 0 #cccccc,
+      0 3px 0 #bfbfbf,
+      0 4px 0 #b3b3b3,
+      0 5px 0 #a6a6a6,
+      0 6px 1px rgba(0,0,0,0.6),
+      0 0 5px rgba(0,0,0,0.4),
+      0 1px 3px rgba(0,0,0,0.5),
+      0 3px 5px rgba(0,0,0,0.4),
+      0 5px 10px rgba(0,0,0,0.5),
+      0 10px 10px rgba(0,0,0,0.4),
+      0 20px 20px rgba(0,0,0,0.3);
   }
 
   p.subtitle {
     margin-top: 5px;
     margin-bottom: 0;
-    font-size: 24px;
-    font-weight: 900;
-    font-style: italic;
-    letter-spacing: 3px;
-    line-height: 1;
-    background: linear-gradient(to bottom, #a3e9ff 0%, #00b3e6 21%, #005c80 49%, #008eb3 80%, #a3e9ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0px 4px 5px rgba(0,0,0,0.7));
+    font-size: 20px;
+    color: var(--ow-blue);
+    font-weight: 500;
+    letter-spacing: 1px;
   }
 
   .nav-tabs {
@@ -164,7 +173,7 @@
     justify-content: center;
   }
 
-  .panel { width: 100%; max-width: 1050px; display: none; }
+  .panel { width: 100%; max-width: 900px; display: none; }
   .panel.active { display: block; animation: slideUp 0.3s ease-out forwards; }
 
   @keyframes slideUp {
@@ -208,22 +217,7 @@
   }
   .ow-select:focus { border-color: var(--ow-blue); }
 
-  .student-list { display: flex; flex-direction: column; gap: 5px; }
-  .student-list.horizontal-view { flex-direction: row; flex-wrap: wrap; gap: 15px; }
-  .student-list.horizontal-view .student-item { width: calc(33.333% - 10px); flex: none; flex-direction: column; }
-  .student-list.horizontal-view .student-item, 
-  .student-list.horizontal-view .student-item * { white-space: nowrap; }
-  .student-list.horizontal-view .student-item .main-info { min-width: 0; overflow: hidden; padding-bottom: 20px; }
-  .student-list.horizontal-view .student-item .stats-info,
-  .student-list.horizontal-view .student-item .stats-info span { overflow: hidden; text-overflow: ellipsis; }
-  .student-list.horizontal-view .student-item .controls { flex-shrink: 0; padding: 15px 20px; justify-content: flex-end; margin-top: auto; }
-  .student-list.horizontal-view .student-item .controls .sm-btn { padding: 8px 18px; font-size: 18px; }
-  @media (max-width: 1024px) {
-    .student-list.horizontal-view .student-item { width: calc(50% - 7.5px); }
-  }
-  @media (max-width: 768px) {
-    .student-list.horizontal-view .student-item { width: 100%; }
-  }
+  .student-list { display: flex; flex-direction: column; gap: 15px; }
 
   .student-item {
     display: flex;
@@ -239,26 +233,8 @@
   .student-item:hover { transform: skewX(-5deg) translateX(5px); background: rgba(65, 72, 83, 0.95); }
 
   .student-item.animating {
-    animation: pulse 0.5s ease;
-  }
-  .floating-point {
-    position: absolute; right: 35%; top: 50%;
-    transform: translateY(-50%);
-    font-size: 26px; font-weight: 800;
-    color: var(--ow-orange);
-    text-shadow: 0 0 10px rgba(255,165,0,0.8);
-    pointer-events: none;
-    animation: floatUpFade 1s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
-    z-index: 999;
-  }
-  .floating-point.negative {
-    color: #ff4d4d;
-    text-shadow: 0 0 10px rgba(255,77,77,0.8);
-  }
-  @keyframes floatUpFade {
-    0% { transform: translateY(-50%) scale(0.5); opacity: 0; }
-    20% { transform: translateY(-80%) scale(1.2); opacity: 1; }
-    100% { transform: translateY(-150%) scale(1); opacity: 0; }
+    animation: flashUpdateOW 0.5s;
+    border-left-color: var(--ow-orange);
   }
   @keyframes flashUpdateOW {
     0% { background: rgba(249, 158, 26, 0.4); }
@@ -273,7 +249,7 @@
   .student-item > .main-info {
     flex: 1;
     transform: skewX(5deg);
-    padding: 10px 20px;
+    padding: 15px 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -449,18 +425,49 @@
   }
   
   /* 개별 티어 이미지 파일 매핑 */
+  .trainee-img { background-image: url('trainee.png'); }
   .iron-img { background-image: url('iron.png'); }
   .bronze-img { background-image: url('bronze.png'); }
   .silver-img { background-image: url('silver.png'); }
   .gold-img { background-image: url('gold.png'); }
   .platinum-img { background-image: url('platinum.png'); }
   .emerald-img { background-image: url('emerald.png'); }
-  .diamond-img { background-image: url('diamond.png?v=2'); }
+  .diamond-img { background-image: url('diamond.png'); }
   .master-img { background-image: url('master.png'); }
   .grandmaster-img { background-image: url('grandmaster.png'); }
   .challenger-img { background-image: url('challenger.png'); }
 
   /* 롤 티어 이미지 참고 컬러셋 및 상세 이펙트 매칭 */
+  /* 0. 트레이니 (Trainee) */
+  .trainee { 
+    border-bottom: 4px solid #4a4a4a; 
+    color: #8c8c8c; 
+    position: relative; 
+    overflow: hidden; 
+    background: linear-gradient(135deg, #1c1c1c, #2a2a2a, #1c1c1c); 
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
+  }
+  .trainee::before { 
+    content: ''; 
+    position: absolute; 
+    inset: 0; 
+    background: repeating-linear-gradient(-45deg, rgba(20,20,20,0.8), rgba(20,20,20,0.8) 10px, rgba(40,40,40,0.4) 10px, rgba(40,40,40,0.4) 20px); 
+    pointer-events: none; 
+    opacity: 0.7;
+  }
+  .trainee::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+    animation: traineePulse 2s infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes traineePulse {
+    to { box-shadow: inset 0 0 30px rgba(255, 0, 0, 0.2); }
+  }
+  .trainee:hover { filter: brightness(1.2); }
+
   /* 1. 아이언 (Iron) */
   .iron { border-bottom: 4px solid #434447; color: #8e8f93; position: relative; overflow: hidden; background: linear-gradient(rgba(45,45,45,0.9), rgba(30,30,30,0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23n)" opacity="0.3"/></svg>'); animation: ironVibrate 4s infinite linear, ironAura 3s infinite alternate; }
   @keyframes ironAura { to { box-shadow: 0 0 15px rgba(30,30,30,0.8); } }
@@ -514,8 +521,11 @@
   @keyframes emWave { 50% { box-shadow: 0 0 40px rgba(43, 247, 132, 0.7); } }
   .emerald::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, rgba(43,247,132,0.6), transparent 70%); animation: emLiquid 4s infinite alternate ease-in-out; pointer-events: none; }
   @keyframes emLiquid { to { transform: scale(1.2) translateY(-20px); } }
+  .emerald::after { content: '✨'; position: absolute; color: #2bf784; font-size: 14px; bottom: 0; left: 50%; opacity: 0; animation: emParticles 3s infinite ease-out; pointer-events: none; }
+  @keyframes emParticles { 50% { opacity: 1; transform: translate(-20px, -30px); } 100% { opacity: 0; transform: translate(20px, -60px); } }
   .emerald:hover { animation: emWave 1s infinite ease-out; }
   .emerald:hover::before { animation: emLiquid 0.5s infinite alternate ease-in-out; }
+  .emerald:hover::after { animation: emParticles 0.8s infinite ease-out; }
 
   /* 7. 다이아몬드 (Diamond) */
   .diamond { border-bottom: 4px solid #3d58d6; color: #fff; background: linear-gradient(135deg, rgba(61,88,214,0.7), rgba(180,220,255,0.9), rgba(61,88,214,0.7)); box-shadow: 0 0 25px rgba(127,153,255,0.7); position: relative; overflow: hidden; animation: diaAura 2s infinite alternate; }
@@ -722,11 +732,11 @@
     padding: 30px;
     width: 90%;
     max-width: 450px;
-    border-radius: 6px;
+    transform: skewX(-5deg);
     box-shadow: 0 10px 40px rgba(0,0,0,0.9);
     position: relative;
   }
-  .ow-modal > div { display: flex; flex-direction: column; gap: 15px; }
+  .ow-modal > div { transform: skewX(5deg); display: flex; flex-direction: column; gap: 15px; }
   .ow-modal h2 { margin: 0 0 10px 0; color: var(--ow-light); font-style: italic; border-bottom: 2px solid var(--ow-mid); padding-bottom: 10px; }
   .ow-modal label { font-size: 18px; color: var(--ow-blue); font-weight: 600; font-family: 'Noto Sans KR', sans-serif;}
   .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
@@ -744,14 +754,14 @@
   .promotion-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
-    background: radial-gradient(circle, rgba(50,55,65,0.95) 0%, rgba(15,18,22,1) 100%);
+    background: rgba(0,0,0,0.9);
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s ease;
   }
   .promotion-overlay.active {
     opacity: 1;
@@ -759,76 +769,50 @@
   }
   .promotion-content {
     text-align: center;
-    transform: scale(3);
-    opacity: 0;
-    filter: brightness(2) blur(10px);
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, filter 0.5s ease;
+    transform: scale(0.5);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
   .promotion-overlay.active .promotion-content {
     transform: scale(1);
-    opacity: 1;
-    filter: brightness(1) blur(0);
   }
   .promo-title {
-    font-size: 80px;
+    font-size: 70px;
     font-weight: 900;
     color: var(--ow-orange);
-    text-shadow: 0 0 30px rgba(249, 158, 26, 0.8), 2px 2px 0 #000;
-    margin: 0 0 -10px;
+    text-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
+    margin: 0 0 10px;
     font-style: italic;
     transform: skewX(-10deg);
-    letter-spacing: 5px;
   }
   .promo-name {
-    font-size: 40px;
-    color: var(--ow-light);
+    font-size: 35px;
+    color: white;
     font-weight: bold;
     font-style: italic;
     transform: skewX(-10deg);
-    text-shadow: 2px 2px 0 #000;
   }
   #promoBadge {
-    width: 320px;
-    height: 320px;
-    margin: 20px auto;
-    filter: drop-shadow(0 0 50px rgba(255,255,255,0.4));
+    width: 280px;
+    height: 280px;
+    margin: 30px auto;
+    filter: drop-shadow(0 0 30px rgba(255,255,255,0.3));
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    animation: badgePulse 2s infinite alternate ease-in-out 0.5s;
-  }
-  @keyframes badgePulse {
-    from { filter: drop-shadow(0 0 30px rgba(255,255,255,0.4)) scale(1); }
-    to { filter: drop-shadow(0 0 60px rgba(249,158,26,0.6)) scale(1.05); }
   }
   .promo-tier-name {
-    font-size: 65px;
+    font-size: 60px;
     font-weight: 900;
     margin-top: 10px;
     font-style: italic;
     color: var(--ow-light);
     transform: skewX(-10deg);
     text-transform: uppercase;
-    text-shadow: 2px 2px 0 rgba(0,0,0,0.8), 0 0 20px rgba(0,195,255,0.5);
-    letter-spacing: 3px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.8);
   }
 </style>
 </head>
-<body class="challenger-aurora">
-  <button class="ow-btn" id="btn-bgm" onclick="toggleBGM()" style="position: fixed; top: 20px; right: 20px; z-index: 9999999; transform: skewX(-15deg); padding: 10px 20px; background: rgba(0,0,0,0.4); border: 2px solid var(--ow-mid);"><span>🎵 BGM OFF</span></button>
-  <div id="authOverlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(30, 32, 37, 0.95); z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); transition: opacity 0.3s ease;">
-    <div style="background: var(--ow-dark); padding: 50px 70px; border: 2px solid var(--ow-orange); border-top: 8px solid var(--ow-orange); box-shadow: 0 10px 40px rgba(0,0,0,0.9); text-align: center; transform: skewX(-8deg);">
-      <div style="transform: skewX(8deg);">
-        <h1 style="background: none; -webkit-text-fill-color: currentcolor; filter: none; color: var(--ow-light); font-size: 44px; text-shadow: 2px 2px 0 #000; margin: 0 0 10px 0; letter-spacing: 2px;">SECURITY <span style="color: var(--ow-orange);">CLEARANCE</span></h1>
-        <p style="color: #a0a5ad; font-size: 16px; text-transform: none; margin-bottom: 35px; letter-spacing: 1px;">관리자 전용 구역입니다. 승인 코드를 입력하십시오.</p>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-          <input type="password" id="authInput" class="ow-input" style="width: 250px; text-align: center; font-size: 24px; padding: 12px; letter-spacing: 5px; background: rgba(0,0,0,0.6); transform: none; border-left: 4px solid var(--ow-blue);" placeholder="******" onkeydown="if(event.key === 'Enter') checkStampAuth()">
-          <button class="ow-btn" style="width: 280px; font-size: 24px; padding: 15px; margin-top: 10px; background-color: var(--ow-orange); border-radius: 0;" onclick="checkStampAuth()"><span>CONFIRM IDENTITY</span></button>
-        </div>
-        <p id="authErrorMsg" style="color: #ff4444; margin-top: 20px; display: none; text-transform:none; font-weight: bold; font-size: 16px; text-shadow: 1px 1px 0 #000; background: rgba(255,0,0,0.1); padding: 5px;">[오류] 승인 코드가 일치하지 않습니다.</p>
-      </div>
-    </div>
-  </div>
+<body>
 
 <header>
   <div class="willgrow-logo">
@@ -839,14 +823,10 @@
   <p class="subtitle">WATCHPOINT : ACADEMY</p>
 </header>
 
-<div class="nav-tabs" style="position: relative;">
+<div class="nav-tabs">
   <button class="ow-btn active" id="btn-admin" onclick="switchTab('admin')"><span>ROSTER (ADMIN)</span></button>
   <button class="ow-btn" id="btn-leaderboard" onclick="switchTab('leaderboard')"><span>TOP 30 (LEADERBOARD)</span></button>
-  <button class="ow-btn" id="btn-teamboard" onclick="switchTab('teamboard')"><span>TOP 5 TEAMBOARD</span></button>
 </div>
-
-<audio id="bgmAudio" src="./assets/sounds/cinematic_intro.webm" loop></audio>
-<audio id="promoAudio" src="./assets/sounds/rank_up_v2.m4a"></audio>
 
 <div class="content">
   <!-- 관리자 대시보드 -->
@@ -861,18 +841,13 @@
       <div>
         <select id="classSelect" class="ow-select"></select>
         <input type="text" id="studentName" class="ow-input" placeholder="요원 이름 (학생명)..." onkeypress="handleKeyPress(event)">
-        <input type="text" id="studentSchool" class="ow-input" placeholder="학교 이름..." onkeypress="handleKeyPress(event)">
         <button class="ow-btn sm-btn accent" onclick="addStudent()"><span>요원 추가</span></button>
       </div>
     </div>
-    <div class="filter-container" style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <div class="custom-select-wrapper" id="adminSelectWrapper">
-          <button class="ow-btn" id="adminSelectBtn" onclick="toggleCustomMenu('admin')"><span>▼ 소속팀 선택</span></button>
-          <div id="adminCustomOptions" class="custom-options"></div>
-        </div>
-        <input type="text" id="adminSearchInput" class="ow-input" placeholder="요원 검색..." style="width: 180px;" oninput="render()">
-        <button class="ow-btn sm-btn" id="viewToggleBtn" style="display: none; padding: 10px 15px; font-size: 16px;" onclick="toggleViewMode()"><span>가로 모드</span></button>
+    <div class="filter-container" style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
+      <div class="custom-select-wrapper" id="adminSelectWrapper">
+        <button class="ow-btn" id="adminSelectBtn" onclick="toggleCustomMenu('admin')"><span>▼ 소속팀 선택</span></button>
+        <div id="adminCustomOptions" class="custom-options"></div>
       </div>
       <select id="adminFilter" class="ow-select" style="display:none;" onchange="render()"><option value="ALL">전체 소속팀 보기</option></select>
       <div id="bulkPointContainer" style="display: none; gap: 5px; align-items: center;">
@@ -894,187 +869,102 @@
     </div>
     <div class="lb-list" id="lbStudentList"></div>
   </div>
-
-  <!-- 팀 보드 -->
-  <div id="teamboard" class="panel">
-    <div style="text-align: center; margin-bottom: 25px;">
-      <h2 style="font-size: 40px; color: var(--ow-orange); font-style: italic; text-shadow: 2px 2px 0 #000; margin: 0;">GLOBAL TEAM RANKINGS</h2>
-      <p style="color: #ccc; font-size: 16px; margin: 5px 0 0 0; text-transform:none;">소속 요원들의 평균 획득 포인트를 계산하여 최고의 팀을 가립니다.</p>
-    </div>
-    <div class="lb-list" id="teamBoardList"></div>
-  </div>
 </div>
 
-<div class="ow-modal-backdrop" id="editModal" style="z-index: 1010;" onclick="if(event.target === this) closeEditModal()">
+<div class="ow-modal-backdrop" id="editModal" style="z-index: 1010;">
   <div class="ow-modal">
     <div>
-      <h2 id="modalStudentName" style="font-size: 26px; display: flex; align-items: center; gap: 10px;">
-        <span style="color: var(--ow-blue);">👤</span> 요원 관리
-      </h2>
+      <h2 id="modalStudentName">요원 관리</h2>
       <input type="hidden" id="modalStudentId">
       
-      <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-blue); display: flex; flex-direction: column; gap: 10px;">
-        <label>소속팀 변경</label>
-        <select id="modalClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);"></select>
-        <label style="margin-top: 5px;">학교 정보</label>
-        <input type="text" id="modalStudentSchool" class="ow-input" placeholder="학교 이름" style="transform: none; background: rgba(0,0,0,0.5); width: 100%; box-sizing: border-box;">
-        <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyStudentEdit()"><span>요원 정보 적용</span></button>
-      </div>
+      <label>소속팀 변경</label>
+      <select id="modalClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);"></select>
+      <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyStudentEdit()"><span>팀 변경 적용</span></button>
       
-      <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid #ff4444; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;">
-        <label style="color: #ff4444; display: flex; align-items: center; gap: 5px;"><span>⚠️</span> 위험 구역</label>
+      <div style="margin-top: 15px; border-top: 2px dashed var(--ow-mid); padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+        <label style="color: #ff4444;">위험 구역</label>
         <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg);" onclick="deleteStudentFromModal()"><span>요원 로스터 제외</span></button>
       </div>
       
-      <div class="modal-actions" style="margin-top: 10px;">
+      <div class="modal-actions">
         <button class="ow-btn sm-btn" onclick="closeEditModal()"><span>닫기</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="ow-modal-backdrop" id="classModal" onclick="if(event.target === this) closeClassModal()">
-  <div class="ow-modal" style="max-width: 500px;">
-    <div style="gap: 12px;">
-      <h2 style="font-size: 26px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--ow-orange); padding-bottom: 15px; margin-bottom: 5px;">
-        <span style="color: var(--ow-orange);">⚙️</span> 팀 관리
-      </h2>
+<div class="ow-modal-backdrop" id="classModal">
+  <div class="ow-modal">
+    <div>
+      <h2>팀 관리</h2>
+      <label>관리할 팀 선택</label>
+      <select id="manageClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5);" onchange="onManageClassChange()"></select>
       
-      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-orange); display: flex; flex-direction: column; gap: 8px;">
-        <label>관리할 팀 선택</label>
-        <select id="manageClassSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.6);" onchange="onManageClassChange()"></select>
-      </div>
+      <label style="margin-top:10px;">팀 이름 수정</label>
+      <input type="text" id="manageClassNameInput" class="ow-input" style="transform: none;">
       
-      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-mid); display: flex; flex-direction: column; gap: 8px;">
-        <label>팀/감독 정보 수정</label>
-        <div style="display: flex; gap: 10px;">
-          <input type="text" id="manageClassNameInput" class="ow-input" placeholder="팀 이름" style="transform: none; flex: 1;">
-          <input type="text" id="manageClassDirectorInput" class="ow-input" placeholder="감독 이름" style="transform: none; flex: 1;">
-        </div>
-        <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyClassEdit()"><span>수정 적용</span></button>
-      </div>
+      <label style="margin-top:10px;">감독 이름 수정</label>
+      <input type="text" id="manageClassDirectorInput" class="ow-input" style="transform: none;">
+
+      <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyClassEdit()"><span>수정 적용</span></button>
       
-      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-blue); display: flex; flex-direction: column; gap: 8px;">
+      <div style="margin-top: 15px; border-top: 2px solid var(--ow-mid); padding-top: 15px;">
         <label>소속 요원 개별 관리</label>
-        <div style="display:flex; gap:10px;">
-          <select id="manageStudentSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.6); flex:1;"></select>
-          <button class="ow-btn sm-btn" style="transform: skewX(-10deg);" onclick="openEditSelectedStudent()"><span>⚙️ 요원 편집</span></button>
+        <div style="display:flex; gap:10px; margin-top: 5px;">
+          <select id="manageStudentSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.5); flex:1;"></select>
+          <button class="ow-btn sm-btn" style="transform: skewX(-10deg);" onclick="openEditSelectedStudent()"><span>⚙️ 관리</span></button>
         </div>
       </div>
 
-      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid #ff4444; margin-top: 5px; display: flex; flex-direction: column; gap: 8px;">
-        <label style="color: #ff4444; display: flex; align-items: center; gap: 5px;"><span>⚠️</span> 위험 구역</label>
+      <div style="margin-top: 15px; border-top: 2px dashed var(--ow-mid); padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+        <label style="color: #ff4444;">위험 구역</label>
         
         <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg); background: #b36b00;" onclick="resetClassPoints()"><span>팀 전체 포인트 초기화</span></button>
-        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; margin-bottom: 5px; line-height: 1.3;">* 해당 팀 소속 요원들의 스탬프와 레벨이 0으로 리셋됩니다.</p>
+        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; margin-bottom: 10px;">* 해당 팀 소속 요원들의 스탬프와 레벨이 0으로 리셋됩니다.</p>
 
         <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg);" onclick="deleteClass()"><span>팀 해체 (삭제)</span></button>
-        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; line-height: 1.3;">* 소속된 요원이 있는 팀은 삭제할 수 없습니다. 먼저 요원의 소속을 변경하거나 제외해주세요.</p>
+        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none;">* 소속된 요원이 있는 팀은 삭제할 수 없습니다. 먼저 요원의 소속을 변경하거나 제외해주세요.</p>
       </div>
       
-      <div class="modal-actions" style="margin-top: 15px;">
+      <div class="modal-actions">
         <button class="ow-btn sm-btn" onclick="closeClassModal()"><span>닫기</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 <script>
-  let isHorizontalView = false;
-  function toggleViewMode() {
-    isHorizontalView = !isHorizontalView;
-    const btn = document.getElementById('viewToggleBtn');
-    if (btn) btn.innerHTML = isHorizontalView ? '<span>세로 모드</span>' : '<span>가로 모드</span>';
-    render();
+  let students = JSON.parse(localStorage.getItem('nanoBananaStudents')) || [];
+  let classes = JSON.parse(localStorage.getItem('willgrowClasses')) || [];
+  if (students.length > 0 && classes.length === 0) {
+    classes.push({ id: 'class-0', name: '기본반', director: '공석' });
+    students.forEach(s => { if(!s.classId) s.classId = 'class-0'; });
+  } else if (classes.length === 0) {
+    classes.push({ id: 'class-0', name: '기본반', director: '공석' });
   }
-
-  // Overwatch Auth Verification
-  if (sessionStorage.getItem('stamp_auth') === 'jctj8877') {
-    document.getElementById('authOverlay').style.display = 'none';
-  }
-
-  function checkStampAuth() {
-    const input = document.getElementById('authInput').value;
-    if (input === 'jctj8877') {
-      sessionStorage.setItem('stamp_auth', input);
-      document.getElementById('authOverlay').style.opacity = '0';
-      setTimeout(() => document.getElementById('authOverlay').style.display = 'none', 300);
-    } else {
-      document.getElementById('authErrorMsg').style.display = 'block';
-      setTimeout(() => document.getElementById('authErrorMsg').style.display = 'none', 3000);
-      document.getElementById('authInput').value = '';
-    }
-  }
-
-  const firebaseConfig = {
-    projectId: "willgrow-textbook-system",
-    appId: "1:695680391212:web:c00517bb83964649995989",
-    storageBucket: "willgrow-textbook-system.firebasestorage.app",
-    apiKey: "AIzaSyDisSYRRDC4UKrMa2AKApib7--bwQak4Lg",
-    authDomain: "willgrow-textbook-system.firebaseapp.com",
-    messagingSenderId: "695680391212"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  let students = [];
-  let classes = [];
-
-  // Migrate existing localStorage data to Firebase
-  const localStudents = JSON.parse(localStorage.getItem('nanoBananaStudents'));
-  const localClasses = JSON.parse(localStorage.getItem('willgrowClasses'));
-  if (localStudents && localStudents.length > 0) {
-    db.collection('stamp_system').doc('master_db').set({
-      students: localStudents,
-      classes: localClasses && localClasses.length > 0 ? localClasses : [{ id: 'class-0', name: '기본반', director: '공석' }]
-    });
-    localStorage.removeItem('nanoBananaStudents');
-    localStorage.removeItem('willgrowClasses');
-  }
-
-  // Real-time synchronization
-  db.collection('stamp_system').doc('master_db').onSnapshot((doc) => {
-    if (doc.exists) {
-      const data = doc.data();
-      students = data.students || [];
-      classes = data.classes || [];
-      
-      // Migrate existing classes inside real-time listener just in case
-      let changed = false;
-      classes.forEach(c => {
-        if (!c.director) {
-          c.director = '공석';
-          changed = true;
-        }
-      });
-      if (changed) saveData();
-    } else {
-      classes = [{ id: 'class-0', name: '기본반', director: '공석' }];
-      saveData();
-    }
-    render();
+  
+  // Migrate existing classes
+  classes.forEach(c => {
+    if (!c.director) c.director = '공석';
   });
-
+  
   const TIERS = [
-    { name: 'challenger', label: 'CHALLENGER', maxRank: 1 },
-    { name: 'grandmaster', label: 'GRANDMASTER', maxRank: 2 },
-    { name: 'master', label: 'MASTER', maxRank: 3 },
-    { name: 'diamond', label: 'DIAMOND', maxRank: 5 },
-    { name: 'emerald', label: 'EMERALD', maxRank: 8 },
-    { name: 'platinum', label: 'PLATINUM', maxRank: 12 },
-    { name: 'gold', label: 'GOLD', maxRank: 18 },
-    { name: 'silver', label: 'SILVER', maxRank: 25 },
-    { name: 'bronze', label: 'BRONZE', maxRank: 35 },
-    { name: 'iron', label: 'IRON', maxRank: Infinity }
+    { name: 'challenger', label: 'CHALLENGER', threshold: 0.0004 },
+    { name: 'grandmaster', label: 'GRANDMASTER', threshold: 0.001 },
+    { name: 'master', label: 'MASTER', threshold: 0.01 },
+    { name: 'diamond', label: 'DIAMOND', threshold: 0.04 },
+    { name: 'emerald', label: 'EMERALD', threshold: 0.10 },
+    { name: 'platinum', label: 'PLATINUM', threshold: 0.27 },
+    { name: 'gold', label: 'GOLD', threshold: 0.52 },
+    { name: 'silver', label: 'SILVER', threshold: 0.78 },
+    { name: 'bronze', label: 'BRONZE', threshold: 0.97 },
+    { name: 'iron', label: 'IRON', threshold: 1.00 }
   ];
 
   function saveData() {
-    db.collection('stamp_system').doc('master_db').set({
-      students: students,
-      classes: classes
-    });
+    localStorage.setItem('nanoBananaStudents', JSON.stringify(students));
+    localStorage.setItem('willgrowClasses', JSON.stringify(classes));
+    render();
   }
 
   function handleKeyPress(e) { if (e.key === 'Enter') addStudent(); }
@@ -1084,7 +974,7 @@
     const c = classes.find(c => c.id === classId);
     if (!c) return 'Unknown';
     if (!hideDirector && c.director && c.director !== '공석') {
-      return `${c.name} (${c.director} 감독)`;
+      return `${c.name} (감독 ${c.director})`;
     }
     return c.name;
   }
@@ -1105,22 +995,18 @@
 
   function addStudent() {
     const input = document.getElementById('studentName');
-    const schoolInput = document.getElementById('studentSchool');
     const classId = document.getElementById('classSelect').value;
     const name = input.value.trim();
-    const school = schoolInput ? schoolInput.value.trim() : '';
     if (name && classId) {
       students.push({
         id: Date.now().toString(),
         name: name,
-        school: school,
         classId: classId,
         stamps: 0,
         totalStamps: 0,
         dollars: 0
       });
       input.value = '';
-      if (schoolInput) schoolInput.value = '';
       saveData();
     }
   }
@@ -1131,7 +1017,6 @@
     
     document.getElementById('modalStudentId').value = student.id;
     document.getElementById('modalStudentName').textContent = `요원 관리: ${student.name}`;
-    document.getElementById('modalStudentSchool').value = student.school || '';
     
     const select = document.getElementById('modalClassSelect');
     let optionsHtml = '';
@@ -1150,12 +1035,10 @@
   function applyStudentEdit() {
     const studentId = document.getElementById('modalStudentId').value;
     const newClassId = document.getElementById('modalClassSelect').value;
-    const newSchool = document.getElementById('modalStudentSchool').value.trim();
     const student = students.find(s => s.id === studentId);
     
     if (student && newClassId) {
       student.classId = newClassId;
-      student.school = newSchool;
       saveData();
       closeEditModal();
       if(document.getElementById('classModal').classList.contains('active')) {
@@ -1340,51 +1223,41 @@
   }
 
   let promoTimeout = null;
+  let currentPromoAudio = null;
   function showPromotionEffect(studentName, newTier) {
     const overlay = document.getElementById('promotionOverlay');
     if (!overlay) return;
-    
     document.getElementById('promoName').textContent = studentName;
     document.getElementById('promoBadge').className = newTier.name + '-img';
     document.getElementById('promoTierName').textContent = newTier.label;
 
     overlay.classList.add('active');
     
-    const audioEl = document.getElementById('promoAudio');
-    if (audioEl) {
-      audioEl.pause();
-      audioEl.currentTime = 0;
-      audioEl.play().catch(e => console.log('에러: 프로모션 오디오 재생 실패', e));
+    // 이전 오디오가 재생 중이라면 중지
+    if (currentPromoAudio) {
+      currentPromoAudio.pause();
+      currentPromoAudio.currentTime = 0;
     }
+    
+    // mp4 파일에서 오디오만 추출하여 오디오 객체로 바로 재생
+    currentPromoAudio = new Audio('promotion.mp4');
+    currentPromoAudio.play().catch(e => console.log('에러: 프로모션 오디오 재생 실패', e));
     
     if (promoTimeout) clearTimeout(promoTimeout);
     
-    // 4.5초 후 자동 닫기 (영상 길이에 맞춤)
+    // 3초 후 자동 닫기
     promoTimeout = setTimeout(() => {
       overlay.classList.remove('active');
-    }, 4500);
+    }, 3000);
     
-    // 마우스 누르면 바로 생략(닫기) 및 영상/소리 끄기
+    // 마우스 누르면 바로 생략(닫기) 및 소리 끄기
     overlay.onclick = () => {
       overlay.classList.remove('active');
-      const audioEl = document.getElementById('promoAudio');
-      if (audioEl) audioEl.pause();
+      if (currentPromoAudio) {
+        currentPromoAudio.pause();
+      }
       if (promoTimeout) clearTimeout(promoTimeout);
     };
-  }
-
-  function showFloatingPoint(element, amount) {
-    if (!element) return;
-    const floater = document.createElement('div');
-    floater.className = 'floating-point';
-    if (amount < 0) {
-      floater.classList.add('negative');
-      floater.textContent = `${amount} Point`;
-    } else {
-      floater.textContent = `+${amount} Point`;
-    }
-    element.appendChild(floater);
-    setTimeout(() => { floater.remove(); }, 1000);
   }
 
   function giveStamp(id) {
@@ -1400,14 +1273,13 @@
         student.dollars += 1;
       }
       saveData();
+      playCoinSound();
 
       const afterTiers = calculateTiers();
       const currTier = afterTiers.find(s => s.id === id)?.tier;
 
       if (prevTier && currTier && prevTier.name !== currTier.name) {
         showPromotionEffect(student.name, currTier);
-      } else {
-        playCoinSound();
       }
 
       render();
@@ -1417,7 +1289,6 @@
         itemNode.classList.remove('animating');
         void itemNode.offsetWidth;
         itemNode.classList.add('animating');
-        showFloatingPoint(itemNode, 1);
       }
     }
   }
@@ -1458,28 +1329,17 @@
     playCoinSound(); // 마리오 코인 사운드 재생
     render();
     
-    // Add floating text animations after render
-    targetStudents.forEach(student => {
-      const itemNode = document.getElementById(`student-${student.id}`);
-      if(itemNode) {
-        itemNode.classList.remove('animating');
-        void itemNode.offsetWidth;
-        itemNode.classList.add('animating');
-        showFloatingPoint(itemNode, val);
-      }
-    });
-    
     bulkInput.value = '';
   }
 
   function removeStamp(id) {
     const student = students.find(s => s.id === id);
-    if (student && student.totalStamps > 0) {
+    if (student) {
       if (student.stamps === 0 && student.dollars > 0) {
         student.dollars -= 1;
         student.stamps = 19;
         student.totalStamps -= 1;
-      } else if (student.stamps > 0) {
+      } else {
         student.stamps -= 1;
         student.totalStamps -= 1;
       }
@@ -1490,13 +1350,13 @@
         itemNode.classList.remove('animating');
         void itemNode.offsetWidth;
         itemNode.classList.add('animating');
-        showFloatingPoint(itemNode, -1);
       }
     }
   }
 
   function calculateTiers() {
     const sorted = [...students].sort((a, b) => b.totalStamps - a.totalStamps);
+    const N = sorted.length;
     
     let currentRank = 1;
     sorted.forEach((student, index) => {
@@ -1504,13 +1364,24 @@
         currentRank = index + 1;
       }
       const rank = currentRank; 
+      const percent = rank / N; 
       let assignedTier = TIERS[TIERS.length - 1]; 
       
-      if (student.totalStamps === 0) {
+      if (student.totalStamps < 0) {
+        assignedTier = { name: 'trainee', label: 'TRAINEE' };
+      } else if (student.totalStamps === 0) {
         assignedTier = TIERS[TIERS.length - 1];
+      } else if (rank === 1) {
+        assignedTier = TIERS[0]; // 챌린저
+      } else if (rank === 2) {
+        assignedTier = TIERS[1]; // 그랜드마스터
+      } else if (rank === 3) {
+        assignedTier = TIERS[2]; // 마스터
+      } else if (rank === 4) {
+        assignedTier = TIERS[3]; // 다이아몬드
       } else {
         for (let i = 0; i < TIERS.length; i++) {
-          if (rank <= TIERS[i].maxRank) {
+          if (percent <= TIERS[i].threshold) {
              assignedTier = TIERS[i];
              break;
           }
@@ -1518,26 +1389,6 @@
       }
       student.rank = rank;
       student.tier = assignedTier;
-    });
-    return sorted;
-  }
-
-  function getTeamRankings() {
-    const teamScores = classes.map(c => {
-      const classStudents = students.filter(s => s.classId === c.id);
-      const totalSum = classStudents.reduce((sum, s) => sum + s.totalStamps, 0);
-      const totalScore = classStudents.length > 0 ? Number((totalSum / classStudents.length).toFixed(1)) : 0;
-      return { ...c, totalScore, studentCount: classStudents.length };
-    });
-    
-    const sorted = teamScores.sort((a, b) => b.totalScore - a.totalScore);
-    
-    let currentRank = 1;
-    sorted.forEach((team, index) => {
-      if (index > 0 && sorted[index - 1].totalScore !== team.totalScore) {
-        currentRank = index + 1;
-      }
-      team.rank = currentRank;
     });
     return sorted;
   }
@@ -1571,13 +1422,12 @@
     if (isLeaderboard) {
       tags += `<div class="class-tag" style="min-width: 130px;"><span>${className}</span></div>`;
     } else {
-      let displayName = className;
+      let displayName = hasDirector ? `${className} (감독 ${c.director})` : className;
       tags = `<div class="class-tag"><span>${displayName}</span></div>`;
     }
     
     let tierHtml = '';
-    
-    if (student.tier && student.totalStamps > 0) {
+    if (student.tier) {
        const tierClass = student.tier.name;
        tierHtml = `
        <div style="display: flex; align-items: center;">
@@ -1605,10 +1455,12 @@
   
   function generateProgressHtml(stamps) {
     const maxStamps = 20;
-    const percent = Math.min((stamps / maxStamps) * 100, 100);
+    const percent = Math.max(0, Math.min((stamps / maxStamps) * 100, 100));
+    const textColor = stamps < 0 ? '#ff4444' : 'var(--ow-light)';
+    
     return `
       <div class="stamp-progress-wrapper">
-        <div class="stamp-progress-text">${stamps} / ${maxStamps}</div>
+        <div class="stamp-progress-text" style="color: ${textColor};">${stamps} / ${maxStamps}</div>
         <div class="stamp-progress-container">
           <div class="stamp-progress-bar-bg">
             <div class="stamp-progress-bar-fill" style="width: ${percent}%;"></div>
@@ -1632,7 +1484,7 @@
     sortedClasses.forEach(c => { 
       optionsHtml += `<option value="${c.id}">${c.name}</option>`; 
       const escapedName = c.name.replace(/'/g, "\\'");
-      const directorText = (c.director && c.director !== '공석') ? `<span class="dir-text" style="color:#8a909b; font-size:13px; margin-left: 10px; font-weight:500; text-transform:none;">${c.director} 감독</span>` : '';
+      const directorText = (c.director && c.director !== '공석') ? `<span class="dir-text" style="color:#8a909b; font-size:13px; margin-left: 10px; font-weight:500; text-transform:none;">감독 ${c.director}</span>` : '';
       const displayHtml = `<span><span>${c.name}</span>${directorText}</span>`;
       
       customAdminHtml += `<div class="custom-opt-btn" onclick="selectCustomOption('admin', '${c.id}', '${escapedName}')">${displayHtml}</div>`;
@@ -1702,69 +1554,43 @@
     const sorted = calculateTiers();
     const adminList = document.getElementById('adminStudentList');
     const lbList = document.getElementById('lbStudentList');
-    const teamList = document.getElementById('teamBoardList');
     
-    if (adminList) adminList.innerHTML = '';
-    if (lbList) lbList.innerHTML = '';
-    if (teamList) teamList.innerHTML = '';
+    adminList.innerHTML = '';
+    lbList.innerHTML = '';
     
     const adminFilter = document.getElementById('adminFilter').value;
     const lbFilter = document.getElementById('lbFilter').value;
-    const adminSearch = document.getElementById('adminSearchInput') ? document.getElementById('adminSearchInput').value.trim().toLowerCase() : '';
 
     const bulkContainer = document.getElementById('bulkPointContainer');
     if (bulkContainer) {
       bulkContainer.style.display = (!adminFilter || adminFilter === '' || adminFilter === 'ALL') ? 'none' : 'flex';
     }
 
-    const viewToggleBtn = document.getElementById('viewToggleBtn');
-    if (viewToggleBtn) {
-      viewToggleBtn.style.display = (!adminFilter || adminFilter === '' || adminFilter === 'ALL') ? 'none' : 'inline-block';
-    }
-
-    if (adminList) {
-      if (isHorizontalView && adminFilter && adminFilter !== 'ALL') {
-        adminList.classList.add('horizontal-view');
-      } else {
-        adminList.classList.remove('horizontal-view');
-      }
-    }
-
-    if ((!adminFilter || adminFilter === '') && !adminSearch) {
-      if (adminList) adminList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700;"><span class="heartbeat-text">소속팀을 선택해 주세요</span></div>';
+    if (!adminFilter || adminFilter === '') {
+      adminList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700;"><span class="heartbeat-text">소속팀을 선택해 주세요</span></div>';
     }
 
     const sortedByName = [...students].sort((a, b) => a.name.localeCompare(b.name));
 
     sortedByName.forEach(student => {
       // 관리자 화면
-      if (adminList) {
-        let shouldShow = false;
-        if (adminSearch) {
-          shouldShow = student.name.toLowerCase().includes(adminSearch);
-        } else {
-          shouldShow = (adminFilter && adminFilter !== '' && adminFilter === student.classId);
-        }
-
-        if (!shouldShow) return;
-
+      if (adminFilter && adminFilter !== '' && adminFilter === student.classId) {
         const adminItem = document.createElement('div');
         adminItem.className = 'student-item';
         adminItem.id = `student-${student.id}`;
-        const schoolLabel = student.school ? `<span style="font-size: 14px; color: var(--ow-blue); font-weight: 500; font-style: normal; margin-left: 10px; text-shadow: none;">[${student.school}]</span>` : '';
         adminItem.innerHTML = `
           <div class="main-info">
             ${generateNameHtml(student)}
             ${generateProgressHtml(student.stamps)}
             <div class="stats-info">
-              <span>🏆 RANK: ${student.rank} [${student.tier.label}]</span>
-              <span>총 승점: ${student.totalStamps}</span>
-              <span class="dollar">⭐ LEVEL ${student.dollars}${schoolLabel}</span>
+              <span>🏆 RANK: ${student.rank}</span>
+              <span>총 스탬프: ${student.totalStamps}</span>
+              <span class="dollar">⭐ LEVEL ${student.dollars}</span>
             </div>
           </div>
           <div class="controls">
-            <button class="sm-btn accent" onclick="giveStamp('${student.id}')"><span>+1 Point</span></button>
-            <button class="sm-btn danger" style="background:#8b1c1c" onclick="removeStamp('${student.id}')"><span>-1 Point</span></button>
+            <button class="sm-btn accent" onclick="giveStamp('${student.id}')"><span>+1 포인트</span></button>
+            <button class="sm-btn danger" style="background:#8b1c1c" onclick="removeStamp('${student.id}')"><span>-1 포인트</span></button>
           </div>
         `;
         adminList.appendChild(adminItem);
@@ -1774,7 +1600,7 @@
     let lbCount = 0;
     sorted.forEach(student => {
       // 명예의 전당
-      if ((lbFilter === 'ALL' || lbFilter === student.classId) && lbList) {
+      if (lbFilter === 'ALL' || lbFilter === student.classId) {
         if (lbCount >= 30) return;
         lbCount++;
         const lbItem = document.createElement('div');
@@ -1782,18 +1608,17 @@
         const classData = classes.find(c => c.id === student.classId);
         const directorName = classData ? classData.director : '';
         const directorHtml = (directorName && directorName !== '공석') 
-          ? `<div class="lb-director">${directorName} 감독</div>` 
+          ? `<div class="lb-director">감독 ${directorName}</div>` 
           : '';
 
-        const schoolLabel = student.school ? `<span style="font-size: 14px; color: var(--ow-blue); font-weight: 500; font-style: normal; margin-left: 10px; text-shadow: none;">[${student.school}]</span>` : '';
         lbItem.innerHTML = `
           <div class="lb-rank">${student.rank}</div>
           <div class="lb-details">
             ${generateNameHtml(student, true)}
             <div class="stats-info" style="font-size: 16px; margin-top: 10px;">
-              <span style="color:var(--ow-light); display:inline-block; width:150px; text-align:left; letter-spacing:1px;">[${student.tier.label}]</span>
+              <span style="color:var(--ow-light)">[${student.tier.label}]</span>
               <span>총 승점: ${student.totalStamps}</span>
-              <span class="dollar">LEVEL ${student.dollars}${schoolLabel}</span>
+              <span class="dollar">LEVEL ${student.dollars}</span>
             </div>
           </div>
           ${directorHtml}
@@ -1802,103 +1627,15 @@
       }
     });
 
-    if (teamList) {
-      const teamRankings = getTeamRankings();
-      let tbCount = 0;
-      teamRankings.forEach(team => {
-        if (tbCount >= 5) return;
-        if (team.studentCount === 0 && team.totalScore === 0) return;
-        
-        tbCount++;
-        const item = document.createElement('div');
-        item.className = 'lb-item';
-        const directorHtml = (team.director && team.director !== '공석') 
-          ? `<div class="lb-director">${team.director} 감독</div>` 
-          : '';
-
-        item.innerHTML = `
-          <div class="lb-rank">${team.rank}</div>
-          <div class="lb-details">
-            <div class="name-row">
-              <div class="class-tag" style="min-width: 150px; padding: 10px 15px; font-size: 22px;"><span>${team.name}</span></div>
-            </div>
-            <div class="stats-info" style="font-size: 20px; margin-top: 10px;">
-              <span style="color:var(--ow-orange); font-weight:700;">팀 평균 획득 승점: ${team.totalScore} 점</span>
-            </div>
-          </div>
-          ${directorHtml}
-        `;
-        teamList.appendChild(item);
-      });
-      if (tbCount === 0) {
-        teamList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700; color: #666;">등록된 팀 정보가 없습니다.</div>';
-      }
-    }
-
     checkChallengerAurora();
   }
 
   window.onload = () => {
     switchTab('admin');
   };
-
-  let bgmStarted = false;
-  function startBGMAutoplay(e) {
-    if (bgmStarted) return;
-    if (e && e.type === 'pointerdown' && e.target.closest('#btn-bgm')) return;
-    
-    const bgm = document.getElementById('bgmAudio');
-    if (!bgm) return;
-    
-    const promise = bgm.play();
-    if (promise !== undefined) {
-      promise.then(() => {
-        bgmStarted = true;
-        const btn = document.getElementById('btn-bgm');
-        if (btn) {
-          btn.innerHTML = '<span>🔊 BGM ON</span>';
-          btn.style.color = 'var(--ow-orange)';
-          btn.style.borderColor = 'var(--ow-orange)';
-          btn.style.boxShadow = 'inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2)';
-        }
-        document.removeEventListener('pointerdown', startBGMAutoplay);
-        document.removeEventListener('keydown', startBGMAutoplay);
-      }).catch(err => {
-        // Autoplay prevented
-      });
-    }
-  }
-  document.addEventListener('pointerdown', startBGMAutoplay);
-  document.addEventListener('keydown', startBGMAutoplay);
-
-  function toggleBGM() {
-    const bgm = document.getElementById('bgmAudio');
-    const btn = document.getElementById('btn-bgm');
-    bgmStarted = true; // Ensure autoplay doesn't trigger if manually toggled
-    
-    if (bgm.paused) {
-      const promise = bgm.play();
-      if (promise !== undefined) {
-        promise.then(() => {
-          btn.innerHTML = '<span>🔊 BGM ON</span>';
-          btn.style.color = 'var(--ow-orange)';
-          btn.style.borderColor = 'var(--ow-orange)';
-          btn.style.boxShadow = 'inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.2)';
-        }).catch(err => {
-          console.log('Playback failed:', err);
-        });
-      }
-    } else {
-      bgm.pause();
-      btn.innerHTML = '<span>🎵 BGM OFF</span>';
-      btn.style.color = 'var(--ow-light)';
-      btn.style.borderColor = 'var(--ow-mid)';
-      btn.style.boxShadow = '';
-    }
-  }
 </script>
   <div id="promotionOverlay" class="promotion-overlay">
-    <div class="promotion-content" style="z-index: 2; position: relative;">
+    <div class="promotion-content">
       <h2 class="promo-title">TIER PROMOTED!</h2>
       <div class="promo-name" id="promoName">요원 이름</div>
       <div id="promoBadge"></div>
