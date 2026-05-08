@@ -45,7 +45,7 @@ export default function RootLayout({
               <div className="container mx-auto flex h-14 items-center justify-between px-4">
                 <Link href="/" className="flex items-center gap-2.5">
                   <Image
-                    src="/pickall/willgrow-logo.png"
+                    src="/willgrow-logo.png"
                     alt="Willgrow Logo"
                     width={32}
                     height={32}
