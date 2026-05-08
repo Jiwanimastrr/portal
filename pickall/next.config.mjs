@@ -2,6 +2,9 @@
 const nextConfig = {
   output: 'export',
   basePath: '/pickall',
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
