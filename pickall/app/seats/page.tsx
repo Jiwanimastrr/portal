@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import confetti from "canvas-confetti";
 import * as XLSX from "xlsx";
@@ -16,6 +16,7 @@ import { useSettingsStore } from "@/lib/store/useSettingsStore";
 import { useTickSound } from "@/lib/hooks/useTickSound";
 import { secureRandom } from "@/lib/utils/random";
 import { QuickInputPanel } from "@/components/shared/QuickInputPanel";
+import { useQuickInput } from "@/lib/hooks/useQuickInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -26,9 +27,7 @@ import { Badge } from "@/components/ui/badge";
 type BoardPos = "top" | "bottom" | "left" | "right";
 
 export default function SeatsPage() {
-  const lists = useListStore((state) => state.lists);
   const currentListId = useListStore((state) => state.currentListId);
-  const currentList = lists.find((l) => l.id === currentListId);
   const soundEnabled = useSettingsStore((state) => state.soundEnabled);
   const { initAudio, playTick, playSuccess } = useTickSound();
 
@@ -36,18 +35,17 @@ export default function SeatsPage() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
-  // Quick input
-  const [quickItems, setQuickItems] = useState<string[]>([]);
-  const [quickActive, setQuickActive] = useState(false);
-
-  const activeSourceItems = useMemo(() => {
-    if (quickActive && quickItems.length > 0) return quickItems;
-    return currentList?.items ?? [];
-  }, [quickActive, quickItems, currentList]);
+  const {
+    inputMode,
+    setInputMode,
+    quickItems,
+    quickActive,
+    activeSourceItems,
+    handleQuickApply: _handleQuickApply,
+  } = useQuickInput();
 
   const handleQuickApply = (items: string[]) => {
-    setQuickItems(items);
-    setQuickActive(true);
+    _handleQuickApply(items);
     setAssignments({});
     setAnimatedSeats(new Set());
   };
@@ -82,7 +80,6 @@ export default function SeatsPage() {
     setFrontRows(new Set());
     setKeepApart([]);
     setKeepTogether([]);
-    setQuickActive(false);
   }, [currentListId]);
 
   // Load saved layout on mount
@@ -477,6 +474,8 @@ export default function SeatsPage() {
               {step === 1 && (
                 <>
                   <QuickInputPanel
+                    inputMode={inputMode}
+                    onModeChange={setInputMode}
                     onQuickApply={handleQuickApply}
                     quickActive={quickActive}
                     quickItemsCount={quickItems.length}

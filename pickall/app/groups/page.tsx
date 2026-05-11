@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import confetti from "canvas-confetti";
 import * as XLSX from "xlsx";
@@ -16,6 +16,7 @@ import { useSettingsStore } from "@/lib/store/useSettingsStore";
 import { useTickSound } from "@/lib/hooks/useTickSound";
 import { secureRandom } from "@/lib/utils/random";
 import { QuickInputPanel } from "@/components/shared/QuickInputPanel";
+import { useQuickInput } from "@/lib/hooks/useQuickInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -57,29 +58,26 @@ const PASTEL_BORDERS = [
 
 export default function GroupsPage() {
   const router = useRouter();
-  const lists = useListStore((state) => state.lists);
   const currentListId = useListStore((state) => state.currentListId);
-  const currentList = lists.find((l) => l.id === currentListId);
   const soundEnabled = useSettingsStore((state) => state.soundEnabled);
   const { initAudio, playTick, playSuccess } = useTickSound();
   const shouldReduceMotion = useReducedMotion();
 
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // Quick input
-  const [quickItems, setQuickItems] = useState<string[]>([]);
-  const [quickActive, setQuickActive] = useState(false);
-
-  const activeSourceItems = useMemo(() => {
-    if (quickActive && quickItems.length > 0) return quickItems;
-    return currentList?.items ?? [];
-  }, [quickActive, quickItems, currentList]);
-
-  const hasActiveList = activeSourceItems.length > 0;
+  const {
+    inputMode,
+    setInputMode,
+    quickItems,
+    quickActive,
+    activeSourceItems,
+    hasActiveList,
+    handleQuickApply: _handleQuickApply,
+    currentList
+  } = useQuickInput();
 
   const handleQuickApply = (items: string[]) => {
-    setQuickItems(items);
-    setQuickActive(true);
+    _handleQuickApply(items);
     setGroups([]);
     setGroupLeaders({});
   };
@@ -117,7 +115,6 @@ export default function GroupsPage() {
     setSwapTarget(null);
     setKeepApart([]);
     setKeepTogether([]);
-    setQuickActive(false);
   }, [currentListId]);
 
   // 메타데이터 자동 저장/불러오기
@@ -511,6 +508,8 @@ export default function GroupsPage() {
             </CardHeader>
             <CardContent className="space-y-4 pt-4">
               <QuickInputPanel
+                inputMode={inputMode}
+                onModeChange={setInputMode}
                 onQuickApply={handleQuickApply}
                 quickActive={quickActive}
                 quickItemsCount={quickItems.length}

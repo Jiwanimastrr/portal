@@ -1,0 +1,7 @@
+- [x] Create `useQuickInput` hook (`hooks/useQuickInput.ts`)
+- [x] Update `components/shared/QuickInputPanel.tsx` to accept props
+- [x] Refactor `app/random/page.tsx`
+- [x] Refactor `app/order/page.tsx`
+- [x] Refactor `app/seats/page.tsx`
+- [x] Refactor `app/groups/page.tsx`
+- [x] Verify functionality (build check)

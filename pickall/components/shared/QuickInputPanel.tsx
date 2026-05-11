@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { NameListSelector } from "@/components/shared/NameListSelector";
 import { NameListInput } from "@/components/shared/NameListInput";
 import { toast } from "sonner";
-
-type InputMode = "quick" | "saved" | "create";
+import { InputMode } from "@/lib/hooks/useQuickInput";
 
 interface QuickInputPanelProps {
+  inputMode: InputMode;
+  onModeChange: (mode: InputMode) => void;
   onQuickApply: (items: string[]) => void;
   quickActive: boolean;
   quickItemsCount: number;
@@ -21,6 +22,8 @@ interface QuickInputPanelProps {
 }
 
 export function QuickInputPanel({
+  inputMode,
+  onModeChange,
   onQuickApply,
   quickActive,
   quickItemsCount,
@@ -28,7 +31,6 @@ export function QuickInputPanel({
   accentFrom = "from-emerald-500",
   accentTo = "to-teal-600",
 }: QuickInputPanelProps) {
-  const [inputMode, setInputMode] = useState<InputMode>("quick");
   const [quickText, setQuickText] = useState("");
 
   const handleQuickApply = () => {
@@ -51,7 +53,7 @@ export function QuickInputPanel({
       {/* 모드 선택 탭 */}
       <div className="flex rounded-lg border overflow-hidden">
         <button
-          onClick={() => setInputMode("quick")}
+          onClick={() => onModeChange("quick")}
           className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-medium transition-colors ${
             inputMode === "quick"
               ? "bg-primary text-primary-foreground"
@@ -62,7 +64,7 @@ export function QuickInputPanel({
           빠른 입력
         </button>
         <button
-          onClick={() => setInputMode("saved")}
+          onClick={() => onModeChange("saved")}
           className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-medium transition-colors ${
             inputMode === "saved"
               ? "bg-primary text-primary-foreground"
@@ -73,7 +75,7 @@ export function QuickInputPanel({
           명단 선택
         </button>
         <button
-          onClick={() => setInputMode("create")}
+          onClick={() => onModeChange("create")}
           className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-medium transition-colors ${
             inputMode === "create"
               ? "bg-primary text-primary-foreground"
@@ -126,5 +128,3 @@ export function QuickInputPanel({
     </>
   );
 }
-
-export type { InputMode };

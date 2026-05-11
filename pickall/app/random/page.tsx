@@ -1,17 +1,16 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import confetti from "canvas-confetti";
 import * as XLSX from "xlsx";
-import { Dices, RefreshCcw, UserMinus, Download, Settings, History, Zap, Save } from "lucide-react";
+import { Dices, RefreshCcw, UserMinus, Settings, History, Download } from "lucide-react";
 
-import { useListStore } from "@/lib/store/useListStore";
 import { useSettingsStore } from "@/lib/store/useSettingsStore";
 import { useTickSound } from "@/lib/hooks/useTickSound";
 import { secureRandom } from "@/lib/utils/random";
-import { NameListSelector } from "@/components/shared/NameListSelector";
-import { NameListInput } from "@/components/shared/NameListInput";
+import { QuickInputPanel } from "@/components/shared/QuickInputPanel";
+import { useQuickInput } from "@/lib/hooks/useQuickInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -20,7 +19,6 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 type DrawMode = "single" | "cycle" | "allow_dup";
-type InputMode = "quick" | "saved";
 
 interface HistoryItem {
   id: string;
@@ -30,17 +28,17 @@ interface HistoryItem {
 }
 
 export default function RandomPage() {
-  const lists = useListStore((state) => state.lists);
-  const currentListId = useListStore((state) => state.currentListId);
-  const setCurrentList = useListStore((state) => state.setCurrentList);
-  const currentList = lists.find((l) => l.id === currentListId);
+  const {
+    inputMode,
+    setInputMode,
+    quickItems,
+    quickActive,
+    activeSourceItems,
+    hasActiveList,
+    handleQuickApply,
+    currentList
+  } = useQuickInput();
   const soundEnabled = useSettingsStore((state) => state.soundEnabled);
-
-  // Input mode
-  const [inputMode, setInputMode] = useState<InputMode>("quick");
-  const [quickText, setQuickText] = useState("");
-  const [quickItems, setQuickItems] = useState<string[]>([]);
-  const [quickActive, setQuickActive] = useState(false); // 빠른 입력이 활성화 상태인지
 
   // States
   const [availableItems, setAvailableItems] = useState<string[]>([]);
@@ -56,16 +54,6 @@ export default function RandomPage() {
   const { initAudio, playTick, playSuccess } = useTickSound();
   const shouldReduceMotion = useReducedMotion();
 
-  // 통합 소스: 빠른 입력 모드 vs 저장된 명단 모드
-  const activeSourceItems = useMemo(() => {
-    if (inputMode === "quick" && quickActive) {
-      return quickItems;
-    }
-    return currentList?.items ?? [];
-  }, [inputMode, quickActive, quickItems, currentList]);
-
-  const hasActiveList = activeSourceItems.length > 0;
-
   // Initialize available items when source changes
   useEffect(() => {
     if (activeSourceItems.length > 0) {
@@ -78,51 +66,7 @@ export default function RandomPage() {
     }
   }, [activeSourceItems]);
 
-  // 모드 전환 시 상태 초기화
-  const handleModeChange = (mode: InputMode) => {
-    setInputMode(mode);
-    setHistory([]);
-    setWinners([]);
-    setCurrentRollingItems([]);
-    if (mode === "quick") {
-      // 빠른 입력 모드로 전환
-      setCurrentList(null);
-      if (quickActive && quickItems.length > 0) {
-        setAvailableItems([...quickItems]);
-      } else {
-        setAvailableItems([]);
-      }
-    } else {
-      // 저장된 명단 모드로 전환
-      setQuickActive(false);
-      if (currentList) {
-        setAvailableItems([...currentList.items]);
-      } else {
-        setAvailableItems([]);
-      }
-    }
-  };
 
-  // 빠른 입력 적용
-  const handleQuickApply = () => {
-    const items = quickText
-      .split(/[\n,]+/)
-      .map((s) => s.trim())
-      .filter(Boolean);
-
-    if (items.length === 0) {
-      toast.error("명단에 포함될 항목을 입력해주세요.");
-      return;
-    }
-
-    setQuickItems(items);
-    setQuickActive(true);
-    setAvailableItems([...items]);
-    setHistory([]);
-    setWinners([]);
-    setCurrentRollingItems([]);
-    toast.success(`${items.length}명의 임시 명단이 적용되었습니다.`);
-  };
 
   const handleResetAvailable = useCallback(() => {
     if (activeSourceItems.length > 0) {
@@ -308,72 +252,22 @@ export default function RandomPage() {
               <CardTitle className="text-lg">명단 설정</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* 모드 선택 탭 */}
-              <div className="flex rounded-lg border overflow-hidden">
-                <button
-                  onClick={() => handleModeChange("quick")}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm font-medium transition-colors ${
-                    inputMode === "quick"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted"
-                  }`}
-                >
-                  <Zap className="w-4 h-4" />
-                  빠른 입력
-                </button>
-                <button
-                  onClick={() => handleModeChange("saved")}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm font-medium transition-colors ${
-                    inputMode === "saved"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted"
-                  }`}
-                >
-                  <Save className="w-4 h-4" />
-                  저장된 명단
-                </button>
-              </div>
-
-              {inputMode === "quick" ? (
-                /* 빠른 입력 모드 */
-                <div className="space-y-3">
-                  <p className="text-xs text-muted-foreground">
-                    이름이나 항목을 입력하면 저장 없이 바로 사용합니다.<br/>
-                    줄바꿈 또는 쉼표(,)로 구분하세요.
-                  </p>
-                  <textarea
-                    className="w-full min-h-[180px] rounded-lg border border-input bg-transparent px-4 py-3 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
-                    placeholder={"홍길동\n김철수\n이영희\n박지민\n최수현"}
-                    value={quickText}
-                    onChange={(e) => setQuickText(e.target.value)}
-                  />
-                  <Button
-                    onClick={handleQuickApply}
-                    className="w-full h-11 text-base bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white"
-                  >
-                    <Zap className="w-4 h-4 mr-2" />
-                    바로 사용하기
-                  </Button>
-                  {quickActive && quickItems.length > 0 && (
-                    <div className="text-sm font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 p-3 rounded-md text-center border border-emerald-200 dark:border-emerald-800">
-                      ⚡ 임시 명단 사용 중: <span className="font-bold">{quickItems.length}명</span>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                /* 저장된 명단 모드 */
-                <div className="space-y-4">
-                  <NameListSelector />
-                  {currentList && (
+              <QuickInputPanel
+                inputMode={inputMode}
+                onModeChange={setInputMode}
+                onQuickApply={handleQuickApply}
+                quickActive={quickActive}
+                quickItemsCount={quickItems.length}
+                accentFrom="from-emerald-500"
+                accentTo="to-teal-600"
+                savedListInfo={
+                  currentList ? (
                     <div className="text-sm font-medium bg-muted p-3 rounded-md text-center border">
-                      현재 선택된 명단: <span className="text-primary font-bold">{totalCount}명</span>
+                      현재 선택된 명단: <span className="text-emerald-600 dark:text-emerald-400 font-bold">{totalCount}명</span>
                     </div>
-                  )}
-                  <div className="pt-4 border-t">
-                    <NameListInput />
-                  </div>
-                </div>
-              )}
+                  ) : undefined
+                }
+              />
             </CardContent>
           </Card>
         </div>
