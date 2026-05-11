@@ -246,6 +246,7 @@
   .detail-close:active { background: #444; }
 
   /* Tier colors */
+  .tier-trainee { color: #aaa; }
   .tier-iron { color: #8e8f93; }
   .tier-bronze { color: #cd8a61; }
   .tier-silver { color: #c0d8e8; }
@@ -258,6 +259,7 @@
   .tier-challenger { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,.5); }
 
   /* Detail top backgrounds per tier */
+  .bg-trainee { background: linear-gradient(180deg, #111, var(--card)); }
   .bg-iron { background: linear-gradient(180deg, #2d2d2d, var(--card)); }
   .bg-bronze { background: linear-gradient(180deg, #3a2515, var(--card)); }
   .bg-silver { background: linear-gradient(180deg, #2a3540, var(--card)); }
@@ -308,6 +310,7 @@
   }
 
   /* Badge image classes */
+  .trainee-img { background-image: url('trainee.png'); }
   .iron-img { background-image: url('iron.png'); }
   .bronze-img { background-image: url('bronze.png'); }
   .silver-img { background-image: url('silver.png'); }
@@ -430,7 +433,9 @@
         currentRank = index + 1;
       }
       let assignedTier = TIERS[TIERS.length - 1];
-      if (student.totalStamps > 0) {
+      if (student.totalStamps < 0) {
+        assignedTier = { name: 'trainee', label: 'TRAINEE', maxRank: Infinity };
+      } else if (student.totalStamps > 0) {
         for (let i = 0; i < TIERS.length; i++) {
           if (currentRank <= TIERS[i].maxRank) { assignedTier = TIERS[i]; break; }
         }
@@ -487,8 +492,8 @@
 
     let html = '';
     results.forEach(s => {
-      const tierName = s.totalStamps > 0 ? s.tier.name : 'iron';
-      const tierLabel = s.totalStamps > 0 ? s.tier.label : 'IRON';
+      const tierName = s.tier.name;
+      const tierLabel = s.tier.label;
       html += `
       <div class="result-card" onclick="showDetail('${s.id}')">
         <div class="card-top">
@@ -512,8 +517,8 @@
     const s = students.find(st => st.id === id);
     if (!s) return;
 
-    const tierName = s.totalStamps > 0 ? s.tier.name : 'iron';
-    const tierLabel = s.totalStamps > 0 ? s.tier.label : 'IRON';
+    const tierName = s.tier.name;
+    const tierLabel = s.tier.label;
 
     document.getElementById('detailTop').className = 'detail-top bg-' + tierName;
     document.getElementById('detailBadge').className = 'detail-badge ' + tierName + '-img';
@@ -526,7 +531,7 @@
     document.getElementById('detailLevel').textContent = s.dollars || 0;
     document.getElementById('detailSchool').textContent = s.school || '-';
     document.getElementById('detailProgress').textContent = s.stamps + ' / 20';
-    document.getElementById('detailFill').style.width = Math.min((s.stamps / 20) * 100, 100) + '%';
+    document.getElementById('detailFill').style.width = Math.max(0, Math.min((s.stamps / 20) * 100, 100)) + '%';
 
     document.getElementById('detailOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';

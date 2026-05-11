@@ -50,7 +50,7 @@ export default function RootLayout({
                     alt="Willgrow Logo"
                     width={32}
                     height={32}
-                    className="rounded-md"
+                    className="object-contain drop-shadow-sm"
                   />
                   <div className="flex flex-col">
                     <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider leading-tight">Willgrow Language Institute</span>

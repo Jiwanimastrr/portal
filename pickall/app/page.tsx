@@ -106,7 +106,7 @@ export default function Home() {
           alt="윌그로우 로고"
           width={120}
           height={120}
-          className="rounded-2xl shadow-md mb-2"
+          className="object-contain drop-shadow-md mb-2"
         />
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-primary">모두의 뽑기</h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-[600px] px-4">
