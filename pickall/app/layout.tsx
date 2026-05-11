@@ -43,18 +43,18 @@ export default function RootLayout({
           <div className="flex flex-1 flex-col">
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <div className="container mx-auto flex h-14 items-center justify-between px-4">
-                <Link href="/" className="flex items-center gap-2.5">
+                <Link href="/" className="flex items-center gap-3">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/pickall/willgrow-logo.png"
                     alt="Willgrow Logo"
-                    width={32}
-                    height={32}
-                    className="object-contain drop-shadow-sm"
+                    width={48}
+                    height={48}
+                    className="object-contain drop-shadow-md transition-transform hover:scale-105"
                   />
                   <div className="flex flex-col">
-                    <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider leading-tight">Willgrow Language Institute</span>
-                    <span className="font-bold text-lg text-primary leading-tight">모두의 뽑기</span>
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest leading-tight">Willgrow Language Institute</span>
+                    <span className="font-bold text-xl text-primary leading-tight">모두의 뽑기</span>
                   </div>
                 </Link>
                 <div className="flex items-center space-x-2">
