@@ -32,6 +32,7 @@ export function QuickInputPanel({
   accentTo = "to-teal-600",
 }: QuickInputPanelProps) {
   const [quickText, setQuickText] = useState("");
+  const [editListId, setEditListId] = useState<string | null>(null);
 
   const handleQuickApply = () => {
     const items = quickText
@@ -75,7 +76,10 @@ export function QuickInputPanel({
           명단 선택
         </button>
         <button
-          onClick={() => onModeChange("create")}
+          onClick={() => {
+            setEditListId(null);
+            onModeChange("create");
+          }}
           className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm font-medium transition-colors ${
             inputMode === "create"
               ? "bg-primary text-primary-foreground"
@@ -83,7 +87,7 @@ export function QuickInputPanel({
           }`}
         >
           <Plus className="w-4 h-4" />
-          명단 생성
+          {editListId ? "명단 수정" : "명단 생성"}
         </button>
       </div>
 
@@ -116,13 +120,24 @@ export function QuickInputPanel({
       ) : inputMode === "saved" ? (
         /* 저장된 명단 모드 */
         <div className="space-y-4">
-          <NameListSelector />
+          <NameListSelector
+            onEdit={(id) => {
+              setEditListId(id);
+              onModeChange("create");
+            }}
+          />
           {savedListInfo}
         </div>
       ) : (
-        /* 명단 생성 모드 */
+        /* 명단 생성/수정 모드 */
         <div className="space-y-4">
-          <NameListInput />
+          <NameListInput
+            editListId={editListId}
+            onEditComplete={() => {
+              setEditListId(null);
+              onModeChange("saved");
+            }}
+          />
         </div>
       )}
     </>

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -9,12 +9,35 @@ import { useListStore } from "@/lib/store/useListStore";
 import * as XLSX from "xlsx";
 import { toast } from "sonner";
 
-export function NameListInput() {
+interface NameListInputProps {
+  editListId?: string | null;
+  onEditComplete?: () => void;
+}
+
+export function NameListInput({ editListId, onEditComplete }: NameListInputProps) {
   const [listName, setListName] = useState("");
   const [rawText, setRawText] = useState("");
   const [startNum, setStartNum] = useState("");
   const [endNum, setEndNum] = useState("");
   const addList = useListStore((state) => state.addList);
+  const updateList = useListStore((state) => state.updateList);
+  const lists = useListStore((state) => state.lists);
+
+  useEffect(() => {
+    if (editListId) {
+      const target = lists.find(l => l.id === editListId);
+      if (target) {
+        setListName(target.name);
+        setRawText(target.items.join('\n'));
+      }
+    } else {
+      // 명단 생성 모드로 진입 시 필드 초기화
+      setListName("");
+      setRawText("");
+      setStartNum("");
+      setEndNum("");
+    }
+  }, [editListId, lists]);
 
   const handleSaveText = () => {
     if (!listName.trim()) {
@@ -31,10 +54,16 @@ export function NameListInput() {
       return;
     }
 
-    addList({ name: listName, items });
-    toast.success(`"${listName}" 명단이 저장되었습니다. (총 ${items.length}명)`);
-    setListName("");
-    setRawText("");
+    if (editListId) {
+      updateList(editListId, { name: listName, items });
+      toast.success(`"${listName}" 명단이 수정되었습니다. (총 ${items.length}명)`);
+      if (onEditComplete) onEditComplete();
+    } else {
+      addList({ name: listName, items });
+      toast.success(`"${listName}" 명단이 저장되었습니다. (총 ${items.length}명)`);
+      setListName("");
+      setRawText("");
+    }
   };
 
   const handleSaveRange = () => {
@@ -51,11 +80,18 @@ export function NameListInput() {
     }
 
     const items = Array.from({ length: end - start + 1 }, (_, i) => String(start + i));
-    addList({ name: listName, items });
-    toast.success(`"${listName}" 명단이 저장되었습니다. (${start}~${end}번)`);
-    setListName("");
-    setStartNum("");
-    setEndNum("");
+    
+    if (editListId) {
+      updateList(editListId, { name: listName, items });
+      toast.success(`"${listName}" 명단이 수정되었습니다. (${start}~${end}번)`);
+      if (onEditComplete) onEditComplete();
+    } else {
+      addList({ name: listName, items });
+      toast.success(`"${listName}" 명단이 저장되었습니다. (${start}~${end}번)`);
+      setListName("");
+      setStartNum("");
+      setEndNum("");
+    }
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,9 +140,15 @@ export function NameListInput() {
           return;
         }
 
-        addList({ name: listName, items });
-        toast.success(`"${listName}" 명단이 엑셀에서 저장되었습니다. (총 ${items.length}명)`);
-        setListName("");
+        if (editListId) {
+          updateList(editListId, { name: listName, items });
+          toast.success(`"${listName}" 명단이 엑셀에서 수정되었습니다. (총 ${items.length}명)`);
+          if (onEditComplete) onEditComplete();
+        } else {
+          addList({ name: listName, items });
+          toast.success(`"${listName}" 명단이 엑셀에서 저장되었습니다. (총 ${items.length}명)`);
+          setListName("");
+        }
       } catch (error) {
         console.error("Excel Parsing Error:", error);
         toast.error("파일을 분석하는 데 실패했습니다. 파일이 암호화되어 있거나 손상되었을 수 있습니다.");
@@ -122,8 +164,8 @@ export function NameListInput() {
   return (
     <Card className="w-full">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg">새 명단 추가</CardTitle>
-        <CardDescription>학생 이름이나 항목을 추가하여 명단을 만듭니다.</CardDescription>
+        <CardTitle className="text-lg">{editListId ? "명단 수정" : "새 명단 추가"}</CardTitle>
+        <CardDescription>{editListId ? "명단의 이름이나 항목을 수정합니다." : "학생 이름이나 항목을 추가하여 명단을 만듭니다."}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
