@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useListStore } from "@/lib/store/useListStore";
 
 export type InputMode = "quick" | "saved" | "create";
@@ -35,13 +35,18 @@ export function useQuickInput() {
 
   const hasActiveList = activeSourceItems.length > 0;
 
+  const prevListIdRef = useRef(currentListId);
+
   // currentListId가 변경되면 명단 선택 모드로 변경됨 (이건 NameListSelector 클릭 시 발생)
   useEffect(() => {
-    if (inputMode === "quick" && currentListId !== null) {
-        setInputMode("saved");
-        setQuickActive(false);
+    if (currentListId !== prevListIdRef.current) {
+        prevListIdRef.current = currentListId;
+        if (currentListId !== null) {
+            setInputMode("saved");
+            setQuickActive(false);
+        }
     }
-  }, [currentListId, inputMode]);
+  }, [currentListId]);
 
   return {
     inputMode,
