@@ -924,6 +924,12 @@
         <input type="text" id="modalStudentSchool" class="ow-input" placeholder="학교 이름" style="transform: none; background: rgba(0,0,0,0.5); width: 100%; box-sizing: border-box;">
         <button class="ow-btn sm-btn accent" style="width: 100%; transform: skewX(-10deg); margin-top: 5px;" onclick="applyStudentEdit()"><span>요원 정보 적용</span></button>
       </div>
+
+      <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid #ffaa00; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;">
+        <label style="color: #ffaa00; display: flex; align-items: center; gap: 5px;"><span>🏖️</span> 휴원 관리</label>
+        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; line-height: 1.3;">휴원 처리 시 데이터는 그대로 보존되며, 목록과 랭킹에서만 숨겨집니다.</p>
+        <button class="ow-btn sm-btn" id="modalInactiveBtn" style="width: 100%; transform: skewX(-10deg); background: #8b6914; border-color: #ffaa00;" onclick="toggleInactive()"><span id="modalInactiveLabel">🏖️ 휴원 처리</span></button>
+      </div>
       
       <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid #ff4444; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;">
         <label style="color: #ff4444; display: flex; align-items: center; gap: 5px;"><span>⚠️</span> 위험 구역</label>
@@ -964,6 +970,11 @@
           <select id="manageStudentSelect" class="ow-select" style="transform: none; background: rgba(0,0,0,0.6); flex:1;"></select>
           <button class="ow-btn sm-btn" style="transform: skewX(-10deg);" onclick="openEditSelectedStudent()"><span>⚙️ 요원 편집</span></button>
         </div>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid #ffaa00; display: flex; flex-direction: column; gap: 8px;">
+        <label style="color: #ffaa00; display: flex; align-items: center; gap: 5px;"><span>🏖️</span> 휴원 요원 관리</label>
+        <div id="inactiveStudentList" style="max-height: 150px; overflow-y: auto; font-size: 14px; text-transform: none;"></div>
       </div>
 
       <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 5px; border-left: 3px solid #ff4444; margin-top: 5px; display: flex; flex-direction: column; gap: 8px;">
@@ -1143,8 +1154,47 @@
     sortedClasses.forEach(c => { optionsHtml += `<option value="${c.id}">${c.name}</option>`; });
     select.innerHTML = optionsHtml;
     select.value = student.classId;
+
+    // 휴원 상태 버튼 업데이트
+    const inactiveLabel = document.getElementById('modalInactiveLabel');
+    const inactiveBtn = document.getElementById('modalInactiveBtn');
+    if (student.inactive) {
+      inactiveLabel.textContent = '✅ 복원 (휴원 해제)';
+      inactiveBtn.style.background = '#2a6e2a';
+      inactiveBtn.style.borderColor = '#44cc44';
+    } else {
+      inactiveLabel.textContent = '🏖️ 휴원 처리';
+      inactiveBtn.style.background = '#8b6914';
+      inactiveBtn.style.borderColor = '#ffaa00';
+    }
     
     document.getElementById('editModal').classList.add('active');
+  }
+
+  function toggleInactive() {
+    const studentId = document.getElementById('modalStudentId').value;
+    const student = students.find(s => s.id === studentId);
+    if (!student) return;
+
+    if (student.inactive) {
+      if (confirm(`${student.name} 요원을 복원(휴원 해제)하시겠습니까?`)) {
+        student.inactive = false;
+        saveData();
+        closeEditModal();
+        if(document.getElementById('classModal').classList.contains('active')) {
+          updateManageClassSelect();
+        }
+      }
+    } else {
+      if (confirm(`${student.name} 요원을 휴원 처리하시겠습니까?\n\n데이터는 그대로 보존되며, 목록과 랭킹에서만 숨겨집니다.`)) {
+        student.inactive = true;
+        saveData();
+        closeEditModal();
+        if(document.getElementById('classModal').classList.contains('active')) {
+          updateManageClassSelect();
+        }
+      }
+    }
   }
 
   function closeEditModal() {
@@ -1196,6 +1246,27 @@
     sortedClasses.forEach(c => { optionsHtml += `<option value="${c.id}">${c.name}</option>`; });
     select.innerHTML = optionsHtml;
     onManageClassChange();
+    updateInactiveList();
+  }
+
+  function updateInactiveList() {
+    const listEl = document.getElementById('inactiveStudentList');
+    if (!listEl) return;
+    const inactiveStudents = students.filter(s => s.inactive);
+    if (inactiveStudents.length === 0) {
+      listEl.innerHTML = '<div style="color: #666; padding: 8px 0;">휴원 중인 요원이 없습니다.</div>';
+      return;
+    }
+    let html = '';
+    inactiveStudents.forEach(s => {
+      const cls = classes.find(c => c.id === s.classId);
+      const clsName = cls ? cls.name : 'Unknown';
+      html += `<div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <span>🏖️ <strong>${s.name}</strong> <span style="color:#888;">(${clsName})</span></span>
+        <button class="ow-btn sm-btn" style="padding: 4px 10px; font-size: 12px; transform: none;" onclick="openEditModal('${s.id}')"><span>관리</span></button>
+      </div>`;
+    });
+    listEl.innerHTML = html;
   }
 
   function onManageClassChange() {
@@ -1435,9 +1506,9 @@
     }
     
     const filterClass = document.getElementById('adminFilter').value;
-    let targetStudents = students;
+    let targetStudents = students.filter(s => !s.inactive);
     if (filterClass !== 'ALL') {
-      targetStudents = students.filter(s => s.classId === filterClass);
+      targetStudents = targetStudents.filter(s => s.classId === filterClass);
     }
     
     if (targetStudents.length === 0) {
@@ -1500,7 +1571,7 @@
   }
 
   function calculateTiers() {
-    const sorted = [...students].sort((a, b) => b.totalStamps - a.totalStamps);
+    const sorted = [...students].filter(s => !s.inactive).sort((a, b) => b.totalStamps - a.totalStamps);
     
     let currentRank = 1;
     sorted.forEach((student, index) => {
@@ -1530,7 +1601,7 @@
 
   function getTeamRankings() {
     const teamScores = classes.map(c => {
-      const classStudents = students.filter(s => s.classId === c.id);
+      const classStudents = students.filter(s => s.classId === c.id && !s.inactive);
       const totalSum = classStudents.reduce((sum, s) => sum + s.totalStamps, 0);
       const totalScore = classStudents.length > 0 ? Number((totalSum / classStudents.length).toFixed(1)) : 0;
       return { ...c, totalScore, studentCount: classStudents.length };
@@ -1740,7 +1811,7 @@
       if (adminList) adminList.innerHTML = '<div style="text-align:center; padding: 60px 20px; font-size: 30px; font-weight: 700;"><span class="heartbeat-text">소속팀을 선택해 주세요</span></div>';
     }
 
-    const sortedByName = [...students].sort((a, b) => a.name.localeCompare(b.name));
+    const sortedByName = [...students].filter(s => !s.inactive).sort((a, b) => a.name.localeCompare(b.name));
 
     sortedByName.forEach(student => {
       // 관리자 화면

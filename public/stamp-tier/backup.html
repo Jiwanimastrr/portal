@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Stamp DB Backup</title>
+<style>
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #1e2025;
+    color: #f0edee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .container {
+    text-align: center;
+    background: #2b2e35;
+    padding: 40px 60px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  h1 { color: #f99e1a; margin-bottom: 10px; }
+  p { color: #aaa; margin-bottom: 30px; }
+  button {
+    background: #f99e1a;
+    color: #1e2025;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px;
+  }
+  button:hover { background: #ffb84d; }
+  #status {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #00c3ff;
+  }
+  pre {
+    text-align: left;
+    background: #1e2025;
+    padding: 15px;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow: auto;
+    font-size: 12px;
+    margin-top: 20px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔒 DB 백업</h1>
+  <p>Firestore의 stamp_system 데이터를 JSON 파일로 다운로드합니다.</p>
+  <button onclick="backupData()">📥 백업 다운로드</button>
+  <div id="status"></div>
+  <pre id="preview"></pre>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    projectId: "willgrow-textbook-system",
+    appId: "1:695680391212:web:c00517bb83964649995989",
+    storageBucket: "willgrow-textbook-system.firebasestorage.app",
+    apiKey: "AIzaSyDisSYRRDC4UKrMa2AKApib7--bwQak4Lg",
+    authDomain: "willgrow-textbook-system.firebaseapp.com",
+    messagingSenderId: "695680391212"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  async function backupData() {
+    const status = document.getElementById('status');
+    const preview = document.getElementById('preview');
+    status.textContent = '⏳ 데이터 불러오는 중...';
+
+    try {
+      const doc = await db.collection('stamp_system').doc('master_db').get();
+      if (!doc.exists) {
+        status.textContent = '❌ 데이터가 없습니다.';
+        return;
+      }
+
+      const data = doc.data();
+      const backup = {
+        backupDate: new Date().toISOString(),
+        students: data.students || [],
+        classes: data.classes || []
+      };
+
+      // 미리보기
+      preview.style.display = 'block';
+      preview.textContent = `학생 수: ${backup.students.length}명\n반 수: ${backup.classes.length}개\n\n${JSON.stringify(backup, null, 2)}`;
+
+      // JSON 파일 다운로드
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const now = new Date();
+      const fileName = `stamp_backup_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}.json`;
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      status.textContent = `✅ 백업 완료! (${fileName}) — 학생 ${backup.students.length}명, 반 ${backup.classes.length}개`;
+    } catch (err) {
+      status.textContent = '❌ 오류: ' + err.message;
+      console.error(err);
+    }
+  }
+</script>
+</body>
+</html>
