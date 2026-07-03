@@ -70,15 +70,6 @@ const PROGRAMS: SiteInfo[] = [
     tag: 'Schedule'
   },
   {
-    id: '9',
-    title: 'PDF 스마트 유틸리티',
-    description: '여러 개의 PDF를 빠르고 안전하게 병합하고, 분할, 회전, 파일 변환 및 OCR 텍스트 추출 기능을 제공합니다.',
-    url: 'http://localhost:8000',
-    imageUrl: '/pdf_utility_thumb.png',
-    tag: 'Utility'
-  },
-
-  {
     id: '11',
     title: '디지털 타임타이머',
     description: '어학원 수업 및 자습 환경에서 높은 집중력을 유지할 수 있도록 돕는 직관적인 타이머입니다.',
