@@ -100,6 +100,30 @@ const PROGRAMS: SiteInfo[] = [
     url: '/pickall/index.html',
     imageUrl: '/random_game_thumb.png', // TODO: 실제 썸네일 이미지로 변경 필요
     tag: 'Game'
+  },
+  {
+    id: '15',
+    title: '파닉스 액티비티 게임',
+    description: '교실 화면에 띄워 전체 학급이 함께하는 파닉스 복습 게임 5종(플래시리드·미싱레터·오드원아웃·메모리매치·워드밤).',
+    url: '/phonics-activity/games.html',
+    imageUrl: '/phonics.png',
+    tag: 'Phonics'
+  },
+  {
+    id: '16',
+    title: '파닉스 빙고 (인쇄용)',
+    description: '학생용 파닉스 빙고 카드를 선택하고 바로 인쇄할 수 있는 시트입니다.',
+    url: '/phonics-activity/bingo.html',
+    imageUrl: '/phonics_flipbook_thumb.png',
+    tag: 'Phonics'
+  },
+  {
+    id: '17',
+    title: '액티비티 데이 운영계획',
+    description: '리서치 기반 파닉스 액티비티 데이 운영 가이드(진행안·반별 적용·근거 자료).',
+    url: '/phonics-activity/plan.html',
+    imageUrl: '/report_card_thumb.png',
+    tag: 'Guide'
   }
 ];
 
