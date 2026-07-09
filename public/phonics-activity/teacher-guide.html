@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FFF48D">
+<title>선생님용 운영 가이드 — Phonics Activity Day 게임</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+:root{--bg:#FAF5EA;--card:#fff;--ink:#111;--yellow:#FFF48D;--yellow2:#FFE14D;
+ --blue:#B9C6FF;--orange:#FFB86B;--green:#8CE0B0;--purple:#E0C3FF;--soft:#F1EADB;
+ --bd:2.5px solid #111;--sh:4px 4px 0 #111;--shL:7px 7px 0 #111;--radius:16px;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Space Grotesk','Apple SD Gothic Neo','Malgun Gothic',sans-serif;}
+body{background:var(--bg);color:var(--ink);line-height:1.7;
+ background-image:radial-gradient(#11111114 1.2px,transparent 1.2px);background-size:26px 26px;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.wrap{max-width:920px;margin:0 auto;padding:34px 20px 90px;}
+/* header */
+.hero{background:var(--yellow);border:var(--bd);border-radius:var(--radius);box-shadow:var(--shL);padding:26px 26px;margin-bottom:26px;}
+.kicker{display:inline-block;background:#111;color:var(--yellow);border-radius:8px;padding:3px 10px;font-size:.72rem;font-weight:600;letter-spacing:.14em;margin-bottom:12px;}
+.hero h1{font-size:2rem;letter-spacing:-.02em;line-height:1.2;}
+.hero p{margin-top:10px;font-size:1rem;}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:var(--bd);border-radius:99px;padding:9px 16px;font-weight:700;font-size:.9rem;box-shadow:var(--sh);text-decoration:none;color:#111;transition:transform .08s,box-shadow .08s;}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #111;}
+.btn.dark{background:#111;color:#fff;}
+/* sections */
+section{background:var(--card);border:var(--bd);border-radius:var(--radius);box-shadow:var(--sh);padding:24px 24px;margin-bottom:22px;}
+h2{font-size:1.35rem;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+h2 .n{font-family:'IBM Plex Mono',monospace;font-size:.72rem;background:#111;color:var(--yellow);border-radius:8px;padding:3px 9px;}
+.lead{color:#6b6455;font-size:.9rem;margin-bottom:16px;}
+/* quick steps */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:6px;}
+.step{border:var(--bd);border-radius:14px;padding:16px;background:var(--soft);box-shadow:var(--sh);}
+.step .snum{font-family:'IBM Plex Mono',monospace;font-weight:700;background:var(--yellow2);border:2px solid #111;border-radius:8px;padding:1px 8px;font-size:.8rem;}
+.step h3{margin:8px 0 4px;font-size:1.05rem;}
+.step p{font-size:.9rem;color:#333;}
+/* game grid */
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+.g{border:var(--bd);border-radius:14px;padding:15px 16px;box-shadow:var(--sh);}
+.g .top{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.05rem;}
+.g .ico{font-size:1.4rem;}
+.g .desc{font-size:.9rem;margin:7px 0;}
+.g .tip{font-size:.82rem;background:#fff;border:2px dashed #1114;border-radius:8px;padding:7px 9px;}
+.g.b0{background:var(--blue);} .g.b1{background:var(--orange);} .g.b2{background:var(--green);} .g.b3{background:var(--purple);} .g.b4{background:var(--yellow);}
+/* table */
+table{width:100%;border-collapse:collapse;margin-top:6px;border:var(--bd);border-radius:12px;overflow:hidden;font-size:.9rem;background:#fff;}
+th,td{border:1px solid #1112;padding:9px 11px;text-align:left;vertical-align:top;}
+thead th{background:#111;color:var(--yellow);font-family:'IBM Plex Mono',monospace;font-size:.8rem;}
+tbody tr:nth-child(even){background:var(--soft);}
+/* principle list */
+.principles{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.principles li{display:flex;gap:12px;align-items:flex-start;border-left:5px solid var(--yellow2);padding:8px 12px;background:var(--soft);border-radius:0 10px 10px 0;}
+.principles .k{font-weight:700;white-space:nowrap;}
+.pill{display:inline-block;background:var(--yellow);border:2px solid #111;border-radius:99px;padding:1px 9px;font-size:.8rem;font-weight:700;box-shadow:2px 2px 0 #111;margin:2px 4px 2px 0;}
+.note{background:#FFF9D6;border:2px solid #111;border-radius:10px;padding:12px 14px;font-size:.9rem;margin-top:12px;}
+.faq b{display:block;margin-top:12px;}
+.foot{text-align:center;color:#94897a;font-size:.8rem;letter-spacing:2px;font-weight:700;margin-top:34px;}
+@media print{body{background:#fff;} .btnrow{display:none;} section,.hero{box-shadow:none;} }
+</style></head>
+<body><div class="wrap">
+
+<div class="hero">
+  <span class="kicker">WILLGROW · 선생님용 운영 가이드</span>
+  <h1>Phonics Activity Day 게임, 이렇게 운영하세요</h1>
+  <p>초등 저학년 대상 · 주 1회 · 교사가 화면(TV/프로젝터)에 띄우고 <b>전체 학급이 함께 복습</b>하는 방식입니다. 새 개념 도입이 아니라 <b>이미 배운 유닛의 복습 전용</b>으로만 씁니다.</p>
+  <div class="btnrow">
+    <a class="btn dark" href="/phonics-activity/games.html">▶ 게임 사이트 열기</a>
+    <a class="btn" href="/phonics-activity/bingo.html">🖨 빙고 인쇄</a>
+    <a class="btn" href="/phonics-activity/plan.html">📋 운영계획(근거)</a>
+    <a class="btn" href="/">← 포털로</a>
+  </div>
+</div>
+
+<section>
+  <h2><span class="n">30초</span> 핵심만</h2>
+  <ul class="principles">
+    <li><span class="k">🖥 띄우기</span><span>화면 하나면 됩니다. 큰 글씨라 교실 뒤에서도 보여요. 인터넷 없어도 열립니다.</span></li>
+    <li><span class="k">🔁 복습만</span><span>그 반이 <b>이미 배운 책·유닛</b>만 골라서 사용하세요.</span></li>
+    <li><span class="k">⏱ 짧게</span><span>게임당 <b>5~8분</b>, 한 시간에 <b>3~4개</b> 로테이션. 늘어지기 전에 끊습니다.</span></li>
+    <li><span class="k">🗣 다 같이</span><span>“전원 소리 내어 읽기 → 팀 대표가 답”. 대표는 매 문제 돌아가며.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">시작</span> 3단계</h2>
+  <div class="lead">사이트 열면 상단에 <b>🏠 처음으로</b> · <b>👥 팀 2/3/4</b> 버튼이 있습니다.</div>
+  <div class="steps">
+    <div class="step"><span class="snum">STEP 1</span><h3>📚 책 고르기</h3><p>Book 1 알파벳 · 2 단모음 · 3 장모음 · 4 이중글자 중 <b>그 반 진도</b>에 맞는 책 선택.</p></div>
+    <div class="step"><span class="snum">STEP 2</span><h3>✅ 유닛 고르기 (복수!)</h3><p>이번 주 유닛 + <b>지난주·지지난주 유닛도 1~2개</b> 같이 체크 → 간격 반복(spaced review)이 자동으로 됩니다.</p></div>
+    <div class="step"><span class="snum">STEP 3</span><h3>🎮 게임 + 팀 설정</h3><p>게임을 고르고, 상단 <b>👥</b>로 팀 수(2~4) 지정. 팀 이름은 점수판에서 눌러 바로 수정돼요.</p></div>
+  </div>
+  <div class="note">💡 자주 틀리는 유닛은 <b>다음 주에 또 선택</b>하세요. 유닛 중복 선택으로 반복 복습이 됩니다.</div>
+</section>
+
+<section>
+  <h2><span class="n">게임</span> 7종 & 교실 활용법</h2>
+  <div class="lead">각 게임 화면의 단어·소리는 모두 위에서 고른 유닛에서 나옵니다.</div>
+  <div class="games">
+    <div class="g b4"><div class="top"><span class="ico">⚡</span> Flash Read</div><div class="desc">단어가 크게 뜹니다. 다 같이 소리 내어 읽기.</div><div class="tip">👉 <b>워밍업·마무리</b>용. “뜻 보기”로 의미 확인, “다 같이” 낭독시키세요.</div></div>
+    <div class="g b0"><div class="top"><span class="ico">🔤</span> Missing Letter</div><div class="desc">사라진 소리 글자 맞히기. 팀 대항 3지선다.</div><div class="tip">👉 다 같이 소리 내어 읽고 → <b>팀 대표가 정답</b> 지목. 대표 순환.</div></div>
+    <div class="g b1"><div class="top"><span class="ico">🕵️</span> Odd One Out</div><div class="desc">넷 중 라임(끝소리)이 다른 하나 찾기.</div><div class="tip">👉 <b>라임 감각</b> 훈련. 3·4개 유닛을 함께 선택하면 라임 그룹이 잘 생겨요.</div></div>
+    <div class="g b2"><div class="top"><span class="ico">🧠</span> Memory Match</div><div class="desc">단어↔뜻 짝 맞추기 기억 게임.</div><div class="tip">👉 <b>협력 플레이</b>. 반 전체가 위치를 기억해 함께 맞춥니다. “다시 섞기”로 재도전.</div></div>
+    <div class="g b0"><div class="top"><span class="ico">🎱</span> Bingo</div><div class="desc">종이 카드에 단어 적고, 화면에서 뽑히는 단어를 지워요.</div><div class="tip">👉 <b>🖨 빙고 인쇄</b> 페이지로 학생 카드 먼저 배부. 3×3(쉬움)/4×4. 뽑힌 단어는 검증용으로 남습니다.</div></div>
+    <div class="g b1"><div class="top"><span class="ico">🎈</span> Balloon Pop</div><div class="desc">글자를 맞혀 단어 완성! 틀리면 풍선이 커져요… 펑 전에!</div><div class="tip">👉 시작 전 <b>뜻 보여주기(쉬움)/가리기(어려움)</b> 선택. 긴장감 있는 마무리용.</div></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">40~45분</span> 표준 진행안</h2>
+  <table>
+    <thead><tr><th>시간</th><th>활동</th><th>게임</th></tr></thead>
+    <tbody>
+      <tr><td>5분</td><td>워밍업: 이번 주 소리 다 같이 읽기</td><td>⚡ Flash Read</td></tr>
+      <tr><td>8분</td><td>게임 1: 사라진 글자 맞히기 (팀전)</td><td>🔤 Missing Letter</td></tr>
+      <tr><td>8분</td><td>게임 2: 소리 다른 단어 찾기</td><td>🕵️ Odd One Out</td></tr>
+      <tr><td>5분</td><td>몸 풀기: 단어 듣고 해당 팀 일어서기 (화면 밖)</td><td>—</td></tr>
+      <tr><td>8분</td><td>게임 3: 짝 맞추기 (협력)</td><td>🧠 Memory Match</td></tr>
+      <tr><td>8분</td><td>게임 4: 하이라이트 마무리 게임</td><td>🎈 Balloon Pop</td></tr>
+      <tr><td>3분</td><td>마무리: 오늘 틀린 단어만 다시 낭독</td><td>⚡ Flash Read</td></tr>
+    </tbody>
+  </table>
+  <div class="note">🎱 Bingo는 특별 회차나 시간이 남을 때 교체 투입하세요.</div>
+</section>
+
+<section>
+  <h2><span class="n">원칙</span> 운영 5가지</h2>
+  <ul class="principles">
+    <li><span class="k">1. 복습 전용</span><span>이미 배운 유닛에서만. 새 개념 도입은 정규 수업에서.</span></li>
+    <li><span class="k">2. 인출 중심</span><span>아이가 <b>스스로 읽고·말하고·고르게</b>. 교사가 읽어주고 듣기만 하는 화면은 없습니다.</span></li>
+    <li><span class="k">3. 짧은 로테이션</span><span>게임당 5~8분 × 3~4개. 늘어지면 바로 다음 게임으로.</span></li>
+    <li><span class="k">4. 전원 참여</span><span>“다 같이 읽기 → 팀 대표 답”의 2단 구조. 대표 매번 순환.</span></li>
+    <li><span class="k">5. 저부담</span><span>벌칙 없음. 짧은 라운드로 점수 자주 리셋. 지는 팀 위축 최소화.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">반별</span> 어떤 책·게임이 잘 맞나</h2>
+  <table>
+    <thead><tr><th>진도</th><th>책</th><th>특히 좋은 게임</th></tr></thead>
+    <tbody>
+      <tr><td>Level 1</td><td>📕 Book 1 알파벳 (글자 소리 A~Z)</td><td>⚡ Flash Read · 🔤 Missing Letter</td></tr>
+      <tr><td>Level 2</td><td>📘 Book 2 단모음 (CVC)</td><td>🔤 Missing Letter · 🧠 Memory Match</td></tr>
+      <tr><td>Level 3</td><td>📗 Book 3 장모음 · Magic e</td><td>🕵️ Odd One Out · 🎈 Balloon Pop</td></tr>
+      <tr><td>Level 4</td><td>📙 Book 4 이중자음·이중글자</td><td>🕵️ Odd One Out (소리 구분 최적)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="n">점검</span> 성과 확인 (부담 없이)</h2>
+  <p>별도 시험 없이 <b>마지막 게임(예: Balloon Pop)의 정답률을 눈으로만</b> 체크하세요. 정답률 <b>60% 미만</b> 유닛은 <b>다음 주에 다시 편성</b>합니다.</p>
+  <div class="note">가벼운 팀 경쟁 + 공동 목표 병행 추천: 예) “두 팀 합계 20점이면 전체 스티커”.</div>
+</section>
+
+<section class="faq">
+  <h2><span class="n">FAQ</span> 자주 묻는 것</h2>
+  <b>Q. 인터넷이 안 되는 교실인데요?</b>괜찮습니다. 파일 하나로 동작해서 오프라인에서도 열립니다.
+  <b>Q. 팀은 몇 개가 좋아요?</b>보통 2팀. 인원이 많으면 상단 👥로 3~4팀까지 늘리세요.
+  <b>Q. 점수·팀 이름이 저장되나요?</b>팀 수는 브라우저에 기억됩니다. 점수는 라운드마다 가볍게 운영(저부담 원칙)하세요.
+  <b>Q. 빙고는 어떻게 준비하죠?</b>먼저 <a href="/phonics-activity/bingo.html">🖨 빙고 인쇄</a>로 학생 카드를 배부한 뒤, 게임의 🎱 Bingo로 단어를 뽑아 주세요.
+  <b>Q. 왜 지난 유닛도 같이 넣나요?</b>시간 간격을 둔 반복(spaced review)이 장기 기억에 더 효과적이기 때문입니다.
+</section>
+
+<div class="foot">WILLGROW EDUCATION SYSTEM · PHONICS ACTIVITY DAY</div>
+</div></body></html>

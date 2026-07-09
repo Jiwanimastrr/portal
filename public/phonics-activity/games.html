@@ -196,6 +196,7 @@ button{cursor:pointer; border:none; font-family:inherit; color:var(--ink);}
 @keyframes pop{0%{transform:scale(.6); opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1); opacity:1}}
 .pop{animation:pop .3s ease;}
 footer{font-family:'IBM Plex Mono',monospace; text-align:center; color:#9a917c; font-size:.72rem; padding:26px; letter-spacing:.05em;}
+.picHint{max-height:44vh; max-width:80vw; border:var(--bd); border-radius:18px; box-shadow:6px 6px 0 #111; background:#fff; display:block; margin:0 auto 1.5vh; object-fit:contain;}
 </style>
 </head>
 <body>
@@ -280,7 +281,7 @@ const BOOK_NAMES = {1:"📕 Book 1 알파벳", 2:"📘 Book 2 단모음", 3:"�
 const GAMES = [
  {id:"flash", ico:"⚡", nm:"Flash Read", ds:"단어가 크게! 다 같이 소리 내어 읽기. 워밍업·마무리용.", min:1},
  {id:"missing", ico:"🔤", nm:"Missing Letter", ds:"사라진 소리 글자를 맞혀요. 팀 대항 3지선다.", min:1},
- {id:"odd", ico:"🕵️", nm:"Odd One Out", ds:"넷 중 소리 패턴이 다른 하나 찾기. 소리 구분 훈련.", min:2},
+ {id:"odd", ico:"🕵️", nm:"Odd One Out", ds:"넷 중 라임(끝소리)이 다른 하나 찾기. 라임 감각 훈련.", min:2},
  {id:"memory", ico:"🧠", nm:"Memory Match", ds:"단어 ↔ 뜻 짝 맞추기 기억 게임. 협력 플레이.", min:1},
  {id:"bingo", ico:"🎱", nm:"Bingo", ds:"종이에 단어를 적고, 화면에서 뽑히는 단어를 지워요. 3×3 / 4×4.", min:1},
  {id:"balloon", ico:"🎈", nm:"Balloon Pop", ds:"글자를 맞혀 단어를 완성! 틀리면 풍선이 커져요... 펑 터지기 전에!", min:1},
@@ -602,12 +603,14 @@ function missing(){
   render();
 }
 
+/* rime(라임) 키: 첫 모음부터 끝까지 — 단음절 파닉스 단어의 각운 */
+function rimeKey(w){ w=(w||"").toLowerCase().replace(/[^a-z]/g,""); const m=w.match(/[aeiou]/); return m? w.slice(w.indexOf(m[0])) : w; }
 /* ---------- 3. ODD ONE OUT ---------- */
 function odd(){
   let i=0, locked=false, rounds=buildRounds();
   function buildRounds(){
     const bySound={};
-    pool().filter(x=>!x.w.includes("→")).forEach(x=>(bySound[x.s]??=[]).push(x));
+    pool().filter(x=>!x.w.includes("→")).forEach(x=>(bySound[rimeKey(x.w)]??=[]).push(x));
     const sounds=Object.keys(bySound).filter(s=>bySound[s].length>=3);
     const others=Object.keys(bySound);
     let r=[];
@@ -628,7 +631,7 @@ function odd(){
     const r=rounds[i];
     area().innerHTML = `
       <div class="progress">🕵️ ODD ONE OUT — ${i+1} / ${rounds.length}</div>
-      <div class="h2" style="text-align:center; margin-top:3vh">소리 패턴이 <span style="color:var(--bad)">다른 하나</span>는?</div>
+      <div class="h2" style="text-align:center; margin-top:3vh">라임(끝소리)이 <span style="color:var(--bad)">다른 하나</span>는?</div>
       <div class="oddGrid">${r.cards.map((c,j)=>`<button class="oddCard pop" data-j="${j}" onclick="window._oPick(this)">${c.w}</button>`).join("")}</div>
       <div class="feedback" id="fb"></div>
       <div class="navRow"><button class="bigBtn gray" onclick="window._oNext()">건너뛰기 ➡</button></div>`;
@@ -640,8 +643,8 @@ function odd(){
         else if(b===btn) b.classList.add("wrong");
       });
       const fb=document.getElementById("fb");
-      if(c.odd){ fb.textContent=`⭕ 정답! "${c.w}" 만 [${r.o}] 소리예요. 나머지는 [${r.s}]`; fb.className="feedback good"; sGood(); }
-      else{ fb.textContent=`❌ "${c.w}"는 [${r.s}] 소리! 다른 하나는 [${r.o}] 였어요.`; fb.className="feedback bad"; sBad(); }
+      if(c.odd){ fb.textContent=`⭕ 정답! "${c.w}"만 -${r.o} 라임이에요. 나머지는 -${r.s} 라임`; fb.className="feedback good"; sGood(); }
+      else{ fb.textContent=`❌ "${c.w}"는 -${r.s} 라임! 다른 하나는 -${r.o} 였어요.`; fb.className="feedback bad"; sBad(); }
       setTimeout(()=>{i++; render();}, 2600);
     };
     window._oNext=()=>{i++; render();};
@@ -767,6 +770,10 @@ function bomb(){
   render();
 }
 
+/* 교재 플래시카드 그림이 있는 단어 (그림 힌트 모드용) */
+const IMG_WORDS = new Set(["alligator","ant","apple","ax","bad","bag","bake","ball","base","bath","beach","bear","bed","bee","bicycle","big","bike","bin","bite","black","blade","blouse","blow","blue","boat","bone","book","bowl","box","brave","brick","bride","brown","brush","bud","bug","bun","cage","cake","can","candy","cane","cap","cape","car","case","cat","cave","chin","chip","chop","city","clay","clean","cloud","clown","coat","cold","cone","cook","cookie","couch","count","cow","crab","crayon","cross","crow","crown","cub","cube","cup","cut","cute","dad","date","desk","dice","dive","dog","dome","door","dot","down","dragon","dress","drum","eat","egg","elbow","elephant","face","fan","fat","feet","fish","five","fix","flag","flame","flute","food","foot","fox","game","gate","giraffe","girl","glass","globe","glue","goat","gorilla","grape","grass","gray","green","gum","gym","ham","hand","hat","hay","hen","hide","hike","hip","hit","hive","hole","home","hook","hope","hose","hot","house","hug","hum","hut","igloo","iguana","insect","jacket","jam","jet","jog","june","kangaroo","kid","king","kit","kite","lake","lamp","late","leaf","lid","line","lion","lip","log","lunch","mail","man","map","meat","mice","mike","mix","mole","monster","moon","moose","mouse","mouth","mud","mute","name","neck","nest","nine","nose","note","nut","octopus","ostrich","owl","ox","pen","pet","pig","pin","pine","pizza","play","pole","pope","pot","pup","queen","question","quiet","rabbit","rain","ram","red","rice","ride","ring","rip","road","robot","rope","rose","rug","run","sad","same","save","school","sea","seed","shape","shark","sheep","ship","sit","six","sled","sleep","slide","snail","snow","soap","sock","spoon","spray","sun","tag","tail","tap","tape","ted","teeth","ten","tent","thick","thin","three","tiger","toast","train","tree","tub","tube","tune","umbrella","under","up","van","vase","violin","vote","wag","wait","wash","watch","wave","web","wet","whale","wheel","whip","whisk","whisper","white","wide","wig","win","window","wolf","wood","yacht","yellow","yoyo","zebra","zero","zoo"]);
+const safeW = w => (w||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const hasImg = w => IMG_WORDS.has(safeW(w));
 /* ---------- 6. BINGO ---------- */
 function bingo(){
   const words = shuffle([...new Map(pool().filter(x=>!x.w.includes("→")).map(x=>[x.w,x])).values()]);
@@ -778,8 +785,10 @@ function bingo(){
       <div class="optRow">
         <button class="optBtn ${size===3?'sel':''}" onclick="window._bgSize(3)">3×3 (9칸)</button>
         <button class="optBtn ${size===4?'sel':''}" onclick="window._bgSize(4)" ${words.length<16?'disabled title="단어가 16개 이상 필요해요 — 유닛을 더 선택하세요"':''}>4×4 (16칸)</button>
+        <button class="optBtn ${size===5?'sel':''}" onclick="window._bgSize(5)" ${words.length<25?'disabled title="단어가 25개 이상 필요해요 — 유닛을 더 선택하세요"':''}>5×5 (25칸)</button>
         <button class="optBtn ${mode==='word'?'sel':''}" onclick="window._bgMode('word')">쉬움: 단어 보여주기</button>
         <button class="optBtn ${mode==='kor'?'sel':''}" onclick="window._bgMode('kor')">어려움: 뜻만 보여주기</button>
+        <button class="optBtn ${mode==='pic'?'sel':''}" onclick="window._bgMode('pic')">🖼️ 그림으로 보여주기</button>
       </div>
       <div class="bankGrid">${words.map(x=>`<span class="bankWord">${x.w}</span>`).join("")}</div>
       <div class="progress">단어 ${words.length}개 · 카드에는 ${size*size}개를 골라 적어요 (다 적으면 시작!)</div>
@@ -798,20 +807,23 @@ function bingo(){
       const cur = i>=0?order[i]:null;
       const called = order.slice(0,i+1);
       area().innerHTML = `
-        <div class="progress">🎱 BINGO — 뽑은 단어: ${called.length} / ${order.length} · 모드: ${mode==='word'?'단어 보기':'뜻만 보기'}</div>
+        <div class="progress">🎱 BINGO — 뽑은 단어: ${called.length} / ${order.length} · 모드: ${mode==='word'?'단어 보기':mode==='pic'?'그림 보기':'뜻만 보기'}</div>
         <div class="bingoWrap">
           <div class="callBox">
             ${cur ? `
               <div style="margin-top:3vh" class="pop">
                 ${mode==='word'
                   ? `<div class="bigWord">${hl(cur)}</div><div class="meaning">${cur.k}</div>`
+                  : mode==='pic'
+                  ? `${hasImg(cur.w)?`<img class="picHint" src="img/${safeW(cur.w)}.webp" alt="" onerror="this.style.display='none'">`:`<div style="font-size:3rem">🖼️</div>`}
+                     <div class="bigWord" style="font-size:clamp(2.2rem,6.5vw,4.6rem)">${revealed?hl(cur):'🤔 ???'}</div>`
                   : `<div class="bigWord" style="font-size:clamp(2.4rem,7vw,5rem)">${revealed?hl(cur):'🤔 ???'}</div>
                      <div class="meaning" style="font-size:clamp(1.6rem,4vw,2.6rem); color:#111; font-weight:700">${cur.k}</div>`}
               </div>
-              ${mode==='kor'&&!revealed?`<div class="navRow"><button class="bigBtn orange" onclick="window._bgReveal()">👀 정답 공개</button></div>`:''}
+              ${(mode==='kor'||mode==='pic')&&!revealed?`<div class="navRow"><button class="bigBtn orange" onclick="window._bgReveal()">👀 정답 공개</button></div>`:''}
             ` : `<div style="margin-top:8vh" class="pop"><div style="font-size:4rem">🎱</div>
               <div class="h2" style="text-align:center">준비되면 뽑기를 누르세요!</div>
-              <div class="meaning">${mode==='kor'?'뜻이 나오면 → 영어 단어를 떠올려 카드에서 지워요':'단어가 나오면 → 다 같이 읽고 카드에서 지워요'}</div></div>`}
+              <div class="meaning">${mode==='pic'?'그림이 나오면 → 무슨 단어인지 맞혀 카드에서 지워요':mode==='kor'?'뜻이 나오면 → 영어 단어를 떠올려 카드에서 지워요':'단어가 나오면 → 다 같이 읽고 카드에서 지워요'}</div></div>`}
             <div class="navRow">
               <button class="bigBtn" onclick="window._bgDraw()" ${called.length>=order.length?'disabled':''}>${cur?'다음 단어 뽑기 🎲':'첫 단어 뽑기 🎲'}</button>
               <button class="bigBtn orange" onclick="showBingoParty()">🎉 빙고!</button>
@@ -1031,7 +1043,7 @@ function printBingoCards(size){
     .nameRow{margin-left:auto;text-align:right;font-size:.95rem;font-weight:700;}
     .nameRow .line{display:inline-block;width:150px;border-bottom:2px solid #111;margin-left:6px;}
     .grid{display:grid;border:3px solid #111;border-radius:12px;overflow:hidden;}
-    .g3{grid-template-columns:repeat(3,1fr);} .g4{grid-template-columns:repeat(4,1fr);}
+    .g3{grid-template-columns:repeat(3,1fr);} .g4{grid-template-columns:repeat(4,1fr);} .g5{grid-template-columns:repeat(5,1fr);}
     .cell{border:1.5px solid #111;background:#fff;}
     .g3 .cell{height:88px;} .g4 .cell{height:64px;}
     .hint{font-family:ui-monospace,monospace;font-size:.7rem;font-weight:600;color:#777;margin-top:10px;letter-spacing:.05em;}
