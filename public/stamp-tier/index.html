@@ -916,6 +916,7 @@
         <span style="color: var(--ow-blue);">👤</span> 요원 관리
       </h2>
       <input type="hidden" id="modalStudentId">
+      <p id="modalStudentData" style="margin: 6px 0 0 0; font-size: 14px; color: #7fd4ff; text-transform: none;"></p>
       
       <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid var(--ow-blue); display: flex; flex-direction: column; gap: 10px;">
         <label>소속팀 변경</label>
@@ -933,6 +934,7 @@
       
       <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border-left: 3px solid #ff4444; margin-top: 5px; display: flex; flex-direction: column; gap: 10px;">
         <label style="color: #ff4444; display: flex; align-items: center; gap: 5px;"><span>⚠️</span> 위험 구역</label>
+        <p style="font-size: 13px; color: #ccc; margin:0; text-transform:none; line-height: 1.3;">반 이동은 위 [소속팀 변경]으로! 삭제하면 스탬프 기록이 사라집니다.</p>
         <button class="ow-btn sm-btn danger" style="width: 100%; transform: skewX(-10deg);" onclick="deleteStudentFromModal()"><span>요원 로스터 제외</span></button>
       </div>
       
@@ -1147,6 +1149,8 @@
     document.getElementById('modalStudentId').value = student.id;
     document.getElementById('modalStudentName').textContent = `요원 관리: ${student.name}`;
     document.getElementById('modalStudentSchool').value = student.school || '';
+    const dataEl = document.getElementById('modalStudentData');
+    if (dataEl) dataEl.innerHTML = `보유 데이터: ⭐ 스탬프 ${student.stamps} · 누적 ${student.totalStamps} · 💵 $${student.dollars || 0} <span style="color:#888">— 반을 옮겨도 그대로 유지됩니다</span>`;
     
     const select = document.getElementById('modalClassSelect');
     let optionsHtml = '';
@@ -1208,6 +1212,14 @@
     const student = students.find(s => s.id === studentId);
     
     if (student && newClassId) {
+      const isMove = student.classId !== newClassId;
+      if (isMove) {
+        const fromName = getClassName(student.classId);
+        const toName = getClassName(newClassId);
+        const ok = confirm(`${student.name} 요원을 [${fromName}] → [${toName}] 팀으로 이동합니다.\n\n⭐ 스탬프 ${student.stamps}개 · 누적 ${student.totalStamps} · 💵 $${student.dollars || 0}\n위 데이터는 전부 그대로 유지됩니다.\n\n이동하시겠습니까?`);
+        if (!ok) return;
+      }
+      const fromName = isMove ? getClassName(student.classId) : null;
       student.classId = newClassId;
       student.school = newSchool;
       saveData();
@@ -1215,12 +1227,20 @@
       if(document.getElementById('classModal').classList.contains('active')) {
         updateManageClassSelect();
       }
+      if (isMove) {
+        alert(`✅ 이동 완료!\n${student.name} 요원이 [${fromName}] → [${getClassName(newClassId)}] 팀으로 이동했습니다.\n스탬프·티어 데이터는 그대로입니다.`);
+      }
     }
   }
 
   function deleteStudentFromModal() {
     const studentId = document.getElementById('modalStudentId').value;
-    if(confirm('정말 이 요원을 로스터에서 영구 제외하시겠습니까? (복구 불가)')) {
+    const target = students.find(s => s.id === studentId);
+    if (!target) return;
+    const typed = prompt(`⚠️ 영구 삭제 확인\n\n${target.name} 요원의 스탬프 ${target.totalStamps}개 기록이 모두 사라지며 복구할 수 없습니다.\n\n· 반을 옮기는 게 목적이라면 → 삭제하지 말고 위의 [소속팀 변경]을 쓰세요 (데이터 유지됨)\n· 잠시 쉬는 학생이라면 → [🏖️ 휴원 처리]를 쓰세요 (데이터 보존됨)\n\n그래도 삭제하려면 학생 이름을 정확히 입력하세요:`);
+    if (typed === null) return;
+    if (typed.trim() !== target.name) { alert('이름이 일치하지 않아 삭제를 취소했습니다.'); return; }
+    {
       students = students.filter(s => s.id !== studentId);
       saveData();
       closeEditModal();
