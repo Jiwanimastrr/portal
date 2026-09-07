@@ -4,6 +4,7 @@ import { FiHome, FiMapPin, FiMonitor } from 'react-icons/fi';
 import { SiteCard, type SiteInfo } from './components/SiteCard';
 import { AdmissionForm } from './components/AdmissionForm';
 import { AcademyInfo } from './components/AcademyInfo';
+import { ADMISSION_BOOKING_URL, ACADEMY_PHONE_URL } from './academyLinks';
 
 const PROGRAMS: SiteInfo[] = [
   {
@@ -185,6 +186,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
             <FiHome size={18} /> 홈페이지로 돌아가기
           </button>
         </div>
+        <p className="consultation-form-note">예약 후 학원에서 안내받으신 경우 작성하는 사전 상담서입니다. 첫 방문 예약은 <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer">네이버 입학 상담 예약</a>을 이용해 주세요.</p>
         <AdmissionForm />
       </div>
     );
@@ -199,7 +201,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
           <div className="navbar-brand-group">
             <div className="navbar-logo">
               <img src="/logo.png" alt="Willgrow Logo" className="logo-img" />
-              <span className="logo-text">윌그로우어학원 태전캠퍼스</span>
+              <span className="logo-text">윌그로우어학원 <span className="logo-campus">태전2국제캠퍼스</span></span>
             </div>
             
             <div className="navbar-divider"></div>
@@ -232,7 +234,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
               <FiMonitor size={16} />
               선생님용
             </a>
-            <a href="#admission" onClick={(e) => { e.preventDefault(); setCurrentView('admission'); window.scrollTo(0, 0); }} className="nav-cta">입학 상담</a>
+            <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">상담 예약 ↗</a>
           </div>
         </div>
       </nav>
@@ -250,18 +252,20 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
         <div className="hero-overlay"></div>
 
         <div className="hero-content">
-          <div className="hero-badge">프리미엄 영어 교육</div>
-          <h1 className="hero-title">우리 아이의 잠재력을<br/>윌그로우와 함께 깨우세요</h1>
+          <div className="hero-badge">경기 광주 태전동 · 초등·중등 영어</div>
+          <h1 className="hero-title">아이의 영어 수준에 맞는<br className="hero-line-break" /> 수업과 학습 방향을<br className="hero-line-break" /> 상담하세요</h1>
           <p className="hero-subtitle">
-            영어로 지식기부의 기회와 경험을 만들어주는 학원
+            윌그로우어학원 태전2국제캠퍼스에서<br />입학 상담과 레벨테스트를 안내합니다.
           </p>
           <div className="hero-actions">
-            <a href="#admission" onClick={(e) => { e.preventDefault(); setCurrentView('admission'); window.scrollTo(0, 0); }} className="btn btn-secondary">입학 상담 신청</a>
+            <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">입학 상담·레벨테스트 예약 ↗</a>
+            <a href="#admission" className="hero-info-link">수업·상담 안내 보기 ↓</a>
           </div>
+          <a href={ACADEMY_PHONE_URL} className="hero-phone-link">전화 문의 0507-1356-0671</a>
         </div>
       </section>
 
-      <AcademyInfo />
+      <AcademyInfo onOpenForm={() => { setCurrentView('admission'); window.scrollTo(0, 0); }} />
 
       {/* Contact / Location Section */}
       <section id="contact-locations" className="contact-locations-section">
@@ -293,20 +297,18 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
 
 
       {/* Programs Section */}
-      <section id="programs" className="programs-section">
+      {showPrograms && <section id="programs" className="programs-section">
         <div className="section-header">
           <h2 className="section-title">선생님용</h2>
           <p className="section-desc">영어 실력을 확실하게 키워줄 다양한 교육 도구와 리소스를 만나보세요.</p>
         </div>
         
-        {showPrograms && (
           <div className="programs-grid">
             {PROGRAMS.map((site) => (
               <SiteCard key={site.id} site={site} />
             ))}
           </div>
-        )}
-      </section>
+      </section>}
 
       {/* Footer */}
       <footer id="contact" className="footer">
@@ -315,7 +317,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
             <div className="navbar-brand-group" style={{ marginBottom: '20px' }}>
               <div className="navbar-logo">
                 <img src="/logo.png" alt="Willgrow Logo" className="logo-img" />
-                <span className="logo-text">윌그로우어학원 태전캠퍼스</span>
+                <span className="logo-text">윌그로우어학원 <span className="logo-campus">태전2국제캠퍼스</span></span>
               </div>
               <div className="navbar-divider footer-divider"></div>
               <div className="navbar-partner">
@@ -337,7 +339,9 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
               <FiMapPin size={14} />
               오시는 길
             </a>
-            <a href="#admission" onClick={(e) => { e.preventDefault(); setCurrentView('admission'); window.scrollTo(0, 0); }}>입학 안내</a>
+            <a href="#admission">입학 안내</a>
+            <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer">입학 상담 예약 ↗</a>
+            <button type="button" className="footer-teacher-link" onClick={handleTeacherLinkClick}>선생님용</button>
           </div>
           <div className="footer-social">
             <h3>소셜 미디어</h3>
@@ -373,15 +377,16 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
       {/* Teacher Login Modal */}
       {showLoginModal && (
         <div className="modal-overlay" onClick={() => setShowLoginModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <div className="modal-content" role="dialog" aria-modal="true" aria-labelledby="teacher-login-title" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Teacher Login</h3>
-              <button className="modal-close" onClick={() => setShowLoginModal(false)}>×</button>
+              <h3 id="teacher-login-title">선생님 로그인</h3>
+              <button className="modal-close" aria-label="로그인 창 닫기" onClick={() => setShowLoginModal(false)}>×</button>
             </div>
             <form onSubmit={handleLoginSubmit} className="login-form">
               <div className="form-group">
-                <label>Password</label>
+                <label htmlFor="teacher-password">비밀번호</label>
                 <input 
+                  id="teacher-password"
                   type="password" 
                   name="password" 
                   value={loginPassword} 
@@ -391,7 +396,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
                 />
               </div>
               {loginError && <p className="error-msg">{loginError}</p>}
-              <button type="submit" className="btn btn-primary login-btn">Login</button>
+              <button type="submit" className="btn btn-primary login-btn">로그인</button>
             </form>
           </div>
         </div>
