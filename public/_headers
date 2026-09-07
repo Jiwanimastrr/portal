@@ -1,0 +1,22 @@
+# Only the public academy homepage belongs in the search sitemap.
+# These directives control indexing; they do not provide access control.
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+/admission/*
+  X-Robots-Tag: noindex
+/flipbook/*
+  X-Robots-Tag: noindex
+/phonics-activity/*
+  X-Robots-Tag: noindex
+/pickall/*
+  X-Robots-Tag: noindex
+/stamp-tier/*
+  X-Robots-Tag: noindex
+/time-timer/*
+  X-Robots-Tag: noindex
+/report_card.html
+  X-Robots-Tag: noindex
+/report_card
+  X-Robots-Tag: noindex

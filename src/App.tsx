@@ -3,6 +3,7 @@ import { SiNaver, SiInstagram } from 'react-icons/si';
 import { FiHome, FiMapPin, FiMonitor } from 'react-icons/fi';
 import { SiteCard, type SiteInfo } from './components/SiteCard';
 import { AdmissionForm } from './components/AdmissionForm';
+import { AcademyInfo } from './components/AcademyInfo';
 
 const PROGRAMS: SiteInfo[] = [
   {
@@ -127,7 +128,7 @@ const PROGRAMS: SiteInfo[] = [
   }
 ];
 
-function App() {
+function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: number }) {
   const [currentView, setCurrentView] = useState<'landing' | 'admission'>('landing');
   const [showPrograms, setShowPrograms] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -240,6 +241,7 @@ function App() {
       <section id="hero" className="hero-section">
         <div className="hero-video-bg">
           <iframe
+            title="윌그로우어학원 활동 영상"
             src="https://www.youtube.com/embed/p1-U7eoCEic?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&loop=1&playlist=p1-U7eoCEic"
             allow="autoplay; encrypted-media"
             allowFullScreen
@@ -259,6 +261,8 @@ function App() {
         </div>
       </section>
 
+      <AcademyInfo />
+
       {/* Contact / Location Section */}
       <section id="contact-locations" className="contact-locations-section">
         <div className="section-header">
@@ -269,8 +273,8 @@ function App() {
           {/* Taegun Campus Card */}
           <a href="https://map.naver.com/p/entry/place/1694768560?c=15.00,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603171634&locale=ko&svcName=map_pcv5" target="_blank" rel="noopener noreferrer" className="campus-card">
             <div className="campus-card-content">
-              <h3>📍 태전캠퍼스</h3>
-              <p>경기도 광주시 태성로 130-1</p>
+              <h3>📍 태전2국제캠퍼스</h3>
+              <p>경기도 광주시 태성로 130-1, 304호</p>
               <span className="campus-arrow">길찾기 ➔</span>
             </div>
           </a>
@@ -350,7 +354,7 @@ function App() {
             <h3>오시는 길</h3>
             <div className="campus-links">
               <p>
-                📍 <a href="https://map.naver.com/p/entry/place/1694768560?c=15.00,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603171634&locale=ko&svcName=map_pcv5" target="_blank" rel="noopener noreferrer" className="map-link">태전캠퍼스: 경기도 광주시 태성로 130-1</a>
+                📍 <a href="https://map.naver.com/p/entry/place/1694768560?c=15.00,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603171634&locale=ko&svcName=map_pcv5" target="_blank" rel="noopener noreferrer" className="map-link">태전2국제캠퍼스: 경기도 광주시 태성로 130-1, 304호</a>
               </p>
               <p>
                 📍 <a href="https://map.naver.com/p/entry/place/1251843727?c=15.00,0,0,0,dh&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603171635&locale=ko&svcName=map_pcv5" target="_blank" rel="noopener noreferrer" className="map-link">고산캠퍼스: 경기 광주시 오포안로 409 2층</a>
@@ -362,7 +366,7 @@ function App() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Willgrow Language Institute. All rights reserved.</p>
+          <p>&copy; {copyrightYear} Willgrow Language Institute. All rights reserved.</p>
         </div>
       </footer>
 
