@@ -1,13 +1,15 @@
 import { ADMISSION_BOOKING_URL, ACADEMY_PHONE_URL, ACADEMY_PLACE_URL } from '../academyLinks';
+import { ACADEMY_CONTENT_UPDATED, ACADEMY_FAQS, ACADEMY_LEGAL_NAME, ACADEMY_NAME, CONSULTATION_SUMMARY } from '../academyContent';
 
 export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
   return (
     <section id="admission" className="academy-info" aria-labelledby="academy-title">
       <div className="academy-info-inner">
         <p className="academy-eyebrow">경기 광주 태전동 · 초등·중등 영어</p>
-        <h2 id="academy-title">윌그로우어학원 태전2국제캠퍼스</h2>
+        <h2 id="academy-title">{ACADEMY_NAME}</h2>
         <p className="academy-intro">입학 상담과 레벨테스트를 통해 현재 영어 수준을 살펴보고, 아이의 학년과 학습 상태에 맞는 수업과 학습 방향을 안내합니다.</p>
         <p className="academy-name-note">이전에 정철어학원으로 안내되던 태전2캠퍼스의 현재 이름은 윌그로우어학원입니다.</p>
+        <div className="consultation-summary"><strong>{CONSULTATION_SUMMARY}</strong><p>쿠폰 이용 방법은 예약 전에 학원으로 문의해 주세요.</p></div>
 
         <div className="academy-facts">
           <div><h3>초등 영어</h3><p>영어의 기초를 다지고 읽기·듣기·말하기·쓰기를 연결합니다. 원서 읽기, 발표와 토론을 통해 배운 영어를 사용하는 수업을 안내합니다.</p></div>
@@ -24,13 +26,11 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
           </ol>
         </section>
 
-        <div className="academy-faq" aria-labelledby="academy-faq-title">
+        <div id="academy-faq" className="academy-faq" aria-labelledby="academy-faq-title">
           <h3 id="academy-faq-title">상담 전에 확인하세요</h3>
-          <details><summary>처음 방문할 때 어떤 예약을 선택하나요?</summary><p>이 페이지의 ‘입학 상담·레벨테스트 예약’ 버튼을 누르면 신규 상담 예약 화면으로 연결됩니다. 네이버 플레이스에서는 ‘입학 상담 및 레벨테스트’를 선택해 주세요. 선생님 이름이 적힌 보충수업 예약은 재원생용입니다.</p></details>
-          <details><summary>상담할 때 무엇을 알려주면 되나요?</summary><p>아이의 학년, 현재 배우는 내용과 어려운 부분, 방문 가능한 시간을 알려주세요. 배정 가능한 반과 수업 시간은 상담에서 확인할 수 있습니다.</p></details>
-          <details><summary>상담과 레벨테스트는 얼마나 걸리나요?</summary><p>진단과 상담에 필요한 시간은 예약 전에 학원으로 문의해 주세요.</p></details>
-          <details><summary>상세 상담서를 먼저 작성해야 하나요?</summary><p>첫 방문 일정은 네이버에서 예약할 수 있습니다. 상세 상담서는 예약 후 학원에서 작성 안내를 받으신 경우에 이용해 주세요.</p></details>
-          <details><summary>차를 가지고 방문해도 되나요?</summary><p>건물 주차장을 무료로 이용할 수 있습니다. 경기도 광주시 태성로 130-1, 건물 3층 304호로 오시면 됩니다.</p></details>
+          {ACADEMY_FAQS.map(({ id, question, answer }) => (
+            <details id={id} key={id}><summary>{question}</summary><p>{answer}</p></details>
+          ))}
         </div>
 
         <div className="academy-actions">
@@ -46,7 +46,11 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
           <a href="https://blog.naver.com/willgrowtj/224403805020" target="_blank" rel="noopener noreferrer"><span>초6·예비중 영어</span><strong>중학교 진학 전에 확인할 학습 항목 ↗</strong></a>
           <a href="https://blog.naver.com/willgrowtj/224403809315" target="_blank" rel="noopener noreferrer"><span>숙제·오답 관리</span><strong>상담에서 확인할 세 가지 질문 ↗</strong></a>
         </section>
-        <p className="academy-legal-name">등록 학원명: 윌그로우태전2국제캠퍼스어학원</p>
+        <p className="academy-legal-name">등록 학원명: {ACADEMY_LEGAL_NAME}</p>
+        <div className="academy-source-note">
+          <p>{ACADEMY_NAME} 공식 안내 · <time dateTime={ACADEMY_CONTENT_UPDATED}>2026년 9월 9일 업데이트</time></p>
+          <p>예약 가능한 일정은 <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer">네이버 입학 상담 예약</a>, 위치·방문 정보는 <a href={ACADEMY_PLACE_URL} target="_blank" rel="noopener noreferrer">공식 네이버 플레이스</a>에서 확인하세요.</p>
+        </div>
       </div>
     </section>
   )

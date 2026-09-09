@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --color-primary: #171717; /* Black */
   --color-secondary: #404040; /* Dark Gray */
@@ -1076,3 +1080,13 @@ a {
   .footer-brand .navbar-brand-group { flex-direction: column; white-space: normal; }
   .footer-brand .navbar-divider { display: none; }
 }
+
+/* Public questions can be linked directly by readers and search results. */
+.academy-faq, .academy-faq details { scroll-margin-top: 100px; }
+.academy-faq details:target { border-color: #a88929; background: #fffdf6; }
+.academy-source-note { margin-top: 18px; color: #5c5c5c; font-size: .88rem; line-height: 1.8; word-break: keep-all; }
+.academy-source-note a { color: #675219; text-decoration: underline; text-underline-offset: 3px; }
+.consultation-summary { margin: 24px 0; padding: 20px 22px; background: #fbf7e9; border: 1px solid #e9dfbf; border-radius: 14px; line-height: 1.8; word-break: keep-all; }
+.consultation-summary strong { color: #453817; font-weight: 650; }
+.consultation-summary p { margin-top: 4px; color: #655f50; font-size: .9rem; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #967722; outline-offset: 4px; }

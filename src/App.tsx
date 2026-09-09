@@ -200,7 +200,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
         <div className="navbar-container">
           <div className="navbar-brand-group">
             <div className="navbar-logo">
-              <img src="/logo.png" alt="Willgrow Logo" className="logo-img" />
+              <img src="/logo.png" alt="윌그로우어학원 로고" className="logo-img" />
               <span className="logo-text">윌그로우어학원 <span className="logo-campus">태전2국제캠퍼스</span></span>
             </div>
             
@@ -253,7 +253,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
 
         <div className="hero-content">
           <div className="hero-badge">경기 광주 태전동 · 초등·중등 영어</div>
-          <h1 className="hero-title">아이의 영어 수준에 맞는<br className="hero-line-break" /> 수업과 학습 방향을<br className="hero-line-break" /> 상담하세요</h1>
+          <h1 className="hero-title">태전동 초·중등 영어,<br className="hero-line-break" /> 아이에게 맞는 수업을<br className="hero-line-break" /> 상담하세요</h1>
           <p className="hero-subtitle">
             윌그로우어학원 태전2국제캠퍼스에서<br />입학 상담과 레벨테스트를 안내합니다.
           </p>
@@ -316,7 +316,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
           <div className="footer-brand">
             <div className="navbar-brand-group" style={{ marginBottom: '20px' }}>
               <div className="navbar-logo">
-                <img src="/logo.png" alt="Willgrow Logo" className="logo-img" />
+                <img src="/logo.png" alt="윌그로우어학원 로고" className="logo-img" />
                 <span className="logo-text">윌그로우어학원 <span className="logo-campus">태전2국제캠퍼스</span></span>
               </div>
               <div className="navbar-divider footer-divider"></div>
