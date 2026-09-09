@@ -214,23 +214,23 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
             </div>
           </div>
           <div className="navbar-links">
-            <a href="#hero" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <a href="#hero">
               <FiHome size={16} />
               홈
             </a>
-            <a href="#contact-locations" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <a href="#contact-locations">
               <FiMapPin size={16} />
               오시는 길
             </a>
-            <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer">
               <SiNaver size={14} color="#03C75A" />
               블로그
             </a>
-            <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer">
               <SiInstagram size={16} color="#E4405F" />
               인스타그램
             </a>
-            <a href="#" onClick={handleTeacherLinkClick} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <a href="#" onClick={handleTeacherLinkClick}>
               <FiMonitor size={16} />
               선생님용
             </a>
@@ -253,9 +253,9 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
 
         <div className="hero-content">
           <div className="hero-badge">경기 광주 태전동 · 초등·중등 영어</div>
-          <h1 className="hero-title">태전동 초·중등 영어,<br className="hero-line-break" /> 아이에게 맞는 수업을<br className="hero-line-break" /> 상담하세요</h1>
+          <h1 className="hero-title">초1 파닉스부터 중등까지,<br className="hero-line-break" /> 말하고 설명하는 영어를<br className="hero-line-break" /> 배웁니다</h1>
           <p className="hero-subtitle">
-            윌그로우어학원 태전2국제캠퍼스에서<br />입학 상담과 레벨테스트를 안내합니다.
+            윌그로우 자체교재 · 이중언어 스피킹 · 설명하는 문법<br />태전2국제캠퍼스에서 아이의 다음 학습을 함께 준비합니다.
           </p>
           <div className="hero-actions">
             <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">입학 상담·레벨테스트 예약 ↗</a>

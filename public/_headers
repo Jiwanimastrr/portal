@@ -1,4 +1,4 @@
-# Only the public academy homepage belongs in the search sitemap.
+# The public homepage and course guides belong in the search sitemap.
 # These directives control indexing; they do not provide access control.
 /robots.txt
   Content-Type: text/plain; charset=utf-8
