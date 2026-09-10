@@ -224,11 +224,11 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
               오시는 길
             </a>
             <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer">
-              <SiNaver size={14} color="#03C75A" />
+              <SiNaver aria-hidden="true" focusable="false" size={14} color="#03C75A" />
               블로그
             </a>
             <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer">
-              <SiInstagram size={16} color="#E4405F" />
+              <SiInstagram aria-hidden="true" focusable="false" size={16} color="#E4405F" />
               인스타그램
             </a>
             <a href="#" onClick={handleTeacherLinkClick}>
@@ -240,6 +240,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
         </div>
       </nav>
 
+      <main id="main-content">
       {/* Hero Section */}
       <section id="hero" className="hero-section">
         <div className="hero-video-bg" id="hero-background-video">
@@ -314,6 +315,8 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
           </div>
       </section>}
 
+      </main>
+
       {/* Footer */}
       <footer id="contact" className="footer">
         <div className="footer-content">
@@ -351,11 +354,11 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
           <div className="footer-social">
             <h3>소셜 미디어</h3>
             <a href="https://blog.naver.com/willgrowtj" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-              <SiNaver size={14} color="#03C75A" />
+              <SiNaver aria-hidden="true" focusable="false" size={14} color="#03C75A" />
               네이버 블로그 ↗
             </a>
             <a href="https://www.instagram.com/willgrow.official.tj" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-              <SiInstagram size={16} color="#E4405F" />
+              <SiInstagram aria-hidden="true" focusable="false" size={16} color="#E4405F" />
               인스타그램 ↗
             </a>
           </div>
