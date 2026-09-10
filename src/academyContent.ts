@@ -1,6 +1,6 @@
 // Public facts shared by the visible answers and the structured page description.
 // Update the date only when public content changes, not on every deployment.
-export const ACADEMY_CONTENT_UPDATED = '2026-09-09';
+export const ACADEMY_CONTENT_UPDATED = '2026-09-10';
 export const ACADEMY_NAME = '윌그로우어학원 태전2국제캠퍼스';
 export const ACADEMY_LEGAL_NAME = '윌그로우태전2국제캠퍼스어학원';
 export const ACADEMY_SITE_URL = 'https://willgrow.pages.dev/';

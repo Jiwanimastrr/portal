@@ -1,5 +1,5 @@
 import { ACADEMY_CONTENT_UPDATED, ACADEMY_FAQS, ACADEMY_LEARNING_SUMMARY, ACADEMY_LEGAL_NAME, ACADEMY_NAME, ACADEMY_SITE_URL } from './academyContent';
-import { ACADEMY_PHONE_URL, ACADEMY_PLACE_URL } from './academyLinks';
+import { ACADEMY_PHONE_URL, ACADEMY_PLACE_URL, ACADEMY_KAKAO_MAP_URL, ACADEMY_GOOGLE_MAP_URL } from './academyLinks';
 import type { ProgramGuide } from './programContent';
 
 export function academyStructuredData() {
@@ -23,7 +23,7 @@ export function academyStructuredData() {
           addressRegion: '경기도',
           addressCountry: 'KR',
         },
-        sameAs: [ACADEMY_PLACE_URL, 'https://blog.naver.com/willgrowtj', 'https://www.instagram.com/willgrow.official.tj'],
+        sameAs: [ACADEMY_PLACE_URL, ACADEMY_KAKAO_MAP_URL, ACADEMY_GOOGLE_MAP_URL, 'https://blog.naver.com/willgrowtj', 'https://www.instagram.com/willgrow.official.tj'],
       },
       {
         '@type': 'WebSite',

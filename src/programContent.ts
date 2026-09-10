@@ -7,7 +7,13 @@ export interface ProgramGuide {
   answer: string;
   audience: string;
   sections: { heading: string; paragraphs: string[] }[];
-  example: { heading: string; text: string; prompts: string[] };
+  example: {
+    heading: string;
+    text: string;
+    steps: { heading: string; prompt: string; sample: string; explanation: string }[];
+    observations: { situation: string; note: string }[];
+    source: { title: string; url: string; context: string };
+  };
   consultation: string[];
   faqs: { question: string; answer: string }[];
 }
@@ -28,7 +34,21 @@ export const PROGRAM_GUIDES: ProgramGuide[] = [
       { heading: '파닉스를 처음 시작할 때 무엇을 살펴보면 좋을까요?', paragraphs: ['알파벳 이름을 말하는 것과 글자의 소리를 연결해 단어를 읽는 것은 구분해 살펴볼 수 있습니다. 이미 외운 단어만 읽는지, 글자를 보며 소리를 연결해보는지도 관찰해 보세요.', '아이가 어려워하는 모습을 바로 낮은 수준으로 단정할 필요는 없습니다. 영어를 접한 기간과 읽어본 자료, 낯선 글자를 만났을 때의 반응을 상담에서 함께 이야기해 주세요.'] },
       { heading: '파닉스 이후에는 무엇을 상담하나요?', paragraphs: ['윌그로우 태전2에서는 초등 영어의 읽기·듣기·말하기·쓰기를 연결하는 학습을 안내합니다. 이중언어 선생님의 스피킹 수업과 아이가 직접 설명하는 문법 학습도 운영합니다.', '파닉스 다음 과정의 배정과 수업 시간은 현재 학습 상태를 살펴본 뒤 안내합니다. 입학 상담에서 첫 수업과 다음 학습의 연결을 함께 확인해 주세요.'] },
     ],
-    example: { heading: '집에서 읽는 모습을 살펴보는 질문', text: '아래는 학부모님의 상담 준비를 돕기 위해 만든 질문 예시입니다.', prompts: ['아이가 익숙하게 읽는 단어 한 개를 보여주고 “어떻게 읽었어?”라고 물어보세요.', '막히면 어느 글자에서 어려워했는지, 도움을 받은 뒤 어떻게 읽었는지만 메모해 주세요.', '잘 읽은 단어와 어려웠던 단어를 하나씩 상담 때 알려주세요.'] },
+    example: {
+      heading: '글자 이름에서 단어 읽기로, 함께 살펴보세요',
+      text: '아이에게 익숙한 글자부터 시작하세요. 아직 배우지 않은 소리는 먼저 알려주고, 어려워하면 다음 단계로 서두르지 않아도 됩니다.',
+      steps: [
+        { heading: '글자 이름과 소리 구분하기', prompt: 'cat을 보여주고 c의 이름과 이 단어에서 내는 소리를 각각 물어보세요.', sample: 'c의 이름은 /siː/, cat의 첫소리는 /k/입니다.', explanation: '알파벳 이름을 안다고 단어 속 소리까지 연결할 수 있는 것은 아닙니다. 발음기호를 외우게 하기보다, 이름을 말한 것인지 소리를 낸 것인지 구분해 들어보세요. 여기서는 cat에 쓰인 c의 소리만 살펴봅니다.' },
+        { heading: '세 소리를 이어 단어 읽기', prompt: 'c, a, t를 짚으며 소리를 낸 뒤 한 단어로 이어 읽어보게 해주세요.', sample: '/k/ + /æ/ + /t/ → cat', explanation: '글자별 소리를 내는 과정과 소리를 이어 단어를 읽는 과정을 나누어 살펴보세요. 막히면 소리를 연결하는 모습을 먼저 들려줄 수 있습니다. “고양이”라는 뜻도 함께 확인합니다.' },
+        { heading: '첫 글자를 바꿔 다시 읽기', prompt: 'cat의 c를 h로 바꾼 hat을 보여주세요. 두 단어에서 바뀐 글자와 소리를 찾아봅니다.', sample: 'cat → hat / 첫소리 /k/ → /h/', explanation: 'h의 소리를 이미 배운 경우에 해보세요. 같은 at 부분과 달라진 첫소리를 연결할 수 있는지 살펴봅니다. 한 번 읽은 결과로 파닉스 전체의 완성도를 판단하지는 않습니다.' },
+      ],
+      observations: [
+        { situation: '글자 이름은 말하지만 소리가 낯설어요', note: '어떤 글자의 소리에서 도움을 받았는지 알려주세요.' },
+        { situation: '소리는 내지만 단어로 이어 읽기 어려워요', note: '따로 읽은 모습과 함께 읽은 뒤의 차이를 알려주세요.' },
+        { situation: '단어는 읽지만 뜻을 설명하기 어려워요', note: '읽기와 어휘 이해를 나눠 상담할 수 있도록 그 단어를 가져오세요.' },
+      ],
+      source: { title: '미국 IES · Supporting Your Child’s Reading at Home', url: 'https://ies.ed.gov/use-work/resource-library/resource/other-resource/supporting-your-childs-reading-home', context: '글자 이름·소리 구분과 소리를 합쳐 단어 읽기의 원리를 참고했습니다. 미국 초등 읽기 가정 활동 자료이며, 한국 영어 학습자의 반 배정 기준은 아닙니다.' },
+    },
     consultation: ['학교·학년과 영어를 배운 기간', '지금 사용하는 교재 또는 읽어본 책', '아이가 편하게 읽는 부분과 자주 막히는 부분'],
     faqs: [
       { question: '초등학교 1학년도 파닉스를 시작할 수 있나요?', answer: '네. 윌그로우어학원 태전2국제캠퍼스는 초등 1학년 파닉스부터 영어 학습을 시작합니다. 현재 배정 가능한 반과 시간은 상담에서 확인해 주세요.' },
@@ -49,7 +69,21 @@ export const PROGRAM_GUIDES: ProgramGuide[] = [
       { heading: '말하기와 발표·표현 활동을 연결합니다', paragraphs: ['초등 영어는 읽기·듣기·말하기·쓰기를 연결해 안내합니다. 원서 읽기, 발표와 토론을 통해 배운 영어를 사용하는 활동도 과정 상담에서 확인할 수 있습니다.', '문장을 따라 말한 뒤에는 자기 생각을 담아 표현해보는 경험이 필요합니다. 어떤 활동을 하는지와 함께 아이가 직접 말할 기회가 어떻게 주어지는지를 상담에서 확인해 보세요.'] },
       { heading: '스피킹 수업을 비교할 때 확인할 내용', paragraphs: ['수업을 비교할 때는 영어로 수업한다는 설명에 더해 아이가 이해한 내용을 자기 말로 표현하는 과정이 있는지 살펴보세요.', '최근에 말하기 어려웠던 질문이나 아이가 좋아하는 주제를 알려주시면 현재 학습 상태를 이야기하기 쉽습니다. 수업 편성과 활동의 세부 내용은 배정 과정에 맞춰 상담합니다.'] },
     ],
-    example: { heading: '한 문장에서 생각을 넓히는 대화 예시', text: '수업 방향을 이해하도록 직접 만든 대화 예시입니다.', prompts: ['“I like soccer.”처럼 좋아하는 것을 한 문장으로 말해봅니다.', '“Who do you play with?”와 같은 질문으로 생각을 이어가 봅니다.', '말한 내용을 짧게 적어보며 말하기와 쓰기를 연결할 수 있습니다.'] },
+    example: {
+      heading: '한 문장에서 내 이야기로, 대화를 이어보세요',
+      text: '아이가 좋아하는 활동을 주제로 시작하세요. 예시 문장을 그대로 말하게 하기보다, 실제로 하고 싶은 말을 기다려 주세요. 질문이 낯설면 뜻을 함께 확인해도 됩니다.',
+      steps: [
+        { heading: '좋아하는 활동 한 가지 말하기', prompt: '“What do you like to do?”라고 물어보고, 좋아하는 활동을 한 가지 말해봅니다.', sample: 'I like to play soccer.', explanation: '축구는 예시일 뿐입니다. 아이가 그림 그리기나 책 읽기를 좋아한다면 그 내용으로 바꾸세요. 먼저 단어로 답하더라도 말하려는 내용을 듣고, 필요한 문장 표현을 함께 찾아볼 수 있습니다.' },
+        { heading: '답을 듣고 한 가지 더 묻기', prompt: '축구를 한다면 “Who do you play with?”처럼 아이가 말한 내용에서 다음 질문을 골라보세요.', sample: 'I play with my friends.', explanation: '누구와 하는지, 어디에서 하는지 등 실제 경험을 물어보세요. 질문을 이해하는 데 도움이 필요한지, 뜻은 알지만 문장을 만드는 데 도움이 필요한지 구분해 살펴봅니다.' },
+        { heading: '아이가 질문하는 차례 만들기', prompt: '어른이 “I like to read.”라고 말한 뒤, 아이가 궁금한 내용을 되물어보게 해주세요.', sample: 'What do you like to read?', explanation: '아이가 직접 질문을 고르고 상대의 답을 듣는 차례입니다. 말이 끊겨도 곧바로 대신 답하지 말고 생각할 시간을 주세요. 대화 후 기억나는 자기 문장 하나를 적어보며 말하기와 쓰기를 연결할 수 있습니다.' },
+      ],
+      observations: [
+        { situation: '질문 뜻을 확인하면 대답해요', note: '어떤 질문에서 설명이 필요했는지 알려주세요.' },
+        { situation: '질문은 알지만 단어로만 답해요', note: '스스로 말한 단어와 문장을 만들 때 받은 도움을 알려주세요.' },
+        { situation: '익숙한 질문에는 답하지만 되묻기 어려워요', note: '편하게 말하는 주제와 대화가 멈춘 순간을 함께 이야기해 주세요.' },
+      ],
+      source: { title: 'British Council TeachingEnglish · Asking questions', url: 'https://www.teachingenglish.org.uk/professional-development/teachers/managing-lesson/asking-questions', context: '학습자의 경험을 묻는 질문, 답에 이어 묻는 질문, 생각할 시간을 주는 원리를 참고했습니다. Steve Darn과 Funda Çetin이 작성한 교사 연수 자료입니다.' },
+    },
     consultation: ['아이의 말하기 경험과 어려워하는 상황', '최근 배우는 내용과 좋아하는 주제', '읽기·듣기 이해와 말하기 사이에서 느끼는 차이'],
     faqs: [
       { question: '윌그로우 태전2 스피킹 수업은 누가 진행하나요?', answer: '이중언어를 사용하는 선생님들이 스피킹 수업을 진행합니다. 아이의 과정에 따른 구체적인 수업 구성은 입학 상담에서 안내합니다.' },
@@ -70,7 +104,21 @@ export const PROGRAM_GUIDES: ProgramGuide[] = [
       { heading: '문법·독해를 중등 내신과 연결합니다', paragraphs: ['중등 과정에서는 문법과 독해를 바탕으로 학교별 내신과 수행평가를 관리합니다. 같은 학년이라도 학교에서 배우는 내용과 평가 범위가 다를 수 있으므로 학교·학년을 함께 알려주세요.', '상담에는 최근 교재나 어려웠던 문제를 준비해 주세요. 단어 뜻, 문장 구조, 글의 흐름, 문장 쓰기 가운데 어디에서 막히는지 구체적으로 이야기할 수 있습니다.'] },
       { heading: '초6에서 중등으로 넘어가는 학습도 상담합니다', paragraphs: ['초등에서 읽고 말해본 영어가 중등의 문법·독해·쓰기와 어떻게 연결되는지 살펴볼 수 있습니다. 현재 학습 이력과 어려운 부분을 바탕으로 다음 학습 방향을 상담합니다.', '학습 관리가 궁금하다면 숙제 확인, 틀린 이유를 살펴보는 방법, 보완 학습과 피드백의 구체적인 운영을 질문해 주세요. 반별 운영과 수업 시간은 상담에서 확인할 수 있습니다.'] },
     ],
-    example: { heading: '정답의 이유를 설명하는 문법 예시', text: '문법을 설명하는 방식을 보여주기 위해 직접 만든 학습 예시입니다.', prompts: ['“He plays soccer.”에서 왜 plays를 썼는지 설명해 봅니다.', '주어를 They로 바꿨을 때 “They play soccer.”가 되는 이유를 말해봅니다.', '새로운 주어와 동사를 골라 문장을 쓰고 같은 규칙이 적용되는지 확인합니다.'] },
+    example: {
+      heading: '정답 고르기 → 이유 설명 → 문장 바꾸기',
+      text: '평소 하는 일을 나타내는 일반동사의 현재시제를 이미 배운 경우에 해보세요. 규칙을 처음 접한 아이라면 예시를 함께 읽는 것부터 시작합니다.',
+      steps: [
+        { heading: '어떤 뜻으로 어떤 형태를 썼나요?', prompt: '“He plays soccer after school.”에서 왜 plays를 썼는지 물어보세요.', sample: '평소 방과 후 축구를 한다는 뜻이고, 주어 He가 3인칭 단수라 이 긍정문에서는 plays를 써요.', explanation: '“주어에 맞춰 -s를 붙였다”는 규칙과 함께 문장이 나타내는 뜻도 살펴보세요. 지금 이 순간 축구를 하는 장면만을 나타내는 문장과는 구분합니다.' },
+        { heading: '주어를 바꾸면 무엇이 달라지나요?', prompt: 'He를 They로 바꾸어 문장 전체를 다시 말하거나 써보세요.', sample: 'They play soccer after school.', explanation: '주어가 They이면 이 현재시제 긍정문에서 play를 씁니다. 맞힌 뒤에는 어떤 단어를 왜 바꿨는지 다시 설명해 봅니다. 주어만 바꾸고 plays를 그대로 두었다면 적용 과정을 함께 확인하세요.' },
+        { heading: '질문과 부정문에서도 같은가요?', prompt: 'He로 돌아와, 축구를 하는지 묻는 문장과 하지 않는다는 문장으로 바꿔보세요.', sample: 'Does he play soccer after school? / He doesn’t play soccer after school.', explanation: 'does 또는 doesn’t가 있는 이 문장에서는 뒤의 일반동사를 원형 play로 씁니다. “He면 언제나 plays”라고 외우는 데서 나아가 문장의 형태를 확인하는 예시입니다. be동사·조동사·다른 시제에는 이 규칙을 그대로 적용하지 않습니다.' },
+      ],
+      observations: [
+        { situation: '정답은 맞지만 이유를 설명하기 어려워요', note: '문장 뜻과 주어·동사의 관계 중 어느 설명에서 멈췄는지 알려주세요.' },
+        { situation: '규칙은 말하지만 주어를 바꾸면 틀려요', note: '처음 쓴 문장과 고친 문장을 함께 가져오세요.' },
+        { situation: '긍정문은 되는데 질문·부정문이 어려워요', note: '현재 배우는 범위와 실제 어려웠던 학교·교재 문제를 알려주세요.' },
+      ],
+      source: { title: 'British Council LearnEnglish · Present simple', url: 'https://learnenglish.britishcouncil.org/free-resources/grammar/a1-a2/present-simple', context: '일반동사 현재시제의 뜻, 3인칭 단수 긍정문, do·does를 사용하는 질문과 부정문의 형태를 대조했습니다.' },
+    },
     consultation: ['학교·학년과 현재 배우는 교재', '최근 어려웠던 문법·독해·쓰기 문제', '숙제·오답·피드백 관리에 관해 궁금한 점'],
     faqs: [
       { question: '윌그로우 태전2의 문법 수업은 어떤 방향인가요?', answer: '아이가 배운 문법을 직접 설명할 수 있도록 지도합니다. 정답의 이유와 문장에 규칙을 적용하는 과정을 설명하는 학습을 지향합니다.' },

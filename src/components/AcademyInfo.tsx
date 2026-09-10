@@ -1,6 +1,7 @@
 import { ADMISSION_BOOKING_URL, ACADEMY_PHONE_URL, ACADEMY_PLACE_URL } from '../academyLinks';
 import { ACADEMY_CONTENT_UPDATED, ACADEMY_FAQS, ACADEMY_LEARNING_SUMMARY, ACADEMY_LEGAL_NAME, ACADEMY_NAME, CONSULTATION_SUMMARY } from '../academyContent';
 import { PROGRAM_GUIDE_LINKS } from '../programLinks';
+import { AcademyMapLinks } from './AcademyMapLinks';
 
 export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
   return (
@@ -44,8 +45,8 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
         <div className="academy-actions">
           <a className="btn btn-primary" href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer">입학 상담·레벨테스트 예약 ↗</a>
           <a className="academy-guide-link" href={ACADEMY_PHONE_URL}>전화로 문의하기</a>
-          <a className="academy-guide-link" href={ACADEMY_PLACE_URL} target="_blank" rel="noopener noreferrer">네이버에서 위치 확인 ↗</a>
         </div>
+        <AcademyMapLinks />
         <div className="consultation-form-entry"><div><h3>예약 후 사전 상담서</h3><p>학원에서 작성을 안내받으신 분은 아래 상담서를 이용해 주세요.</p></div><button type="button" onClick={onOpenForm}>사전 상담서 작성</button></div>
 
         <section className="admission-guides" aria-labelledby="admission-guides-title">
@@ -56,7 +57,7 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
         </section>
         <p className="academy-legal-name">등록 학원명: {ACADEMY_LEGAL_NAME}</p>
         <div className="academy-source-note">
-          <p>{ACADEMY_NAME} 공식 안내 · <time dateTime={ACADEMY_CONTENT_UPDATED}>2026년 9월 9일 업데이트</time></p>
+          <p>{ACADEMY_NAME} 공식 안내 · <time dateTime={ACADEMY_CONTENT_UPDATED}>2026년 9월 10일 업데이트</time></p>
           <p>예약 가능한 일정은 <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer">네이버 입학 상담 예약</a>, 위치·방문 정보는 <a href={ACADEMY_PLACE_URL} target="_blank" rel="noopener noreferrer">공식 네이버 플레이스</a>에서 확인하세요.</p>
         </div>
       </div>

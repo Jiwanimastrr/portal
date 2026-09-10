@@ -73,3 +73,32 @@ test('client keeps direct navigation, strips personal URL data, debounces and to
   vm.runInNewContext(script, {...context, navigator: {doNotTrack: '1'}});
   assert.equal(handler, undefined);
 });
+
+test('only verified academy map links count as directions and retain QA separation', () => {
+  const script = readFileSync(new URL('../public/consultation-metrics.js', import.meta.url), 'utf8');
+  for (const [href, expectedCount] of [
+    ['https://map.naver.com/p/entry/place/1694768560', 1],
+    ['https://place.map.kakao.com/63452265', 1],
+    ['https://www.google.com/maps?cid=6076773154571855206', 1],
+    ['https://place.map.kakao.com/other-place', 0],
+    ['https://www.google.com/maps?cid=other-place', 0],
+    ['https://learnenglish.britishcouncil.org/', 0],
+  ]) {
+    let handler;
+    const bodies = [];
+    class Element { closest() { return { href }; } }
+    vm.runInNewContext(script, {
+      location: { pathname: '/programs/phonics/', search: '?measurement_test=1' },
+      navigator: {}, document: { referrer: '', addEventListener(type, fn) { handler = fn; } },
+      Element, URL, URLSearchParams, crypto,
+      fetch(url, options) { bodies.push(JSON.parse(options.body)); return Promise.resolve(); },
+    });
+    handler({ isTrusted: true, defaultPrevented: false, target: new Element(), preventDefault() { throw new Error('Must not block map navigation'); } });
+    assert.equal(bodies.length, expectedCount, href);
+    if (expectedCount) {
+      assert.equal(bodies[0].action, 'directions');
+      assert.equal(bodies[0].test, true);
+      assert.equal(bodies[0].page, 'phonics');
+    }
+  }
+});

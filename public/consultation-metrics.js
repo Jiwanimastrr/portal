@@ -12,6 +12,8 @@
     ['https://m.booking.naver.com/booking/13/bizes/1365988/items/7577083', 'booking'],
     ['tel:0507-1356-0671', 'phone'],
     ['https://map.naver.com/p/entry/place/1694768560', 'directions'],
+    ['https://place.map.kakao.com/63452265', 'directions'],
+    ['https://www.google.com/maps?cid=6076773154571855206', 'directions'],
   ]);
   const sources = ['chatgpt', 'google', 'bing', 'naver', 'perplexity'];
   const params = new URLSearchParams(location.search);

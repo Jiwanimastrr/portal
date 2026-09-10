@@ -1137,6 +1137,26 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .program-footer a { display: inline-block; margin-top: 12px; text-decoration: underline; text-underline-offset: 4px; }
 .program-skip { position: absolute; left: 12px; top: -200px; background: #fff; padding: 12px; z-index: 300; }
 .program-skip:focus { top: 12px; }
+.program-jump-links, .academy-map-links { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 22px; }
+.program-jump-links a, .academy-map-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border: 1px solid #d8d2c1; border-radius: 10px; background: #fffdf8; color: #453e2e; font-size: .94rem; text-decoration: underline; text-underline-offset: 4px; }
+.program-body > section[id] { scroll-margin-top: 24px; }
+.program-example h3 { font-size: 1.08rem; font-weight: 700; line-height: 1.6; }
+.program-example .program-example-steps { list-style: decimal; margin: 26px 0 0 22px; }
+.program-example-steps > li { padding-left: 8px; margin-top: 26px; }
+.program-example-steps > li::marker { font-weight: 700; color: #776026; }
+.program-example-steps h3 + p { margin-top: 8px; }
+.program-example-steps details { margin-top: 14px; border: 1px solid #d7ceb5; border-radius: 12px; background: #fffefb; }
+.program-example-steps summary { padding: 13px 16px; min-height: 48px; cursor: pointer; font-size: .95rem; font-weight: 650; }
+.program-example-reveal { padding: 0 16px 18px; }
+.program-example-reveal .program-example-answer { color: #31452a; border-left: 3px solid #82906a; padding: 12px 14px; background: #f0f4eb; font-weight: 600; }
+.program-observations, .program-example-source { border-top: 1px solid #d9cfb5; margin-top: 28px; padding-top: 24px; }
+.program-observations dl { margin: 18px 0; }
+.program-observations dl > div { margin-top: 14px; }
+.program-observations dt { font-weight: 650; }
+.program-observations dd { margin: 4px 0 0; color: #5a5549; }
+.program-observations > p, .program-example-source p { color: #665e4d; font-size: .88rem; }
+.program-example-source a { display: inline-block; margin-top: 10px; color: #675219; text-decoration: underline; text-underline-offset: 4px; font-size: .9rem; }
+.program-example-source a + p { margin-top: 10px; }
 @media (max-width: 800px) {
   .academy-program-grid { grid-template-columns: 1fr; }
   .program-page main { padding-left: 22px; padding-right: 22px; }
