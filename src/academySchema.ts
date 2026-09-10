@@ -30,6 +30,7 @@ export function academyStructuredData() {
         '@id': `${ACADEMY_SITE_URL}#website`,
         url: ACADEMY_SITE_URL,
         name: ACADEMY_NAME,
+        alternateName: ['윌그로우 태전2', 'willgrow.pages.dev'],
         inLanguage: 'ko-KR',
         publisher: { '@id': organizationId },
       },
