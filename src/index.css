@@ -1171,3 +1171,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
   .program-actions { align-items: stretch; flex-direction: column; }
   .program-body h2 { font-size: 1.28rem; }
 }
+
+/* Read the introduction immediately; load the existing video on request. */
+.hero-section { background: radial-gradient(ellipse at 78% 25%, #25435d, #172337 58%, #101722); }
+.hero-video-toggle { display: block; margin: 18px auto 0; padding: 8px 14px; border: 1px solid rgba(255,255,255,.6); border-radius: 8px; background: rgba(0,0,0,.2); color: #fff; font: inherit; font-size: 14px; cursor: pointer; }
+.hero-video-toggle:hover { background: rgba(255,255,255,.16); }
+.hero-video-toggle:focus-visible { outline: 3px solid white; outline-offset: 4px; }

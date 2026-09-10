@@ -132,6 +132,7 @@ const PROGRAMS: SiteInfo[] = [
 function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: number }) {
   const [currentView, setCurrentView] = useState<'landing' | 'admission'>('landing');
   const [showPrograms, setShowPrograms] = useState(false);
+  const [playHeroVideo, setPlayHeroVideo] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginPassword, setLoginPassword] = useState('');
@@ -241,13 +242,13 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
 
       {/* Hero Section */}
       <section id="hero" className="hero-section">
-        <div className="hero-video-bg">
-          <iframe
+        <div className="hero-video-bg" id="hero-background-video">
+          {playHeroVideo && <iframe
             title="윌그로우어학원 활동 영상"
             src="https://www.youtube.com/embed/p1-U7eoCEic?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&loop=1&playlist=p1-U7eoCEic"
             allow="autoplay; encrypted-media"
             allowFullScreen
-          ></iframe>
+          ></iframe>}
         </div>
         <div className="hero-overlay"></div>
 
@@ -262,6 +263,9 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
             <a href="#admission" className="hero-info-link">수업·상담 안내 보기 ↓</a>
           </div>
           <a href={ACADEMY_PHONE_URL} className="hero-phone-link">전화 문의 0507-1356-0671</a>
+          <button type="button" className="hero-video-toggle" aria-controls="hero-background-video" aria-pressed={playHeroVideo} onClick={() => setPlayHeroVideo(playing => !playing)}>
+            {playHeroVideo ? '배경 영상 정지' : '학원 활동 배경 영상 재생'}
+          </button>
         </div>
       </section>
 
