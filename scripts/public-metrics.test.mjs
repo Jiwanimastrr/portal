@@ -102,3 +102,44 @@ test('only verified academy map links count as directions and retain QA separati
     }
   }
 });
+
+test('AI, search and owned social referrals remain separate without sending source URLs', async () => {
+  const script = readFileSync(new URL('../public/consultation-metrics.js', import.meta.url), 'utf8');
+  const { db, env } = setup();
+  for (const [referrer, query, expected] of [
+    ['https://gemini.google.com/app/private-thread', '', 'gemini'],
+    ['https://www.google.com/search?q=private-query', '', 'google'],
+    ['https://www.google.co.kr/search?q=private-query', '', 'google'],
+    ['https://chat.openai.com/c/private-thread', '', 'chatgpt'],
+    ['https://www.perplexity.ai/search/private-thread', '', 'perplexity'],
+    ['https://blog.naver.com/willgrowtj/223866580817', '', 'naver'],
+    ['https://pf.kakao.com/_xmdkSn', '', 'kakao'],
+    ['https://place.map.kakao.com/63452265', '', 'kakao'],
+    ['https://l.instagram.com/?u=private-query', '', 'instagram'],
+    ['', 'utm_source=gemini', 'gemini'],
+    ['', 'utm_source=instagram.com', 'instagram'],
+    ['', 'utm_source=raw-private-query', 'unknown'],
+    ['https://gemini.google.com.unrelated.example/private-query', '', 'other'],
+    ['https://notinstagram.com/private-query', '', 'other'],
+    ['https://willgrow.pages.dev/programs/phonics/', '', 'other'],
+    ['', '', 'unknown'],
+  ]) {
+    let handler;
+    const bodies = [];
+    class Element { closest() { return { href: 'https://m.booking.naver.com/booking/13/bizes/1365988/items/7577083' }; } }
+    vm.runInNewContext(script, {
+      location: { pathname: '/programs/phonics/', search: '?measurement_test=1&' + query },
+      navigator: {}, document: { referrer, addEventListener(type, fn) { handler = fn; } },
+      Element, URL, URLSearchParams, crypto,
+      fetch(url, options) { bodies.push(JSON.parse(options.body)); return Promise.resolve(); },
+    });
+    handler({ isTrusted: true, defaultPrevented: false, target: new Element() });
+    assert.equal(bodies[0].source, expected, referrer || query || 'no referrer');
+    assert.equal(bodies[0].test, true);
+    assert.equal(JSON.stringify(bodies).includes('private-'), false);
+    assert.equal((await onRequest({ request: request(bodies[0]), env })).status, 204);
+  }
+  assert.equal(db.prepare('SELECT SUM(clicks) AS n FROM daily_clicks WHERE test=1').get().n, 16);
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM daily_clicks WHERE test=0').get().n, 0);
+  db.close();
+});

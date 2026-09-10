@@ -1,7 +1,7 @@
 const ORIGIN = 'https://willgrow.pages.dev';
 const PAGES = new Set(['home', 'phonics', 'speaking', 'grammar-middle-school']);
 const ACTIONS = new Set(['booking', 'phone', 'directions']);
-const SOURCES = new Set(['chatgpt', 'google', 'bing', 'naver', 'perplexity', 'other', 'unknown']);
+const SOURCES = new Set(['chatgpt', 'gemini', 'google', 'bing', 'naver', 'perplexity', 'kakao', 'instagram', 'other', 'unknown']);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const HEADERS = { 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' };
 

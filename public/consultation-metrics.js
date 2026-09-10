@@ -15,14 +15,24 @@
     ['https://place.map.kakao.com/63452265', 'directions'],
     ['https://www.google.com/maps?cid=6076773154571855206', 'directions'],
   ]);
-  const sources = ['chatgpt', 'google', 'bing', 'naver', 'perplexity'];
+  // More specific services must precede their parent domain (Gemini before Google).
+  const sourceDomains = [
+    ['gemini', ['gemini.google.com']],
+    ['chatgpt', ['chatgpt.com', 'chat.openai.com']],
+    ['google', ['google.com', 'google.co.kr']],
+    ['bing', ['bing.com']],
+    ['naver', ['naver.com', 'naver.me']],
+    ['perplexity', ['perplexity.ai', 'perplexity.com']],
+    ['kakao', ['kakao.com']],
+    ['instagram', ['instagram.com']],
+  ];
   const params = new URLSearchParams(location.search);
   const utm = (params.get('utm_source') || '').toLowerCase();
-  let source = sources.find(value => utm === value || utm === value + '.com') || 'unknown';
+  let source = sourceDomains.find(([name, domains]) => utm === name || domains.includes(utm))?.[0] || 'unknown';
   if (source === 'unknown' && document.referrer) {
     try {
       const host = new URL(document.referrer).hostname;
-      source = sources.find(value => [value + '.com', value + '.ai'].some(domain => host === domain || host.endsWith('.' + domain))) || 'other';
+      source = sourceDomains.find(([, domains]) => domains.some(domain => host === domain || host.endsWith('.' + domain)))?.[0] || 'other';
     } catch { /* An absent or invalid referrer stays unattributed. */ }
   }
   const lastClick = new Map();
