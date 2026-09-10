@@ -341,6 +341,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
             </a>
             <a href="#admission">입학 안내</a>
             <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer">입학 상담 예약 ↗</a>
+            <a href="/site-statistics.html">사이트 이용 통계 안내</a>
             <button type="button" className="footer-teacher-link" onClick={handleTeacherLinkClick}>선생님용</button>
           </div>
           <div className="footer-social">
