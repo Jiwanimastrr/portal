@@ -1,4 +1,3 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 .admission-container {
     --page-bg: #f1f3f6;
@@ -8,7 +7,7 @@
     --shadow-light: rgba(255, 255, 255, 1);
     --brand-main: #4d76bf;
     --brand-soft: #6366f1;
-    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    font-family: inherit;
     color: var(--text-color);
     background-color: var(--page-bg);
     min-height: 100vh;
