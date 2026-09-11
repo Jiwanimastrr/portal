@@ -11,7 +11,7 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
         <h2 id="academy-title">{ACADEMY_NAME}</h2>
         <p className="academy-intro">{ACADEMY_LEARNING_SUMMARY}</p>
         <p className="academy-name-note">이전에 정철어학원으로 안내되던 태전2캠퍼스의 현재 이름은 윌그로우어학원입니다.</p>
-        <div className="consultation-summary"><strong>{CONSULTATION_SUMMARY}</strong><p>쿠폰 이용 방법은 예약 전에 학원으로 문의해 주세요.</p></div>
+        <div className="consultation-summary"><strong>{CONSULTATION_SUMMARY}</strong><p>네이버 예약 화면에서 알림받기 고객용 무료 레벨테스트 쿠폰과 이용 조건을 확인해 주세요.</p></div>
 
         <div className="academy-facts">
           <div><h3>초1 파닉스·스피킹</h3><p>윌그로우 자체교재로 파닉스부터 시작합니다. 이중언어 선생님의 스피킹 수업과 읽기·듣기·말하기·쓰기를 연결합니다.</p></div>
