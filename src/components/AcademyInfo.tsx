@@ -57,7 +57,7 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
         </section>
         <p className="academy-legal-name">등록 학원명: {ACADEMY_LEGAL_NAME}</p>
         <div className="academy-source-note">
-          <p>{ACADEMY_NAME} 공식 안내 · <time dateTime={ACADEMY_CONTENT_UPDATED}>2026년 9월 10일 업데이트</time></p>
+          <p>{ACADEMY_NAME} 공식 안내 · <time dateTime={ACADEMY_CONTENT_UPDATED}>{ACADEMY_CONTENT_UPDATED.replace(/(\d{4})-(\d{2})-(\d{2})/, (_, year, month, day) => `${year}년 ${Number(month)}월 ${Number(day)}일`)} 업데이트</time></p>
           <p>예약 가능한 일정은 <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer">네이버 입학 상담 예약</a>, 위치·방문 정보는 <a href={ACADEMY_PLACE_URL} target="_blank" rel="noopener noreferrer">공식 네이버 플레이스</a>에서 확인하세요.</p>
         </div>
       </div>
