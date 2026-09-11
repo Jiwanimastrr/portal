@@ -1,6 +1,6 @@
 // Public facts shared by the visible answers and the structured page description.
 // Update the date only when public content changes, not on every deployment.
-export const ACADEMY_CONTENT_UPDATED = '2026-09-10';
+export const ACADEMY_CONTENT_UPDATED = '2026-09-11';
 export const ACADEMY_NAME = '윌그로우어학원 태전2국제캠퍼스';
 export const ACADEMY_LEGAL_NAME = '윌그로우태전2국제캠퍼스어학원';
 export const ACADEMY_SITE_URL = 'https://willgrow.pages.dev/';
@@ -66,7 +66,7 @@ export const ACADEMY_FAQS = [
   {
     id: 'consultation-fee-time',
     question: '레벨테스트 무료 쿠폰이 있나요? 상담은 얼마나 걸리나요?',
-    answer: `${CONSULTATION_SUMMARY} 무료 쿠폰의 이용 방법은 예약 전에 학원 전화 0507-1356-0671로 문의해 주세요. 방문 가능한 일정은 네이버의 입학 상담 및 레벨테스트 예약 화면에서 확인할 수 있습니다.`,
+    answer: `${CONSULTATION_SUMMARY} 네이버 입학 상담 예약 화면의 쿠폰 영역에서 알림받기 고객용 무료 레벨테스트 쿠폰을 확인할 수 있습니다. 알림받기와 쿠폰 다운로드를 진행하고, 예약 전에 쿠폰 상세의 이용 조건을 확인해 주세요. 쿠폰 이용이 어렵다면 학원 전화 0507-1356-0671로 문의해 주세요. 방문 가능한 일정은 네이버의 입학 상담 및 레벨테스트 예약 화면에서 확인할 수 있습니다.`,
   },
   {
     id: 'pre-consultation-form',
