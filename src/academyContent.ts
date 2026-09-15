@@ -1,6 +1,6 @@
 // Public facts shared by the visible answers and the structured page description.
 // Update the date only when public content changes, not on every deployment.
-export const ACADEMY_CONTENT_UPDATED = '2026-09-11';
+export const ACADEMY_CONTENT_UPDATED = '2026-09-15';
 export const ACADEMY_NAME = '윌그로우어학원 태전2국제캠퍼스';
 export const ACADEMY_LEGAL_NAME = '윌그로우태전2국제캠퍼스어학원';
 export const ACADEMY_SITE_URL = 'https://willgrow.pages.dev/';
@@ -77,6 +77,16 @@ export const ACADEMY_FAQS = [
     id: 'taejeon2-address',
     question: '윌그로우어학원 태전2국제캠퍼스는 어디에 있나요?',
     answer: '경기도 광주시 태성로 130-1, 건물 3층 304호입니다. 이 페이지의 입학 상담 예약과 전화 문의는 태전2국제캠퍼스 안내입니다. 오시는 길의 태전2국제캠퍼스 지도를 선택해 주세요.',
+  },
+  {
+    id: 'student-age-range',
+    question: '윌그로우 태전2는 어떤 학년을 대상으로 하나요?',
+    answer: '초등학생부터 중학생까지를 대상으로 합니다. 초등 1학년 파닉스부터 초등 영어와 중등 영어 과정을 운영하며, 아이의 학년과 현재 학습 상태에 맞는 반은 상담에서 안내합니다.',
+  },
+  {
+    id: 'shuttle-service',
+    question: '태전2캠퍼스는 셔틀버스를 운행하나요?',
+    answer: '네. 윌그로우어학원 태전2국제캠퍼스는 셔틀버스를 운행합니다. 이용을 원하시면 상담할 때 아이의 학교와 이용 희망 지역을 알려주세요. 해당 지역의 운행 여부, 승하차 장소와 시간은 학원에 확인해 주세요.',
   },
   {
     id: 'parking',
