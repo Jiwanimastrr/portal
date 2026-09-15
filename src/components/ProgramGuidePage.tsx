@@ -26,6 +26,11 @@ export function ProgramGuidePage({ guide }: { guide: ProgramGuide }) {
           <div className="program-observations"><h3>이런 모습은 상담에서 함께 이야기해 주세요</h3><dl>{guide.example.observations.map(({situation,note}) => <div key={situation}><dt>{situation}</dt><dd>{note}</dd></div>)}</dl><p>잘된 부분과 도움을 받은 부분을 함께 알려주세요. 짧은 예시의 수행만으로 아이의 영어 수준이나 적합한 반을 정하지 않습니다.</p></div>
           <div className="program-example-source"><h3>예시 설명에 참고한 자료</h3><a href={guide.example.source.url} target="_blank" rel="noopener noreferrer">{guide.example.source.title} ↗</a><p>{guide.example.source.context}</p><p>자료의 원리를 참고했으며, 해당 기관이 윌그로우를 인증하거나 수업 효과를 평가했다는 뜻은 아닙니다.</p></div>
         </section>
+        {guide.slug === 'speaking' && <section aria-labelledby="speaking-home-practice-title">
+          <h2 id="speaking-home-practice-title">짧은 문장부터 시작하고 싶다면</h2>
+          <p>단어의 뜻은 알지만 문장으로 말하기가 어렵다면, I like apples.에서 좋아하는 과일 이름 하나를 바꾸는 활동부터 해보세요. 공식 블로그에서 듣고 함께 말하기, 단어 바꾸기, 질문과 답으로 이어가기의 예시를 볼 수 있습니다.</p>
+          <a href="https://blog.naver.com/willgrowtj/224412701869" target="_blank" rel="noopener noreferrer">초등 영어 말하기, 아는 단어로 문장 바꾸는 3단계 ↗</a>
+        </section>}
         <section id="consultation-preparation"><h2>상담 때 함께 알려주세요</h2><ul>{guide.consultation.map(text => <li key={text}>{text}</li>)}</ul></section>
         <section className="program-faq"><h2>자주 묻는 질문</h2>{guide.faqs.map(({question,answer}) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</section>
         <section id="program-visit" className="program-consultation"><h2>아이의 현재 학습 상태부터 상담하세요</h2><p>{CONSULTATION_SUMMARY} 네이버 예약 화면에서 알림받기 고객용 무료 레벨테스트 쿠폰과 이용 조건을 확인해 주세요.</p><div className="program-actions"><a className="program-booking" href={ADMISSION_BOOKING_URL}>입학 상담·레벨테스트 예약 ↗</a><a href={ACADEMY_PHONE_URL}>전화 0507-1356-0671</a></div><p>경기도 광주시 태성로 130-1, 건물 3층 304호</p><AcademyMapLinks /></section>
