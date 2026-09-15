@@ -37,6 +37,6 @@ export function ProgramGuidePage({ guide }: { guide: ProgramGuide }) {
         <nav className="program-related" aria-label="다른 수업 안내"><h2>다른 수업도 알아보세요</h2>{PROGRAM_GUIDES.filter(other=>other.slug!==guide.slug).map(other=><a key={other.slug} href={'/programs/'+other.slug+'/'}>{other.label} <span aria-hidden="true">↗</span></a>)}<a href="/#admission">전체 입학·방문 안내 <span aria-hidden="true">↗</span></a></nav>
       </div>
     </main>
-    <footer className="program-footer"><p>{ACADEMY_NAME} 공식 안내</p><p>이 안내의 업데이트 <time dateTime={ACADEMY_CONTENT_UPDATED}>2026년 9월 10일</time></p><a href="https://blog.naver.com/willgrowtj">공식 네이버 블로그 ↗</a></footer>
+    <footer className="program-footer"><p>{ACADEMY_NAME} 공식 안내</p><p>이 안내의 업데이트 <time dateTime={ACADEMY_CONTENT_UPDATED}>{ACADEMY_CONTENT_UPDATED.replace(/(\d{4})-(\d{2})-(\d{2})/, (_, year, month, day) => `${year}년 ${Number(month)}월 ${Number(day)}일`)}</time></p><a href="https://blog.naver.com/willgrowtj">공식 네이버 블로그 ↗</a></footer>
   </div>;
 }
