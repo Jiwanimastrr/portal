@@ -1179,3 +1179,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .hero-video-toggle:focus-visible { outline: 3px solid white; outline-offset: 4px; }
 
 .footer .partner-reg { color: #a1a1aa; }
+
+.academy-comparison { margin: 36px 0; }
+.academy-comparison h3 { font-size: 1.25rem; line-height: 1.6; scroll-margin-top: 100px; }
+.academy-comparison p { margin: 12px 0; line-height: 1.8; color: #525252; }
+.academy-comparison dl { margin: 20px 0; }
+.academy-comparison dl > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid #e8e5db; }
+.academy-comparison dt { font-weight: 650; }
+.academy-comparison dd { margin: 0; line-height: 1.8; word-break: keep-all; }
+.academy-comparison a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 600px) { .academy-comparison dl > div { grid-template-columns: 1fr; gap: 6px; } }
