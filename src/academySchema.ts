@@ -18,11 +18,26 @@ export function academyStructuredData() {
         telephone: ACADEMY_PHONE_URL.replace('tel:', ''),
         address: {
           '@type': 'PostalAddress',
-          streetAddress: '태성로 130-1, 304호',
+          streetAddress: '태성로 130-1, 3층 304호',
           addressLocality: '광주시',
           addressRegion: '경기도',
           addressCountry: 'KR',
         },
+        // 경기도 광주시 — not 광주광역시. Coordinates match the Naver Place pin.
+        geo: { '@type': 'GeoCoordinates', latitude: 37.3777707, longitude: 127.2278283 },
+        hasMap: ACADEMY_PLACE_URL,
+        areaServed: [
+          { '@type': 'Place', name: '경기도 광주시 태전동' },
+          { '@type': 'City', name: '경기도 광주시' },
+        ],
+        openingHoursSpecification: [
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            opens: '13:00',
+            closes: '21:30',
+          },
+        ],
         sameAs: [ACADEMY_PLACE_URL, ACADEMY_KAKAO_MAP_URL, ACADEMY_GOOGLE_MAP_URL, 'https://blog.naver.com/willgrowtj', 'https://www.instagram.com/willgrow.official.tj'],
       },
       {
