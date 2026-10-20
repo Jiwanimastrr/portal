@@ -28,6 +28,7 @@ export function academyStructuredData() {
         hasMap: ACADEMY_PLACE_URL,
         areaServed: [
           { '@type': 'Place', name: '경기도 광주시 태전동' },
+          { '@type': 'Place', name: '경기도 광주시 고산동' },
           { '@type': 'City', name: '경기도 광주시' },
         ],
         openingHoursSpecification: [
@@ -78,8 +79,8 @@ export function academyStructuredData() {
   };
 }
 
-export function programStructuredData(guide: ProgramGuide) {
-  const url = ACADEMY_SITE_URL + 'programs/' + guide.slug + '/';
+export function programStructuredData(guide: ProgramGuide, pagePath?: string) {
+  const url = ACADEMY_SITE_URL + (pagePath ?? ('programs/' + guide.slug)) + '/';
   const organizationId = ACADEMY_SITE_URL + '#taejeon2';
   return {
     '@context': 'https://schema.org',

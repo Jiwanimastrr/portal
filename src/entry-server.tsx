@@ -4,6 +4,7 @@ import App from './App'
 import { ProgramGuidePage } from './components/ProgramGuidePage'
 import { PROGRAM_GUIDES } from './programContent'
 import { programStructuredData } from './academySchema'
+import { LOCAL_GUIDES } from './localGuideContent'
 export { academyStructuredData } from './academySchema'
 
 export function render(copyrightYear: number) {
@@ -17,5 +18,15 @@ export function renderProgramGuides() {
     description: guide.description,
     body: renderToStaticMarkup(<ProgramGuidePage guide={guide} />),
     schema: programStructuredData(guide),
+  }))
+}
+
+export function renderLocalGuides() {
+  return LOCAL_GUIDES.map(guide => ({
+    path: guide.path,
+    title: guide.title,
+    description: guide.description,
+    body: renderToStaticMarkup(<ProgramGuidePage guide={guide} />),
+    schema: programStructuredData(guide, guide.path),
   }))
 }

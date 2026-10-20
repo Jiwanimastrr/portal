@@ -1,6 +1,6 @@
 // Public facts shared by the visible answers and the structured page description.
 // Update the date only when public content changes, not on every deployment.
-export const ACADEMY_CONTENT_UPDATED = '2026-09-15';
+export const ACADEMY_CONTENT_UPDATED = '2026-10-20';
 export const ACADEMY_NAME = '윌그로우어학원 태전2국제캠퍼스';
 export const ACADEMY_LEGAL_NAME = '윌그로우태전2국제캠퍼스어학원';
 export const ACADEMY_SITE_URL = 'https://willgrow.pages.dev/';
@@ -86,7 +86,17 @@ export const ACADEMY_FAQS = [
   {
     id: 'shuttle-service',
     question: '태전2캠퍼스는 셔틀버스를 운행하나요?',
-    answer: '네. 윌그로우어학원 태전2국제캠퍼스는 셔틀버스를 운행합니다. 이용을 원하시면 상담할 때 아이의 학교와 이용 희망 지역을 알려주세요. 해당 지역의 운행 여부, 승하차 장소와 시간은 학원에 확인해 주세요.',
+    answer: '네. 윌그로우어학원 태전2국제캠퍼스는 태전동 전체와 고산동까지 셔틀버스를 운행합니다. 상담할 때 아이의 학교와 승하차 희망 장소를 알려주시면 정확한 승하차 장소와 시간을 안내합니다.',
+  },
+  {
+    id: 'class-frequency',
+    question: '수업은 일주일에 몇 번 하나요?',
+    answer: '매일반(주 5회), 주 3회반, 주 2회반이 있습니다. 아이의 학년과 현재 학습 상태, 다른 일정에 맞춰 반을 상담합니다.',
+  },
+  {
+    id: 'junior-interpreter',
+    question: '주니어 통번역사 과정이 있나요?',
+    answer: '네. 주니어 통번역사(IVO-IITT)는 윌그로우 태전2의 정규 과정입니다. 시험은 국제통번역자원봉사단이 주관하며 정기시험이 매년 2월과 9월에 있습니다.',
   },
   {
     id: 'parking',

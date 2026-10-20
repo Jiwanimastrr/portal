@@ -2,6 +2,7 @@ import { ADMISSION_BOOKING_URL, ACADEMY_PHONE_URL, ACADEMY_PLACE_URL } from '../
 import { ACADEMY_CONTENT_UPDATED, ACADEMY_FAQS, ACADEMY_LEARNING_SUMMARY, ACADEMY_LEGAL_NAME, ACADEMY_NAME, CONSULTATION_SUMMARY } from '../academyContent';
 import { PROGRAM_GUIDE_LINKS } from '../programLinks';
 import { AcademyMapLinks } from './AcademyMapLinks';
+import { LOCAL_GUIDES } from '../localGuideContent';
 
 export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
   return (
@@ -26,6 +27,8 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
           <div className="academy-program-grid">{PROGRAM_GUIDE_LINKS.map(guide=><a key={guide.slug} href={'/programs/'+guide.slug+'/'}><h4>{guide.label}</h4><p>{guide.summary}</p><span>수업 자세히 보기 ↗</span></a>)}</div>
         </section>
 
+        <nav className="academy-program-grid academy-local-guides" aria-label="지역·학교별 안내">{LOCAL_GUIDES.map(guide=><a key={guide.path} href={'/'+guide.path+'/'}><h4>{guide.label}</h4><p>{guide.answer.slice(0, 80)}…</p><span>자세히 보기 ↗</span></a>)}</nav>
+
         <section className="academy-comparison" aria-labelledby="academy-comparison-title">
           <h3 id="academy-comparison-title">태전동 초등 영어학원, 수업과 통학을 함께 확인하세요</h3>
           <p>아이에게 필요한 수업과 실제 다닐 수 있는 조건을 함께 살펴보세요. 아래는 윌그로우 태전2캠퍼스의 운영 안내입니다.</p>
@@ -34,7 +37,8 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
             <div><dt>말하기와 발표</dt><dd>이중언어 선생님의 스피킹 수업과 평소 발표 수업을 운영합니다. <a href="/programs/speaking/">스피킹·발표 수업 보기</a></dd></div>
             <div><dt>문법 이해 확인</dt><dd>아이가 배운 문법을 직접 설명할 수 있도록 지도합니다. <a href="/programs/grammar-middle-school/">문법 학습 보기</a></dd></div>
             <div><dt>다음 학년의 학습</dt><dd>초등학생부터 중학생까지의 과정을 운영합니다. 다음 과정과 반 배정은 현재 학습 상태를 살펴본 뒤 안내합니다.</dd></div>
-            <div><dt>셔틀버스 이용</dt><dd>셔틀버스를 운행합니다. 학교와 이용 희망 지역을 알려주시면 운행 여부, 승하차 장소와 시간을 상담에서 확인할 수 있습니다.</dd></div>
+            <div><dt>수업 횟수</dt><dd>매일반(주 5회), 주 3회반, 주 2회반이 있습니다. <a href="/faq/">자주 묻는 질문 보기</a></dd></div>
+            <div><dt>셔틀버스 이용</dt><dd>태전동 전체와 고산동까지 셔틀버스를 운행합니다. 승하차 장소와 시간은 상담에서 안내합니다. <a href="/elementary-schools/">학교별 안내 보기</a></dd></div>
           </dl>
           <p>상담·레벨테스트는 약 1시간이며 무료 레벨테스트 쿠폰이 있습니다. <a href={ADMISSION_BOOKING_URL} target="_blank" rel="noopener noreferrer">예약 화면에서 쿠폰 조건과 가능한 일정 확인하기 ↗</a></p>
         </section>

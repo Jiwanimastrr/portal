@@ -7,7 +7,7 @@ export interface ProgramGuide {
   answer: string;
   audience: string;
   sections: { heading: string; paragraphs: string[] }[];
-  example: {
+  example?: {
     heading: string;
     text: string;
     steps: { heading: string; prompt: string; sample: string; explanation: string }[];

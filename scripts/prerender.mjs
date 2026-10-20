@@ -17,7 +17,7 @@ try {
       rollupOptions: { output: { entryFileNames: 'entry-server.mjs' } },
     },
   })
-  const { render, academyStructuredData, renderProgramGuides } = await import(pathToFileURL(join(temporaryOutput, 'entry-server.mjs')).href)
+  const { render, academyStructuredData, renderProgramGuides, renderLocalGuides } = await import(pathToFileURL(join(temporaryOutput, 'entry-server.mjs')).href)
   const copyrightYear = new Date().getFullYear()
   const html = await readFile(output, 'utf8')
   const placeholder = '<div id="root"><!--app-html--></div>'
@@ -49,6 +49,24 @@ try {
     await writeFile(join(directory, 'index.html'), page)
   }
   console.log('Public course guides rendered as complete static HTML.')
+  for (const guide of renderLocalGuides()) {
+    const url = 'https://willgrow.pages.dev/' + guide.path + '/'
+    const guideSchema = JSON.stringify(guide.schema).replace(/</g, '\\u003c')
+    const page = html
+      .replace(/<title>[^<]*<\/title>/, () => '<title>' + escapeHtml(guide.title) + '</title>')
+      .replace(/(<meta name="description" content=")[^"]*("\s*\/?>)/, (_, before, after) => before + escapeHtml(guide.description) + after)
+      .replace(/(<link rel="canonical" href=")[^"]*("\s*\/?>)/, (_, before, after) => before + url + after)
+      .replace(/(<meta property="og:title" content=")[^"]*("\s*\/?>)/, (_, before, after) => before + escapeHtml(guide.title) + after)
+      .replace(/(<meta property="og:description" content=")[^"]*("\s*\/?>)/, (_, before, after) => before + escapeHtml(guide.description) + after)
+      .replace(/(<meta property="og:url" content=")[^"]*("\s*\/?>)/, (_, before, after) => before + url + after)
+      .replace(schemaPlaceholder, () => '<script type="application/ld+json">' + guideSchema + '</script>')
+      .replace(placeholder, () => '<div id="root">' + guide.body + '</div>')
+      .replace(/<script type="module"[^>]*src="[^"]*"[^>]*><\/script>/g, '')
+    const directory = resolve('dist', guide.path)
+    await mkdir(directory, { recursive: true })
+    await writeFile(join(directory, 'index.html'), page)
+  }
+  console.log('Local search guides rendered as complete static HTML.')
 } finally {
   await rm(temporaryOutput, { recursive: true, force: true })
 }
