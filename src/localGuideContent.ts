@@ -83,8 +83,8 @@ export const LOCAL_GUIDES: LocalGuide[] = [
     ],
   },
   {
-    path: 'goksan-dong',
-    slug: 'goksan-dong',
+    path: 'gosan-dong',
+    slug: 'gosan-dong',
     label: '고산동 영어학원 안내',
     title: '고산동 영어학원 | 셔틀로 다니는 초·중등 영어 윌그로우 태전2',
     description: '경기 광주 고산동 학생도 셔틀버스로 다니는 초·중등 영어학원 윌그로우어학원 태전2국제캠퍼스. 고산하늘초·고산별빛초 학생, 매일반·주3회·주2회반을 안내합니다.',
@@ -103,8 +103,8 @@ export const LOCAL_GUIDES: LocalGuide[] = [
     ],
   },
   {
-    path: 'goksan-haneul-elementary',
-    slug: 'goksan-haneul-elementary',
+    path: 'gosan-haneul-elementary',
+    slug: 'gosan-haneul-elementary',
     label: '고산하늘초 영어학원 안내',
     title: '고산하늘초 영어학원 | 셔틀로 다니는 초등 영어 윌그로우 태전2',
     description: '고산하늘초 학생이 셔틀버스로 다니는 초등 영어학원 윌그로우어학원 태전2국제캠퍼스. 초1 파닉스부터, 매일반·주3회·주2회반, 고산동·태전동 셔틀을 안내합니다.',
