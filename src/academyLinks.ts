@@ -5,3 +5,6 @@ export const ACADEMY_PLACE_URL = 'https://map.naver.com/p/entry/place/1694768560
 // Existing Taejeon2 listings checked in the public map UI on 2026-09-10.
 export const ACADEMY_KAKAO_MAP_URL = 'https://place.map.kakao.com/63452265';
 export const ACADEMY_GOOGLE_MAP_URL = 'https://www.google.com/maps?cid=6076773154571855206';
+
+// Companion parent-guide site for early-elementary first English (same academy, deployed 2026-10-21).
+export const EXPERIENCE_SITE_URL = 'https://willgrow-experience.pages.dev/';

@@ -1,5 +1,5 @@
 import { ACADEMY_CONTENT_UPDATED, ACADEMY_NAME, CONSULTATION_SUMMARY } from '../academyContent';
-import { ADMISSION_BOOKING_URL, ACADEMY_PHONE_URL } from '../academyLinks';
+import { ADMISSION_BOOKING_URL, ACADEMY_PHONE_URL, EXPERIENCE_SITE_URL } from '../academyLinks';
 import { PROGRAM_GUIDES } from '../programContent';
 import type { ProgramGuide } from '../programContent';
 import { AcademyMapLinks } from './AcademyMapLinks';
@@ -37,7 +37,7 @@ export function ProgramGuidePage({ guide }: { guide: ProgramGuide }) {
         <section id="consultation-preparation"><h2>상담 때 함께 알려주세요</h2><ul>{guide.consultation.map(text => <li key={text}>{text}</li>)}</ul></section>
         <section className="program-faq"><h2>자주 묻는 질문</h2>{guide.faqs.map(({question,answer}) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</section>
         <section id="program-visit" className="program-consultation"><h2>아이의 현재 학습 상태부터 상담하세요</h2><p>{CONSULTATION_SUMMARY} 네이버 예약 화면에서 알림받기 고객용 무료 레벨테스트 쿠폰과 이용 조건을 확인해 주세요.</p><div className="program-actions"><a className="program-booking" href={ADMISSION_BOOKING_URL}>입학 상담·레벨테스트 예약 ↗</a><a href={ACADEMY_PHONE_URL}>전화 0507-1356-0671</a></div><p>경기도 광주시 태성로 130-1, 건물 3층 304호</p><AcademyMapLinks /></section>
-        <nav className="program-related" aria-label="다른 수업 안내"><h2>다른 수업도 알아보세요</h2>{PROGRAM_GUIDES.filter(other=>other.slug!==guide.slug).map(other=><a key={other.slug} href={'/programs/'+other.slug+'/'}>{other.label} <span aria-hidden="true">↗</span></a>)}{LOCAL_GUIDES.filter(other=>other.slug!==guide.slug).map(other=><a key={other.path} href={'/'+other.path+'/'}>{other.label} <span aria-hidden="true">↗</span></a>)}<a href="/#admission">전체 입학·방문 안내 <span aria-hidden="true">↗</span></a></nav>
+        <nav className="program-related" aria-label="다른 수업 안내"><h2>다른 수업도 알아보세요</h2>{PROGRAM_GUIDES.filter(other=>other.slug!==guide.slug).map(other=><a key={other.slug} href={'/programs/'+other.slug+'/'}>{other.label} <span aria-hidden="true">↗</span></a>)}{LOCAL_GUIDES.filter(other=>other.slug!==guide.slug).map(other=><a key={other.path} href={'/'+other.path+'/'}>{other.label} <span aria-hidden="true">↗</span></a>)}<a href={EXPERIENCE_SITE_URL}>초등 저학년 첫 영어 가이드 (나의 첫 영어 탐험) <span aria-hidden="true">↗</span></a><a href="/#admission">전체 입학·방문 안내 <span aria-hidden="true">↗</span></a></nav>
       </div>
     </main>
     <footer className="program-footer"><p>{ACADEMY_NAME} 공식 안내</p><p>이 안내의 업데이트 <time dateTime={ACADEMY_CONTENT_UPDATED}>{ACADEMY_CONTENT_UPDATED.replace(/(\d{4})-(\d{2})-(\d{2})/, (_, year, month, day) => `${year}년 ${Number(month)}월 ${Number(day)}일`)}</time></p><a href="https://blog.naver.com/willgrowtj">공식 네이버 블로그 ↗</a></footer>

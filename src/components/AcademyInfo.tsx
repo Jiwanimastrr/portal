@@ -1,4 +1,4 @@
-import { ADMISSION_BOOKING_URL, ACADEMY_PHONE_URL, ACADEMY_PLACE_URL } from '../academyLinks';
+import { ADMISSION_BOOKING_URL, ACADEMY_PHONE_URL, ACADEMY_PLACE_URL, EXPERIENCE_SITE_URL } from '../academyLinks';
 import { ACADEMY_CONTENT_UPDATED, ACADEMY_FAQS, ACADEMY_LEARNING_SUMMARY, ACADEMY_LEGAL_NAME, ACADEMY_NAME, CONSULTATION_SUMMARY } from '../academyContent';
 import { PROGRAM_GUIDE_LINKS } from '../programLinks';
 import { AcademyMapLinks } from './AcademyMapLinks';
@@ -27,7 +27,7 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
           <div className="academy-program-grid">{PROGRAM_GUIDE_LINKS.map(guide=><a key={guide.slug} href={'/programs/'+guide.slug+'/'}><h4>{guide.label}</h4><p>{guide.summary}</p><span>수업 자세히 보기 ↗</span></a>)}</div>
         </section>
 
-        <nav className="academy-program-grid academy-local-guides" aria-label="지역·학교별 안내">{LOCAL_GUIDES.map(guide=><a key={guide.path} href={'/'+guide.path+'/'}><h4>{guide.label}</h4><p>{guide.answer.slice(0, 80)}…</p><span>자세히 보기 ↗</span></a>)}</nav>
+        <nav className="academy-program-grid academy-local-guides" aria-label="지역·학교별 안내">{LOCAL_GUIDES.map(guide=><a key={guide.path} href={'/'+guide.path+'/'}><h4>{guide.label}</h4><p>{guide.answer.slice(0, 80)}…</p><span>자세히 보기 ↗</span></a>)}<a href={EXPERIENCE_SITE_URL}><h4>초등 저학년 첫 영어 가이드</h4><p>초1 파닉스를 언제 어떻게 시작할지, 말하기에서 설명하기로 넘어가는 시기와 첫 상담 준비를 학부모 눈높이로 정리했습니다.…</p><span>나의 첫 영어 탐험 보기 ↗</span></a></nav>
 
         <section className="academy-comparison" aria-labelledby="academy-comparison-title">
           <h3 id="academy-comparison-title">태전동 초등 영어학원, 수업과 통학을 함께 확인하세요</h3>
