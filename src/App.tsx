@@ -1,3 +1,4 @@
+import { ACADEMY_LEGAL_NOTICE } from './academyContent';
 import { useState } from 'react';
 import { SiNaver, SiInstagram } from 'react-icons/si';
 import { FiHome, FiMapPin, FiMonitor } from 'react-icons/fi';
@@ -378,6 +379,7 @@ function App({ copyrightYear = new Date().getFullYear() }: { copyrightYear?: num
           </div>
         </div>
         <div className="footer-bottom">
+          <p className="footer-legal">{ACADEMY_LEGAL_NOTICE}</p>
           <p>&copy; {copyrightYear} Willgrow Language Institute. All rights reserved.</p>
         </div>
       </footer>

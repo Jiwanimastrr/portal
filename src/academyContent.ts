@@ -3,6 +3,11 @@
 export const ACADEMY_CONTENT_UPDATED = '2026-10-20';
 export const ACADEMY_NAME = '윌그로우어학원 태전2국제캠퍼스';
 export const ACADEMY_LEGAL_NAME = '윌그로우태전2국제캠퍼스어학원';
+// 학원법 제15조제3항 광고 표시 사항 (학원설립·운영등록증명서, 경기도광주하남교육지원청 2025-03-06 발급)
+export const ACADEMY_REGISTRATION_NO = '제1998-2호';
+export const ACADEMY_REGISTRATION_OFFICE = '경기도광주하남교육지원청';
+export const ACADEMY_COURSE = '학교교과교습학원 / 실용외국어';
+export const ACADEMY_LEGAL_NOTICE = `학원 등록번호 ${'제1998-2호'} (경기도광주하남교육지원청) | 등록 명칭 윌그로우태전2국제캠퍼스어학원 | 교습과정 학교교과교습학원 / 실용외국어`;
 export const ACADEMY_SITE_URL = 'https://willgrow.pages.dev/';
 export const CONSULTATION_SUMMARY = '레벨테스트 무료 쿠폰이 있으며, 상담·레벨테스트는 약 1시간 소요됩니다.';
 export const ACADEMY_LEARNING_SUMMARY = '윌그로우 자체교재로 초1 파닉스부터 중등 영어까지 이어갑니다. 이중언어 선생님의 스피킹 수업과 아이가 직접 설명하는 문법 학습으로, 배운 영어를 말하고 이해하는 힘을 기릅니다.';

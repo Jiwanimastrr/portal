@@ -39,7 +39,17 @@ export function academyStructuredData() {
             closes: '21:30',
           },
         ],
-        sameAs: [ACADEMY_PLACE_URL, ACADEMY_KAKAO_MAP_URL, ACADEMY_GOOGLE_MAP_URL, 'https://blog.naver.com/willgrowtj', 'https://www.instagram.com/willgrow.official.tj'],
+        identifier: { '@type': 'PropertyValue', propertyID: '학원 등록번호 (경기도광주하남교육지원청)', value: '제1998-2호' },
+        sameAs: [
+          ACADEMY_PLACE_URL,
+          ACADEMY_KAKAO_MAP_URL,
+          ACADEMY_GOOGLE_MAP_URL,
+          'https://blog.naver.com/willgrowtj',
+          'https://www.instagram.com/willgrow.official.tj',
+          'https://pf.kakao.com/_xmdkSn',
+          'https://clip.naver.com/@willgrow_taejeon',
+          'https://willgrow-taejeon2.tistory.com',
+        ],
       },
       {
         '@type': 'WebSite',
