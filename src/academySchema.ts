@@ -49,6 +49,7 @@ export function academyStructuredData() {
           'https://pf.kakao.com/_xmdkSn',
           'https://clip.naver.com/@willgrow_taejeon',
           'https://willgrow-taejeon2.tistory.com',
+          'https://www.youtube.com/@willgrow_taejeon',
         ],
       },
       {
