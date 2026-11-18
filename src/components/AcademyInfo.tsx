@@ -11,7 +11,6 @@ export function AcademyInfo({ onOpenForm }: { onOpenForm: () => void }) {
         <p className="academy-eyebrow">경기 광주 태전동 · 초등·중등 영어</p>
         <h2 id="academy-title">{ACADEMY_NAME}</h2>
         <p className="academy-intro">{ACADEMY_LEARNING_SUMMARY}</p>
-        <p className="academy-name-note">이전에 정철어학원으로 안내되던 태전2캠퍼스의 현재 이름은 윌그로우어학원입니다.</p>
         <div className="consultation-summary"><strong>{CONSULTATION_SUMMARY}</strong><p>네이버 예약 화면에서 알림받기 고객용 무료 레벨테스트 쿠폰과 이용 조건을 확인해 주세요.</p></div>
 
         <div className="academy-facts">
